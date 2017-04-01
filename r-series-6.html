@@ -1,0 +1,340 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="R 语言编程 6 - EDA 2" />
+<meta name="keywords" content="r, data science">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="R语言记录6：描述统计2"/>
+<meta property="og:description" content="R 语言编程 6 - EDA 2"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./r-series-6.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-14 16:31:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="data science"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; R语言记录6：描述统计2</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="r-series-6">R语言记录6：描述统计2</h1>
+    <p>
+          Posted on 2014-03-14 in <a href="./category/r.html">R</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h4>二. 可视化</h4>
+<p>开头我们就说过，描述性统计分析包括计算统计量的值，也可以进行制表画图。首先我们看看如何在R中绘制列联表：</p>
+<h5>1. 频数表和列联表</h5>
+<p>如果数据集中对应的变量都是定性变量，即是上一节中我们所说的分类数据（还记得分组数据的描述性统计量的计算吗）。对于这种数据，作图很多时候并没有太大的意义。一般，我们会采取绘制列联表的方式去描述数据。</p>
+<p>在数据集<code>mtcars</code>中，有不少定性变量，这里取出其中的<code>am</code>,<code>gear</code>和<code>carb</code>作演示。首先看看一维的情况：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> dataSub <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>am<span class="o">=</span>mtcars<span class="o">$</span>am<span class="p">,</span> gear<span class="o">=</span>mtcars<span class="o">$</span>gear<span class="p">,</span> carb<span class="o">=</span>mtcars<span class="o">$</span>carb<span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> <span class="kp">head</span><span class="p">(</span>dataSub<span class="p">)</span></span>
+<span class="code-line">  am gear carb</span>
+<span class="code-line"><span class="m">1</span>  <span class="m">1</span>    <span class="m">4</span>    <span class="m">4</span></span>
+<span class="code-line"><span class="m">2</span>  <span class="m">1</span>    <span class="m">4</span>    <span class="m">4</span></span>
+<span class="code-line"><span class="m">3</span>  <span class="m">1</span>    <span class="m">4</span>    <span class="m">1</span></span>
+<span class="code-line"><span class="m">4</span>  <span class="m">0</span>    <span class="m">3</span>    <span class="m">1</span></span>
+<span class="code-line"><span class="m">5</span>  <span class="m">0</span>    <span class="m">3</span>    <span class="m">2</span></span>
+<span class="code-line"><span class="m">6</span>  <span class="m">0</span>    <span class="m">3</span>    <span class="m">1</span></span>
+<span class="code-line"><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>dataSub<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   mytable <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>am<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>gear<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>carb<span class="p">))</span></span>
+<span class="code-line"><span class="o">+</span>   mytable</span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line"><span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+<span class="code-line">am</span>
+<span class="code-line"> <span class="m">0</span>  <span class="m">1</span></span>
+<span class="code-line"><span class="m">19</span> <span class="m">13</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="p">[[</span><span class="m">2</span><span class="p">]]</span></span>
+<span class="code-line">gear</span>
+<span class="code-line"> <span class="m">3</span>  <span class="m">4</span>  <span class="m">5</span></span>
+<span class="code-line"><span class="m">15</span> <span class="m">12</span>  <span class="m">5</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="p">[[</span><span class="m">3</span><span class="p">]]</span></span>
+<span class="code-line">carb</span>
+<span class="code-line"> <span class="m">1</span>  <span class="m">2</span>  <span class="m">3</span>  <span class="m">4</span>  <span class="m">6</span>  <span class="m">8</span></span>
+<span class="code-line"> <span class="m">7</span> <span class="m">10</span>  <span class="m">3</span> <span class="m">10</span>  <span class="m">1</span>  <span class="m">1</span></span>
+</pre></div>
+
+
+<p>一维的情况，其实就是统计频数，把每个类别各自的频数计算出来就可以了。像<code>am</code>变量，其结果告诉我们，用自动挡的有19人，用手动挡的是13人(0 -&gt; 19; 1 -&gt; 13)。再来看看二维的：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>dataSub<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   mytable2 <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>am<span class="p">,</span> carb<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>carb<span class="p">,</span> am<span class="p">))</span></span>
+<span class="code-line"><span class="o">+</span>   mytable2</span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line"><span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+<span class="code-line">   carb</span>
+<span class="code-line">am  <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span></span>
+<span class="code-line">  <span class="m">0</span> <span class="m">3</span> <span class="m">6</span> <span class="m">3</span> <span class="m">7</span> <span class="m">0</span> <span class="m">0</span></span>
+<span class="code-line">  <span class="m">1</span> <span class="m">4</span> <span class="m">4</span> <span class="m">0</span> <span class="m">3</span> <span class="m">1</span> <span class="m">1</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="p">[[</span><span class="m">2</span><span class="p">]]</span></span>
+<span class="code-line">    am</span>
+<span class="code-line">carb <span class="m">0</span> <span class="m">1</span></span>
+<span class="code-line">   <span class="m">1</span> <span class="m">3</span> <span class="m">4</span></span>
+<span class="code-line">   <span class="m">2</span> <span class="m">6</span> <span class="m">4</span></span>
+<span class="code-line">   <span class="m">3</span> <span class="m">3</span> <span class="m">0</span></span>
+<span class="code-line">   <span class="m">4</span> <span class="m">7</span> <span class="m">3</span></span>
+<span class="code-line">   <span class="m">6</span> <span class="m">0</span> <span class="m">1</span></span>
+<span class="code-line">   <span class="m">8</span> <span class="m">0</span> <span class="m">1</span></span>
+</pre></div>
+
+
+<p>可以看到，对于二维来说，绘制的方法与一维类似。但是，这里有个可以深入的东西，那就是边际列表。也就是利用二维列联表得到一维列联表：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>dataSub<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   mytable2 <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>am<span class="p">,</span> carb<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>carb<span class="p">,</span> am<span class="p">))</span></span>
+<span class="code-line"><span class="o">+</span>   mytableConvert <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="kp">margin.table</span><span class="p">(</span>mytable2<span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="m">1</span><span class="p">),</span></span>
+<span class="code-line"><span class="o">+</span>       <span class="kp">margin.table</span><span class="p">(</span>mytable2<span class="p">[[</span><span class="m">1</span><span class="p">]],</span> <span class="m">2</span><span class="p">))</span> <span class="c1"># 选项1和2控制按行和按列</span></span>
+<span class="code-line"><span class="o">+</span>   mytableConvert</span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line"><span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+<span class="code-line">am</span>
+<span class="code-line"> <span class="m">0</span>  <span class="m">1</span></span>
+<span class="code-line"><span class="m">19</span> <span class="m">13</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="p">[[</span><span class="m">2</span><span class="p">]]</span></span>
+<span class="code-line">carb</span>
+<span class="code-line"> <span class="m">1</span>  <span class="m">2</span>  <span class="m">3</span>  <span class="m">4</span>  <span class="m">6</span>  <span class="m">8</span></span>
+<span class="code-line"> <span class="m">7</span> <span class="m">10</span>  <span class="m">3</span> <span class="m">10</span>  <span class="m">1</span>  <span class="m">1</span></span>
+</pre></div>
+
+
+<p>可以看到，使用<code>margin.table</code>函数可以很容易得到一个列表的边际列表。下面看看三维的情况：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>dataSub<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   mytable3 <span class="o">&lt;-</span> <span class="kp">table</span><span class="p">(</span>am<span class="p">,</span> carb<span class="p">,</span> gear<span class="p">)</span></span>
+<span class="code-line"><span class="o">+</span>   mytable3</span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line"><span class="p">,</span> <span class="p">,</span> gear <span class="o">=</span> <span class="m">3</span></span>
+<span class="code-line"></span>
+<span class="code-line">   carb</span>
+<span class="code-line">am  <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span></span>
+<span class="code-line">  <span class="m">0</span> <span class="m">3</span> <span class="m">4</span> <span class="m">3</span> <span class="m">5</span> <span class="m">0</span> <span class="m">0</span></span>
+<span class="code-line">  <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="p">,</span> <span class="p">,</span> gear <span class="o">=</span> <span class="m">4</span></span>
+<span class="code-line"></span>
+<span class="code-line">   carb</span>
+<span class="code-line">am  <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span></span>
+<span class="code-line">  <span class="m">0</span> <span class="m">0</span> <span class="m">2</span> <span class="m">0</span> <span class="m">2</span> <span class="m">0</span> <span class="m">0</span></span>
+<span class="code-line">  <span class="m">1</span> <span class="m">4</span> <span class="m">2</span> <span class="m">0</span> <span class="m">2</span> <span class="m">0</span> <span class="m">0</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="p">,</span> <span class="p">,</span> gear <span class="o">=</span> <span class="m">5</span></span>
+<span class="code-line"></span>
+<span class="code-line">   carb</span>
+<span class="code-line">am  <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> <span class="m">6</span> <span class="m">8</span></span>
+<span class="code-line">  <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span></span>
+<span class="code-line">  <span class="m">1</span> <span class="m">0</span> <span class="m">2</span> <span class="m">0</span> <span class="m">1</span> <span class="m">1</span> <span class="m">1</span></span>
+</pre></div>
+
+
+<p>其实<code>table</code>函数可以处理三维以及三维以上的列联表，你可以自己试一试。现在我们已经能够使用R轻松地绘制出频数表了，但很多时候，我们希望得到的是频率表，那应该怎么绘制呢？试试这个函数<code>prop.table()</code>：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>dataSub<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   mytable <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>am<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>gear<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>carb<span class="p">))</span></span>
+<span class="code-line"><span class="o">+</span>   <span class="kp">prop.table</span><span class="p">(</span>mytable<span class="p">[[</span><span class="m">1</span><span class="p">]])</span></span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line">am</span>
+<span class="code-line">      <span class="m">0</span>       <span class="m">1</span></span>
+<span class="code-line"><span class="m">0.59375</span> <span class="m">0.40625</span></span>
+</pre></div>
+
+
+<p>二维以及以上都可以这么处理。那么，如果需要求的是全局相对频率列联表呢？想想，那不就是频数除以总数嘛，直接一句代码不就搞定了嘛：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>dataSub<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   mytable2 <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>am<span class="p">,</span> carb<span class="p">),</span> <span class="kp">table</span><span class="p">(</span>carb<span class="p">,</span> am<span class="p">))</span></span>
+<span class="code-line"><span class="o">+</span>   mytable2<span class="p">[[</span><span class="m">1</span><span class="p">]]</span><span class="o">/</span><span class="kp">sum</span><span class="p">(</span>mytable2<span class="p">[[</span><span class="m">1</span><span class="p">]])</span></span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line">   carb</span>
+<span class="code-line">am        <span class="m">1</span>       <span class="m">2</span>       <span class="m">3</span>       <span class="m">4</span>       <span class="m">6</span>       <span class="m">8</span></span>
+<span class="code-line">  <span class="m">0</span> <span class="m">0.09375</span> <span class="m">0.18750</span> <span class="m">0.09375</span> <span class="m">0.21875</span> <span class="m">0.00000</span> <span class="m">0.00000</span></span>
+<span class="code-line">  <span class="m">1</span> <span class="m">0.12500</span> <span class="m">0.12500</span> <span class="m">0.00000</span> <span class="m">0.09375</span> <span class="m">0.03125</span> <span class="m">0.03125</span></span>
+</pre></div>
+
+
+<h5>2. 图形</h5>
+<p>常用的图形一般有：直方图，散点图，框须图等等。我们一个一个来看一下：</p>
+<h6>a. 直方图</h6>
+<p>我们使用<code>mtcars$mpg</code>数据作演示，首先你可以检查一下<code>mpg</code>的范围，然后确定频数直方图的分割大小(使用参数<code>break</code>设定)，这里我们不设定，让R自动生成：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">range</span><span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">10.4</span> <span class="m">33.9</span></span>
+<span class="code-line"><span class="o">&gt;</span> hist<span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+</pre></div>
+
+
+<p>得到如下的图形：</p>
+<p><img alt="Histogram1" src="/images/article/RSeries6/Histogram1.jpg"></p>
+<p>其实更多地，我们希望得到频率直方图，并且给出其核密度曲线以及正态密度曲线。</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> hist<span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">,</span> probability<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> dens <span class="o">&lt;-</span> density<span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> sd <span class="o">&lt;-</span> sd<span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> lines<span class="p">(</span>dens<span class="p">,</span> col<span class="o">=</span><span class="s">&#39;red&#39;</span><span class="p">,</span> lty<span class="o">=</span><span class="m">2</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> curve<span class="p">(</span>dnorm<span class="p">(</span>x<span class="p">,</span> <span class="kp">mean</span><span class="p">,</span> sd<span class="p">),</span> col<span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">,</span> add<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> legend<span class="p">(</span><span class="s">&quot;topright&quot;</span><span class="p">,</span> inset <span class="o">=</span> <span class="m">0.05</span><span class="p">,</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;density&quot;</span><span class="p">,</span> <span class="s">&quot;normal&quot;</span><span class="p">),</span></span>
+<span class="code-line"><span class="o">+</span>   lty <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">1</span><span class="p">),</span> col <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;blue&quot;</span><span class="p">))</span></span>
+</pre></div>
+
+
+<p>得到图形如下：</p>
+<p><img alt="Histogram2" src="/images/article/RSeries6/Histogram2.jpg"></p>
+<h6>b. 散点图</h6>
+<p>我们可以使用<code>plot</code>函数直接画出散点图，此外，我这里还给散点图加上了一条拟合曲线。<code>lowess()</code>函数可以用特殊的曲线对二维数据进行非线性拟合(多维的情况需要使用<code>loess()</code>函数)。</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> plot<span class="p">(</span>mtcars<span class="o">$</span>disp <span class="o">~</span> mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> lines<span class="p">(</span>lowess<span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">,</span> mtcars<span class="o">$</span>disp<span class="p">),</span> lwd<span class="o">=</span><span class="m">2</span><span class="p">,</span> col<span class="o">=</span><span class="s">&#39;blue&#39;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="Scatter" src="/images/article/RSeries6/Scatter.jpg"></p>
+<h6>c. 框须图</h6>
+<p>框须图,也称为盒形图、箱线图。其通过绘制连续型变量的五数(最小最大值，中位数以及上下侧四分位数)来描述变量的分布。可以使用<code>boxplot</code>函数来得到：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> boxplot<span class="p">(</span>mtcars<span class="o">$</span>mpg<span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="box1" src="/images/article/RSeries6/box1.jpg"></p>
+<p>也可以使用<code>boxplot</code>函数展示分组变量，例如这里<code>mtcars</code>中有<code>am</code>变量，可以使用该函数画出不同的<code>am</code>值对应的箱线图：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> boxplot<span class="p">(</span>mpg <span class="o">~</span> am<span class="p">,</span> data<span class="o">=</span>mtcars<span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="box2" src="/images/article/RSeries6/box2.jpg"></p>
+<p>到这边，就基本上把描述统计的一些主体内容说了一下。不过，描述统计并不是只有这点东西，此外，我讲的这些作图啊，制表啊其实都没有深入地去讲。而且对于R语言的研究学习来说，我上面做的图还太简单了，没有给图起名称，也没有横纵轴的名称等等。这些在R语言的帮助文档里有详细的讲解说明，有兴趣的话可以看看。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/data-science.html">data science</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

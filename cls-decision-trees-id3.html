@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="决策树算法之 ID3" />
+<meta name="keywords" content="data science, r, machine learning, classification">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="数据科学之机器学习8: 决策树之ID3"/>
+<meta property="og:description" content="决策树算法之 ID3"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./cls-decision-trees-id3.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-04-14 16:02:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="machine learning"/>
+<meta property="article:tag" content="classification"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 数据科学之机器学习8: 决策树之ID3</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="cls-decision-trees-id3">数据科学之机器学习8: 决策树之ID3</h1>
+    <p>
+          Posted on 2014-04-14 in <a href="./category/data-science.html">Data Science</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>ID3算法的核心问题就在于：如何选取在决策树的每个节点处要测试的属性。那么如何去选择呢？当然，我们要选取<strong>分类能力最好的属性</strong>，那么怎么去确定哪个属性是分类能力最好的呢？ID3算法中，使用<strong>信息增益</strong>作为评判标准。在看信息增益之前，我们先看看这个决策树的构造过程：</p>
+<h3>一、构造过程</h3>
+<hr>
+<ol>
+<li>选取<strong>分类能力最好的属性</strong>作为决策树根部节点的测试；</li>
+<li>为根节点属性的每一个可能值产生一个分支；</li>
+<li>以各个分支节点为根节点，重复上述过程。</li>
+</ol>
+<h3>二、信息增益</h3>
+<hr>
+<h4>1. 熵</h4>
+<hr>
+<p>在看信息增益之前，首先需要介绍一个概念，那就是<strong>香农熵</strong>，简称为<strong>熵</strong>。相信学过物理的应该大都听过这个名词，在热力学中不就有个熵增原理嘛。其实，<strong>熵是信息论中广泛使用的一个度量标准，刻画了任意样例集合的纯度。</strong></p>
+<p><strong>熵是信息的期望值</strong>，所以可以用熵来刻画一个数据集的纯度。若用 <span class="math">\(x_i,i=1,2,\dots,n\)</span> 来表示数据集所包含的属性，那么这个数据集的熵为：</p>
+<div class="math">$$ H = - \sum_{i=1}^{n}{p(x_i)l(x_i)} $$</div>
+<p>其中，<span class="math">\(p(x_i)\)</span> 表示选取 <span class="math">\(x_i\)</span> 作为分类的最终类别的概率；<span class="math">\(l(x_i)\)</span> 为 <span class="math">\(x_i\)</span> 的信息，定义为：<span class="math">\( l(x_i) = - \log_2p(x_i)\)</span>。</p>
+<h4>2. 信息增益</h4>
+<hr>
+<p>有了熵之后就可以刻画一个数据集的纯度，也就是熵值。那么什么信息增益呢？</p>
+<p>简单来说，<strong>一个属性的信息增益就是：使用这个属性分割样例集合而导致的熵值降低</strong>。那么要选取分类能力最好的属性，就是要选取使得信息增益最大的那个属性。</p>
+<p>一个属性A对样例集合S的信息增益定义为：</p>
+<div class="math">$$ Gain(S, A) = H(S) - \sum_{v \in A} { \frac{\# S_v}{\# S} H(S_v) } $$</div>
+<p>其中，<span class="math">\(S_v\)</span> 表示集合S中，属性A取值为<span class="math">\(v\)</span>的那部分数据；<span class="math">\(\# S_v\)</span> 表示，集合S中，属性A取值为<span class="math">\(v\)</span>的个数；<span class="math">\(\# S\)</span> 表示集合S中观测的个数。</p>
+<h4>3. 简单的例子</h4>
+<hr>
+<table>
+<thead>
+<tr>
+<th align="center">序号</th>
+<th align="center">age</th>
+<th align="center">income</th>
+<th align="center">buy_iphone</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">senior</td>
+<td align="center">high</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">senior</td>
+<td align="center">low</td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">youth</td>
+<td align="center">high</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">youth</td>
+<td align="center">low</td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">senior</td>
+<td align="center">high</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">youth</td>
+<td align="center">high</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">senior</td>
+<td align="center">high</td>
+<td align="center">no</td>
+</tr>
+</tbody>
+</table>
+<p>考虑上面这个问题，我们来计算一下各个属性的信息增益。</p>
+<p>首先，我们可以看到，这个数据集S最终分类buy_iphone有两种取值：<span class="math">\(yes,no\)</span>。则数据集S的熵值为：</p>
+<div class="math">$$ H(S) = -\frac{4}{7} \log_2{\frac{4}{7} } - \frac{3}{7} \log_2{\frac{3}{7} }  \approx 0.985$$</div>
+<p>若按照age分类，age有两个属性：<span class="math">\(senior, youth\)</span>，分别有4个和3个。age = senior时，yes有2个，no有2个则有：</p>
+<div class="math">$$ H_{age}(S_{senior}) = -\frac{2}{4} \log_2{\frac{2}{4}} - \frac{2}{4} \log_2{\frac{2}{4}} \approx 1 $$</div>
+<div class="math">$$ H_{age}(S_{youth}) = -\frac{2}{3} \log_2 {\frac{2}{3}} - \frac{1}{3} \log_2 {\frac{1}{3}} \approx 0.918 $$</div>
+<p>则有：</p>
+<div class="math">$$ H_{age}(S) = \frac{4}{7} \times 1 + \frac{3}{7} \times 0.918 = 0.965 $$</div>
+<p>则age属性的信息增益为：</p>
+<div class="math">$$ H(S) - H_{age}(S) = 0.985 - 0.965 = 0.020 $$</div>
+<p>那么属性income的信息增益怎么去计算，可以动手试试。</p>
+<h3>三、ID3算法的伪代码</h3>
+<hr>
+<h5>定义：</h5>
+<ul>
+<li>data：为训练样本集</li>
+<li>label：为目标属性 （比如例子中的属性buy_iphone）</li>
+<li>attrs：出目标属性外，供算法学习测试使用的其它属性 （比如例子中的age和income属性）</li>
+</ul>
+<h5>伪代码：</h5>
+<p>ID3(data, label, attrs)：</p>
+<ol>
+<li>创建决策树的Root节点；</li>
+<li>若lable中取值单一，则返回 <code>label=label</code> 的单节点树；</li>
+<li>若attrs为空，则返回 <code>label=（data中取值最多的那个label）</code> 的单节点树；</li>
+<li>否则：<ol>
+<li>选取attrs中分类能力最好的属性作为Root的决策属性，记为A；</li>
+<li>对A的每一个可能取值vi：<ol>
+<li>在Root添加一个分支对应 <code>A = vi</code>；</li>
+<li>data_vi = data中 <code>A = vi</code> 的子集，label_vi 表示 data_vi 所对应的目标属性取值；</li>
+<li>若 data_vi 为空集：<ol>
+<li>在新分支下加一个叶子节点，节点 <code>label =（data中取值最多的那个label）</code> ;</li>
+<li>否则，加一个子树：ID3(data_vi, label_vi, attrs);</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>结束</li>
+<li>返回Root</li>
+</ol>
+<h3>四、R语言实现</h3>
+<hr>
+<p>见<a href="https://github.com/JackyCode/Data_Science">我的项目</a></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/data-science.html">data science</a>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
+      <a href="./tag/classification.html">classification</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="因子分析简介 2" />
+<meta name="keywords" content="data science, r, machine learning">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="因子分析2"/>
+<meta property="og:description" content="因子分析简介 2"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./factor-analysis-2.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-05-19 15:00:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="machine learning"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 因子分析2</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="factor-analysis-2">因子分析2</h1>
+    <p>
+          Posted on 2014-05-19 in <a href="./category/data-science.html">Data Science</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>这两天来了个同学，大家聚了聚，我也乘机休息了两天（好奢侈！）。这两天属于什么都没有写，就翻看了两本书。一本是二月河的<a href="http://www.amazon.cn/gp/product/B0032K0X6Q/ref=olp_product_details?ie=UTF8&amp;me=&amp;seller=">康熙大帝</a>，另外一本是<a href="http://www.ituring.com.cn/book/894">推荐系统实践</a>，这本书的电子版，图灵正在打折，有兴趣可以买本看看。</p>
+<hr>
+<p>好了，不废话了，下面就接着上一篇讲的继续！上一篇简单介绍了因子分析的一些概念，以及最基础的因子模型：<strong>正交因子模型</strong>。那么这一篇，就来说说正交因子模型的<strong>参数估计问题</strong>。</p>
+<p>对于一组p维样本，有n个观测值：<span class="math">\(x_1, x_2, \dots, x_n\)</span>，则其均值和协方差矩阵可以使用样本均值和样本协方差矩阵来估计：</p>
+<div class="math">$$ \hat{\mu} = \overline{x} = \frac{1}{n} {\sum_{i=1}^{n} x_i} $$</div>
+<div class="math">$$ \hat{\Sigma} = S = \frac{1}{n-1} {\sum_{i=1}^{n} (x_i-\overline{x})(x_i-\overline{x})'} $$</div>
+<p>在因子模型中，需要估计的有两个参数：<strong>因子载荷矩阵</strong><span class="math">\(A=(a_{ij}:p \times m)\)</span>以及<strong>特殊方差矩阵</strong><span class="math">\(D = diag(\sigma_1^2, \sigma_2^2, \dots, \sigma_p^2)\)</span>。</p>
+<hr>
+<h4>1. 主成分法</h4>
+<hr>
+<p>主成分法的思想取自于主成分分析，即是取出前m个成分作为主成分，然后以此来得到因子载荷矩阵的估计；然后再以协方差阵和因子载荷矩阵为条件，直接推出特殊方差矩阵。具体如下：</p>
+<ol>
+<li>求出协方差矩阵<span class="math">\(S\)</span>的特征值：<span class="math">\(\hat{\lambda}_1 \geqslant \hat{\lambda}_2 \geqslant \dots \geqslant \hat{\lambda}_p \geqslant 0\)</span>，其对应的特征向量为：<span class="math">\(\hat{t}_1, \hat{t}_2, \dots, \hat{t}_p\)</span>。</li>
+<li>选一个较小因子数<span class="math">\(m\)</span>，并且使得前m项累计贡献率 <span class="math">\(\frac{\sum_{i=1}^{m} \hat{\lambda}_i}{\sum_{i=1}^{p} \hat{\lambda}_i}\)</span> 高于设定值。</li>
+<li>将协方差矩阵<span class="math">\(S\)</span>做这样的近似：<span class="math">\(S = \sum_{i=1}^{m} \hat{\lambda}_i + \sum_{i=m+1}^{p} \hat{\lambda}_i \approx \sum_{i=1}^{m} \hat{\lambda}_i + \hat{D} := \hat{A}\hat{A}' + \hat{D}\)</span></li>
+</ol>
+<p>其中，<span class="math">\(A = (\sqrt{\hat{\lambda}_1}t_1, \sqrt{\hat{\lambda}_2}t_2, \dots, \sqrt{\hat{\lambda}_m}t_m)\)</span>, <span class="math">\(\hat{D} = diag(\hat{\sigma}_1^2, \hat{\sigma}_2^2, \dots, \hat{\sigma}_p^2)\)</span>, <span class="math">\(\hat{\sigma}_i^2 = s_{ii} - \sum_{j=1}^{m} \hat{a}_{ij}^2\)</span></p>
+<p>从上述的过程来看，我们是使用了一种近似的方法估计出了<span class="math">\(A\)</span>和<span class="math">\(D\)</span>，那么这就有一个<strong>残差矩阵</strong><span class="math">\(S - (\hat{A}\hat{A}' + \hat{D})\)</span>，显然这个矩阵的对角线元素为0。既然是一种近似，那么，如果这个残差矩阵的非对角线元素都非常小的时候，我们就可以认为取<span class="math">\(m\)</span>个因子的模型就可以很好地解释或者是拟合原始的数据了。</p>
+<hr>
+<h4>2. 主因子法</h4>
+<hr>
+<p>对于因子模型，我们先对原始向量进行标准化，则有：<span class="math">\( R = AA' + D\)</span>。取<strong>约相关矩阵</strong><span class="math">\(R^* = R - D = AA'\)</span>，假设特殊方差<span class="math">\(\sigma_i^2\)</span>的一个估计值<span class="math">\(\hat{\sigma}^2\)</span>为初始估计，则有约相关矩阵的估计值为：</p>
+<p><img alt="eq2_1" src="/images/article/a35/eq2_1.png"></p>
+<p>其中 <span class="math">\(\hat{R}\)</span> 为样本相关矩阵，<span class="math">\( \hat{D} = diag(\hat{\sigma^2_1},\hat{\sigma_2^2}, \dots, \hat{\sigma_p^2})\)</span>, <span class="math">\(\hat{h_i^2} = 1 - \hat{\sigma_i^2}\)</span> 为 <span class="math">\(h_i^2\)</span> 的初始估计。</p>
+<p>计算 <span class="math">\(\hat{R}^*\)</span> 的特征值，取足够小，但累计贡献率达到要求的m：<span class="math">\(\hat{\lambda^*_1} \geqslant \hat{\lambda^*_2} \geqslant \dots \geqslant \hat{\lambda^*_m} &gt; 0\)</span>，其对应的特征向量为：<span class="math">\(\hat{t^*_1}, \hat{t^*_2}, \dots, \hat{t^*_m}\)</span>，则得到 <span class="math">\(A\)</span> 的估计值：</p>
+<div class="math">$$ \hat{A} = (\sqrt{\hat{\lambda^*_1}}t^*_1, \sqrt{\hat{\lambda^*_2}}t^*_2, \dots, \sqrt{\hat{\lambda^*_m}}t^*_m ) $$</div>
+<p>那么 <span class="math">\(\sigma^2_i\)</span> 的最终估计为：<span class="math">\( \hat{\sigma_i^2} = 1-\hat{h_i^2} = 1 - \sum_{j=1}^{m} \hat{a_{ij}^2}\)</span>。</p>
+<p>可以看到，这是一个可以迭代的过程，我们可以一直迭代，直到结果达到稳定为止！从过程来看，这里其实也是利用了主成分，因而，主因子法也是主成分法的一种修正！</p>
+<p>那么接下来的问题就是，这个特殊方差 <span class="math">\(\sigma^2_i\)</span> 的初始估计值应该如何取呢？最常用的取法：<span class="math">\( \hat{\sigma_i^2} = 1/r^{ii}\)</span>, 其中 <span class="math">\( r^{ii}\)</span> 为 <span class="math">\(\hat{R}^{-1}\)</span> 对角线元素的第 <span class="math">\(i\)</span> 个。</p>
+<hr>
+<h4>3. 极大似然法</h4>
+<hr>
+<p>使用极大似然估计，那么就肯定需要使用样本的分布，这里我们假定公共因子 <span class="math">\(f \sim N_m(0, I)\)</span>，特殊因子 <span class="math">\( \varepsilon \sim N_p(0, D)\)</span>，并且相互独立！这里的假设其实就是来源于模型的正交性假设，只不过是将正交性假设进一步限定，假设它们都是属于多元正态分布！</p>
+<p>有了上述假设，通过模型就可以知道 <span class="math">\(x \sim N_p(\mu, \Sigma)\)</span>，有了这个就可以计算样本的似然函数了，这里涉及到较为复杂的矩阵计算，不想多说，有兴趣的话可以查找一些资料；或者学习一下线性模型中关于矩阵求导的知识，然后自己推导一下。</p>
+<p>一般情况下，极大似然法使用得并不太多，因为这个方法是算不出显式解的，在没有限制条件的情况下，解也并不唯一确定！但是如果是在因子分部可以明显知道的情况下，使用这个方法就比较好了！</p>
+<hr>
+<h3>总结</h3>
+<hr>
+<p>到这边，对于基础的因子模型就介绍结束了。回顾一下，主要就是介绍了正交因子模型以及它的参数估计问题。但是，到这里，我们还没有说到模型中的公共因子如何解释这个问题！对于这个问题的解释，通常结合实际的问题，需要一定的专业知识和经验，然后才能给每个公共因子给出一个实际意义。而且，公共因子的解释，在很大程度上也依赖于因子模型中因子载荷矩阵的元素结构！这个时候就会牵扯出因子分析中其它的一些问题：<strong>因子旋转</strong>和<strong>因子得分</strong>。因为这两个问题涉及到一些比较复杂的数学知识，我不能够在清减数学的情况下说好它，如果单说怎么用，我觉得没有必要，所以暂时并不打算介绍这两个问题。有兴趣的，可以翻阅一些多元统计的书籍，一般都会有讲。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/data-science.html">data science</a>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="记录如何使用 Octopress 建站的过程" />
+<meta name="keywords" content="blog">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="记录：Octopress建站之旅"/>
+<meta property="og:description" content="记录如何使用 Octopress 建站的过程"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./octopress1.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-02-23 10:40:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Octopress"/>
+<meta property="article:tag" content="blog"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 记录：Octopress建站之旅</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="octopress1">记录：Octopress建站之旅</h1>
+    <p>
+          Posted on 2014-02-23 in <a href="./category/octopress.html">Octopress</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>博客建立好了，花了不少时间，今天就想将自己如何建立这个博客的过程梳理一遍，写在这里，当作复习回顾的同时，也与人参考。</p>
+<p>自己的这个小博客是用的Octopress搭建的，托管在github上面(没有资金但又想建立一个自己独立博客的同志们可以使用GitHub，free哦)。</p>
+<p>使用Octopress唯一的问题在于你得学一点shell commands和Git基础(其实用的内容并不很多，照着顺序搭建部署都可以搞定）。以后发博客只需要一些<strong>简单的</strong><em>每次都一样的</em>步骤就可以搞定了，直接复制粘贴就好。但是我想你需要对这些命令不感到反感才行，正如Octopress官方文档开头说的：</p>
+<blockquote>
+<p>You should be comfortable running shell commands and familiar with the basics of Git. If that sounds daunting, Octopress probably isn't for you.</p>
+</blockquote>
+<p>但是shell跟Git是很好的东东，shell可以帮你很大限度地减少重复工作，而且学习shell的过程会让你对计算机有更深入的了解；Git是一个开源的分布式版本控制系统，它让我一次性放弃了CVS而投入它的怀抱（变得是不是太快了）。GitHub就是为开源项目免费提供Git存储的网站，看看现在无数的开源项目在GitHub里面活跃，你就知道不是我变得太快，而是它的优秀让你无法抗拒。</p>
+<hr>
+<h3>一、准备工作</h3>
+<p>在安装Octopress之前，你必须得先安装上Git和Ruby。安装很简单，直接百度就可以了。如果你用的是Mac，那么恭喜你，你的电脑里面已经自带了Ruby。当然你仍然可以选择用rvm或者rbenv去安装更新Ruby，这些命令在官网上都有，就不多说了。</p>
+<p>安装完成后，在终端中运行命令：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>git --version</span>
+<span class="code-line">ruby --version</span>
+</pre></div>
+
+
+<p>如果能正确显示版本号，类似于我的输出：分别是<code>git version 1.8.3.4 (Apple Git-47)</code>和<code>ruby 2.0.0p247 (2013-06-27 revision 41674) [universal.x86_64-darwin13]</code>，就没有问题了，继续往下吧！</p>
+<h3>二、安装Octopress</h3>
+<p>首先在终端进入你想安装Octopress的文件夹中，然后使用git命令将Octopress clone到本地：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>git clone git://github.com/imathis/octopress.git octopress</span>
+</pre></div>
+
+
+<p>进入octopress文件夹：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>cd octopress</span>
+</pre></div>
+
+
+<p>安装依赖项:</p>
+<div class="highlight"><pre><span class="code-line"><span></span>gem install bundler</span>
+<span class="code-line">rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command</span>
+<span class="code-line">bundle install</span>
+</pre></div>
+
+
+<p>当然你有可能跟我一样遇到权限不足，操作无法完成的情况，那么你需要在命令前面加上<code>sudo</code>，第一次终端会要求你输入密码，输入成功后就可以正常安装了。</p>
+<p>安装好依赖项后，你需要安装主题：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rake install</span>
+</pre></div>
+
+
+<p>上面命令会安装默认主题，当然你可以选择安装第三方主题，在<a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">这里</a>有很多第三方的主题，你可以挑选自己喜欢的主题，然后安装：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>git clone GIT_URL .themes/THEME_NAME</span>
+<span class="code-line">rake install[&#39;THEME_NAME&#39;]</span>
+</pre></div>
+
+
+<p>比如我的用的是CleanPress主题：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>git clone git://github.com/macjasp/cleanpress.git .themes/cleanpress</span>
+<span class="code-line">rake install[&#39;cleanpress&#39;]</span>
+</pre></div>
+
+
+<h3>三、注册GitHub</h3>
+<p>到<a href="https://github.com/">GitHub</a>网站上注册一个免费账户，然后新建一个repository。<strong>repository一定要使用这样的格式命名：<code>yourname.github.io</code>，其中<code>yourname</code>是你注册时的用户名。</strong></p>
+<h3>四、部署到GitHub</h3>
+<div class="highlight"><pre><span class="code-line"><span></span>rake setup_github_pages</span>
+</pre></div>
+
+
+<p>输入上述的命令会要求你输入SSH(你注册GitHub时会有)或者是你的repository的url，找到复制粘贴就好。</p>
+<p>然后就可以开始部署了：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rake generate</span>
+<span class="code-line">rake deploy</span>
+</pre></div>
+
+
+<p>此时可能会让你登录你的github，按照提示进行输入即可。</p>
+<p>到此为止，就差博客的source还没有提交了：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>git add .</span>
+<span class="code-line">git commit -m &#39;your message&#39;</span>
+<span class="code-line">git push origin source</span>
+</pre></div>
+
+
+<h3>五、配置Octopress</h3>
+<p>我对Octopress没有做很大的配置改动，只是设置了博客名称，以及添加了Home页及其它一些页面的内容(其实就是给了一个空网页，里面神马都没有，以后再慢慢填充吧)。</p>
+<p>在octopress文件夹中，需要在<code>_config.yml</code>中设置自己博客的名称等等的内容：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="nl">url</span><span class="p">:</span> <span class="p">[</span><span class="n">url</span> <span class="n">of</span> <span class="n">your</span> <span class="n">github</span><span class="p">]</span></span>
+<span class="code-line"><span class="nl">title</span><span class="p">:</span> <span class="p">[</span><span class="n">title</span> <span class="n">of</span> <span class="n">your</span> <span class="n">blog</span><span class="p">]</span></span>
+<span class="code-line"><span class="nl">subtitle</span><span class="p">:</span> <span class="p">[</span><span class="n">subtitle</span> <span class="n">of</span> <span class="n">your</span> <span class="n">blog</span><span class="p">]</span></span>
+<span class="code-line"><span class="nl">author</span><span class="p">:</span> <span class="p">[</span><span class="n">your</span> <span class="n">name</span><span class="p">]</span></span>
+<span class="code-line"><span class="nl">simple_search</span><span class="p">:</span> <span class="nl">http</span><span class="p">:</span><span class="c1">//google.com/search</span></span>
+<span class="code-line"><span class="nl">description</span><span class="p">:</span> <span class="p">[</span><span class="n">some</span> <span class="n">other</span> <span class="n">information</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">add</span><span class="p">]</span></span>
+</pre></div>
+
+
+<p>除此之外，我还将里面有关twitter、facebook等等的社交信息全部给删除掉了(谢谢<a href="http://beyondvincent.com/">船哥</a>，这个明显的是偷师啊～)。当然你要是有这些帐号也可以设置，只是在国内用处不大呀。</p>
+<p>之后，我对<code>octopress/source/_includes/custom</code>下的<code>navigation.html</code>进行了简单的修改，就是添加了<code>Home</code>，以及变换了<code>About</code>的位置：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ root_url }}/home&quot;</span><span class="p">&gt;</span>Home<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ root_url }}/&quot;</span><span class="p">&gt;</span>Blog<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ root_url }}/portfolio&quot;</span><span class="p">&gt;</span>Portfolio<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ root_url }}/archives&quot;</span><span class="p">&gt;</span>Archive<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ root_url }}/about&quot;</span><span class="p">&gt;</span>About<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span>
+</pre></div>
+
+
+<p>现在添加了Home页，但是Home页其实还是不存在的，所有需要建立一个新的page：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rake new_page[home]</span>
+</pre></div>
+
+
+<p>上述命令会在<code>octopress/source</code>文件夹下生成一个新的文件夹<code>home</code>，<code>home</code>文件夹下面有一个markdown文件<code>index.markdown</code>。编辑该文件，将你想放在Home页上的东西写进去就OK了。</p>
+<p>默认情况下，<code>About</code>,<code>porfolio</code>页面都是不存在的，所以需要自己设置，方法与设置<code>home</code>页面的一样，就不多说了。</p>
+<p>根据自己的需求，修改完成后，不要忘了：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rake generate</span>
+<span class="code-line">git add .</span>
+<span class="code-line">git commit -m &#39;customise octopress&#39;</span>
+<span class="code-line">git push origin source</span>
+<span class="code-line">rake deploy</span>
+</pre></div>
+
+
+<h3>六、发布新博客</h3>
+<p>根据Jekyll的命名规则，文章命名必须有这样的格式：<code>YYYY-MM-DD-post-title.markdown</code>，使用Octopress的rake task可以简单解决这个问题：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rake new_post[&quot;title&quot;]</span>
+</pre></div>
+
+
+<p>命令会生成这样的文件：<code>source/_posts/YYYY-MM-DD-title.markdown</code>，然后你可以修改markdown文件，写自己的博文。写好后，别忘记部署到GitHub：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rake generate</span>
+<span class="code-line">git add .</span>
+<span class="code-line">git commit -am &#39;YYYY-MM_DD post&#39;</span>
+<span class="code-line">git push origin source</span>
+<span class="code-line">rake deploy</span>
+</pre></div>
+
+
+<p>至此文章就部署好了，过两分钟去自己的博客看看吧。</p>
+<h3>七、最后</h3>
+<p>利用Octopress搭建一个GitHub博客的简单流程差不多就像上述。但是对于自己的博客，可能我们还需要做更多的一些配置，比如添加评论系统，社交分享啊等等。这些内容网上有很多，可以到Google里面百度一下～</p>
+<hr>
+<h4>参考资源以及更多配置Octopress的资源推荐</h4>
+<ol>
+<li><a href="http://octopress.org/docs/setup/">Octopress官方文档</a></li>
+<li><a href="http://beyondvincent.com/">破船之家</a>：<a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/">利用Octopress搭建一个Github博客</a></li>
+<li><a href="http://never.doubting.me/">Never Doubting Me</a>：<a href="http://never.doubting.me/2013/04/18/2013-04-18-setup-octopress-on-github-step-by-step/">教程:一步步在github上建立octopress博客</a></li>
+<li><a href="http://williamherry.com/">William's Blog with Octopress</a>：<a href="http://williamherry.com/blog/2012/07/20/octopress-setup/">Octopress - 像黑客一样写博客</a></li>
+<li><a href="http://www.yanjiuyanjiu.com/">研究研究</a>：<a href="http://www.yanjiuyanjiu.com/blog/20130402/">我的Octopress配置</a></li>
+<li><a href="http://agiledon.github.io/">简单文本</a>：<a href="http://agiledon.github.io/blog/2012/12/25/octopress-issues-solution-and-tips/">Octopress博客问题解决方案与技巧</a></li>
+<li><a href="https://www.google.com.hk/search?newwindow=1&amp;safe=strict&amp;espv=210&amp;es_sm=119&amp;q=octopress%E6%95%99%E7%A8%8B&amp;oq=octopress%E6%95%99%E7%A8%8B&amp;gs_l=serp.12..35i39.5308.6241.0.8806.10.8.0.0.0.1.237.921.0j3j2.5.0....0...1c.1j4.35.serp..6.4.789.PMKW2jRRdPI">。。。</a></li>
+</ol>
+<p><strong>如果有什么问题或者建议，可以直接回复我或者给我发邮件：<code>jackycodemsc@gmail.com</code>。</strong></p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/blog.html">blog</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

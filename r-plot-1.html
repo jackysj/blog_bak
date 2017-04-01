@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="R 语言基础绘图模块" />
+<meta name="keywords" content="r, data science">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="R语言绘图1：绘图基础"/>
+<meta property="og:description" content="R 语言基础绘图模块"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./r-plot-1.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-05-24 14:48:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="data science"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; R语言绘图1：绘图基础</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="r-plot-1">R语言绘图1：绘图基础</h1>
+    <p>
+          Posted on 2014-05-24 in <a href="./category/r.html">R</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>以数字和文字展示统计分析的结果，很多时候并不直观，也不能吸引人！而且，从数字和文字中寻找规律、异常等等的东西也并不容易。但是，对于图形来说，这些就容易解决得多了。</p>
+<p>图形的作用不言而喻，就不想多说了。R语言具有强大的绘图功能，这篇就从最基础的绘图工具讲起，谈谈如何在R中绘制各种各样的图形。</p>
+<h4>一、点</h4>
+<hr>
+<p>散点图，无论是在处理数据之前，还是在处理数据的过程中，它都显得非常的重要。在R语言中，绘制散点图非常简单，这就需要使用到函数<strong><code>plot()</code></strong>。</p>
+<p>构造以下的数据以作演示使用：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kp">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span></span>
+<span class="code-line">x <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">,</span> <span class="m">80</span><span class="p">,</span> replace <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span></span>
+<span class="code-line">y <span class="o">&lt;-</span> <span class="m">2</span> <span class="o">*</span> x <span class="o">+</span> <span class="m">20</span> <span class="o">+</span> rnorm<span class="p">(</span><span class="m">80</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h6>1. 首先绘制一个最简单的散点图：</h6>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>x <span class="o">=</span> x<span class="p">,</span> y <span class="o">=</span> y<span class="p">)</span>  <span class="c1">## 或者使用: plot(x, y)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 2" src="/images/article/a36/2.png"></p>
+<p>其中，<code>x = x</code>左侧的<code>x</code>表示横坐标，右侧的是数据名，<code>y</code>的相同。当然，左侧的<code>x</code>和<code>y</code>都是可以省略的。也可以使用<code>plot(&lt;formula&gt;)</code>这样的形式去绘制散点图：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>y <span class="o">~</span> x<span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 3" src="/images/article/a36/3.png"></p>
+<h5>2. 添加标题和标签</h5>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> xlab <span class="o">=</span> <span class="s">&quot;name of x&quot;</span><span class="p">,</span> ylab <span class="o">=</span> <span class="s">&quot;name of y&quot;</span><span class="p">,</span> main <span class="o">=</span> <span class="s">&quot;Scatter Plot&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 4" src="/images/article/a36/4.png"></p>
+<h5>3. 设置坐标界限</h5>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">## 可先用以下函数查看x和y的取值范围 range(x) range(y)</span></span>
+<span class="code-line">plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> xlab <span class="o">=</span> <span class="s">&quot;name of x&quot;</span><span class="p">,</span> ylab <span class="o">=</span> <span class="s">&quot;name of y&quot;</span><span class="p">,</span> main <span class="o">=</span> <span class="s">&quot;Scatter Plot&quot;</span><span class="p">,</span> xlim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span></span>
+<span class="code-line">    <span class="m">100</span><span class="p">),</span> ylim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">250</span><span class="p">))</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 5" src="/images/article/a36/5.png"></p>
+<h5>4. 更改字符</h5>
+<p>默认情形下，绘图字符为空心点，可以使用<code>pch</code>选项参数进行更改：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> xlab <span class="o">=</span> <span class="s">&quot;name of x&quot;</span><span class="p">,</span> ylab <span class="o">=</span> <span class="s">&quot;name of y&quot;</span><span class="p">,</span> main <span class="o">=</span> <span class="s">&quot;Scatter Plot&quot;</span><span class="p">,</span> xlim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span></span>
+<span class="code-line">    <span class="m">100</span><span class="p">),</span> ylim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">250</span><span class="p">),</span> pch <span class="o">=</span> <span class="m">19</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 6" src="/images/article/a36/6.png"></p>
+<p><code>pch</code>的取值与其对应的图形字符，也可以使用<code>plot</code>绘制：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>a <span class="o">&lt;-</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> each <span class="o">=</span> <span class="m">5</span><span class="p">)</span></span>
+<span class="code-line">b <span class="o">&lt;-</span> <span class="kp">rep</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">)</span></span>
+<span class="code-line">plot<span class="p">(</span>a<span class="p">,</span> b<span class="p">,</span> pch <span class="o">=</span> <span class="m">1</span><span class="o">:</span><span class="m">25</span><span class="p">)</span></span>
+<span class="code-line">text<span class="p">(</span>a<span class="p">,</span> b<span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">25</span><span class="p">,</span> pos <span class="o">=</span> <span class="m">2</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 7" src="/images/article/a36/7.png"></p>
+<h5>5. 更改颜色</h5>
+<p>默认情况下，R绘制的图像是黑白的。但其实，R中有若干和颜色相关的参数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> main <span class="o">=</span> <span class="s">&quot;Plot&quot;</span><span class="p">,</span> sub <span class="o">=</span> <span class="s">&quot;Scatter Plot&quot;</span><span class="p">,</span> col <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> col.axis <span class="o">=</span> <span class="s">&quot;green&quot;</span><span class="p">,</span></span>
+<span class="code-line">    col.lab <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">,</span> col.main <span class="o">=</span> <span class="s">&quot;#999000&quot;</span><span class="p">,</span> col.sub <span class="o">=</span> <span class="s">&quot;#000999&quot;</span><span class="p">,</span> fg <span class="o">=</span> <span class="s">&quot;gray&quot;</span><span class="p">,</span></span>
+<span class="code-line">    bg <span class="o">=</span> <span class="s">&quot;white&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 8" src="/images/article/a36/8.png"></p>
+<p>其中：</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">col</td>
+<td align="center">绘图字符的颜色</td>
+</tr>
+<tr>
+<td align="center">col.axis</td>
+<td align="center">坐标轴文字颜色</td>
+</tr>
+<tr>
+<td align="center">col.lab</td>
+<td align="center">坐标轴标签颜色</td>
+</tr>
+<tr>
+<td align="center">col.main</td>
+<td align="center">标题颜色</td>
+</tr>
+<tr>
+<td align="center">col.sub</td>
+<td align="center">副标题颜色</td>
+</tr>
+<tr>
+<td align="center">fg</td>
+<td align="center">前景色</td>
+</tr>
+<tr>
+<td align="center">bg</td>
+<td align="center">背景色</td>
+</tr>
+</tbody>
+</table>
+<h5>6. 更改尺寸</h5>
+<p>与颜色类似，存在若干参数可以用来设置图形中元素的尺寸，而且与上表中设置颜色的参数相对应，只需将<code>col</code>更换成<code>cex</code>即可：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> main <span class="o">=</span> <span class="s">&quot;Plot&quot;</span><span class="p">,</span> sub <span class="o">=</span> <span class="s">&quot;Scatter Plot&quot;</span><span class="p">,</span> cex <span class="o">=</span> <span class="m">0.5</span><span class="p">,</span> cex.axis <span class="o">=</span> <span class="m">1</span><span class="p">,</span> cex.lab <span class="o">=</span> <span class="m">0.8</span><span class="p">,</span></span>
+<span class="code-line">    cex.main <span class="o">=</span> <span class="m">2</span><span class="p">,</span> cex.sub <span class="o">=</span> <span class="m">1.5</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 9" src="/images/article/a36/9.png"></p>
+<h4>二、线</h4>
+<p>有时候，我们不仅需要散点图，更需要折线图，比如在时间序列当中：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>t <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">50</span></span>
+<span class="code-line"><span class="kp">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span></span>
+<span class="code-line">v <span class="o">&lt;-</span> rnorm<span class="p">(</span><span class="m">50</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span></span>
+<span class="code-line">plot<span class="p">(</span><span class="kp">t</span><span class="p">,</span> v<span class="p">,</span> type <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 10" src="/images/article/a36/10.png"></p>
+<h5>1. 更改线条类型</h5>
+<p>R中提供了很多类型的线条，可以通过<code>lty</code>选项来设定，如下：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>a <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">()</span></span>
+<span class="code-line">plot<span class="p">(</span>a<span class="p">,</span> xlim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">),</span> ylim <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">6</span><span class="p">),</span> xlab <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">,</span> ylab <span class="o">=</span> <span class="s">&quot;lty&quot;</span><span class="p">)</span></span>
+<span class="code-line"><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="m">1</span><span class="o">:</span><span class="m">6</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    abline<span class="p">(</span>h <span class="o">=</span> i<span class="p">,</span> lty <span class="o">=</span> i<span class="p">)</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 11" src="/images/article/a36/11.png"></p>
+<h5>2. 更改颜色</h5>
+<p>与前面更改点的颜色方法相同！</p>
+<h5>3. 线条宽度</h5>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span><span class="kp">t</span><span class="p">,</span> v<span class="p">,</span> type <span class="o">=</span> <span class="s">&quot;l&quot;</span><span class="p">,</span> lwd <span class="o">=</span> <span class="m">2</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 12" src="/images/article/a36/12.png"></p>
+<h5>4. 点与线</h5>
+<p>有时候，我们还需要将点突出出来，此时需要利用<code>type</code>选项：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span><span class="kp">t</span><span class="p">,</span> v<span class="p">,</span> type <span class="o">=</span> <span class="s">&quot;b&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 13" src="/images/article/a36/13.png"></p>
+<p><code>type</code>选项可以指定<code>plot()</code>函数绘制的类型，可以使用<code>help(plot)</code>查看。</p>
+<h4>三、散点图与平滑线</h4>
+<p>在做线性回归时，我们常常会在散点图中添加一条拟合直线以查看效果：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>model <span class="o">&lt;-</span> lm<span class="p">(</span>y <span class="o">~</span> x<span class="p">)</span></span>
+<span class="code-line">plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">)</span></span>
+<span class="code-line">abline<span class="p">(</span>model<span class="p">,</span> col <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 14" src="/images/article/a36/14.png"></p>
+<p>有时候，我们需要在散点图上画一条拟合的平滑线，一般使用loess：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plot<span class="p">(</span>x<span class="p">,</span> y<span class="p">)</span></span>
+<span class="code-line">model_loess <span class="o">&lt;-</span> loess<span class="p">(</span>y <span class="o">~</span> x<span class="p">)</span></span>
+<span class="code-line">fit <span class="o">&lt;-</span> fitted<span class="p">(</span>model_loess<span class="p">)</span></span>
+<span class="code-line">ord <span class="o">&lt;-</span> <span class="kp">order</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">lines<span class="p">(</span>x<span class="p">[</span>ord<span class="p">],</span> fit<span class="p">[</span>ord<span class="p">],</span> lwd <span class="o">=</span> <span class="m">2</span><span class="p">,</span> lty <span class="o">=</span> <span class="m">2</span><span class="p">,</span> col <span class="o">=</span> <span class="s">&quot;blue&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 15" src="/images/article/a36/15.png"></p>
+<p>当然，在R语言中要实现上面的图形有很多简单地方法，这里介绍两个：</p>
+<h5>1. 使用<code>car</code>包中的<code>scatterplot()</code>函数</h5>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">library</span><span class="p">(</span>car<span class="p">)</span></span>
+<span class="code-line">scatterplot<span class="p">(</span>y <span class="o">~</span> x<span class="p">,</span> spread <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> lty <span class="o">=</span> <span class="m">1</span><span class="p">,</span> lwd <span class="o">=</span> <span class="m">2</span><span class="p">,</span> smoother.args <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>lty <span class="o">=</span> <span class="m">2</span><span class="p">,</span></span>
+<span class="code-line">    lwd <span class="o">=</span> <span class="m">2</span><span class="p">),</span> smoother <span class="o">=</span> loessLine<span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 16" src="/images/article/a36/16.png"></p>
+<p>其中，直线为线性拟合，虚线为loess曲线拟合，边界为箱线图！</p>
+<p>在函数中<code>smoother.args</code>选项指定曲线拟合的参数；<code>smoother</code>选项指定是否使用曲线拟合，以及用什么方法进行曲线拟合。当然，如果不需要曲线平滑拟合，那么可以将<code>smoother = FALSE</code>。</p>
+<h5>2. 使用<code>ggplot2</code>包</h5>
+<p><code>ggplot2</code>是学习R语言制图的一座大山，它提供了一个基于全面而连贯的语法的绘图系统。功能非常强大，而且弥补了R中自带图形绘制的很多缺点。唯一的问题，学习<code>ggplot2</code>的成本比较大，需要理解很多概念，也需要学习新的语法。</p>
+<p><strong>如果你是刚刚入门R语言，对于R语言基础的绘图工具还不是很熟的话，建议先跳过这一段，不要去弄懂其中的意思，试试效果就可以了！等对R语言基础绘图有了一定的了解之后，再来学习ggplot2，个人觉得会比较好一些！</strong></p>
+<p><strong><em>当然，如果你跟我一样喜欢折腾，不怕纠结，我不介意你一块学！不过，你遇到什么样的问题，那我就不保证了，反正我当时好长一段时间是蛮惨的！</em></strong></p>
+<p>使用这个包，实现的方法一般有两种，就是使用<code>qplot()</code>函数和<code>ggplot()</code>函数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>qplot<span class="p">(</span>x<span class="p">,</span> y<span class="p">,</span> geom <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;point&quot;</span><span class="p">,</span> <span class="s">&quot;smooth&quot;</span><span class="p">),</span> method <span class="o">=</span> <span class="s">&quot;lm&quot;</span><span class="p">,</span> se <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span> geom_smooth<span class="p">(</span>method <span class="o">=</span> <span class="s">&quot;loess&quot;</span><span class="p">,</span></span>
+<span class="code-line">    color <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> se <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> lty <span class="o">=</span> <span class="m">2</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 17" src="/images/article/a36/17.png"></p>
+<p>或者：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>dataSet <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>x <span class="o">=</span> x<span class="p">,</span> y <span class="o">=</span> y<span class="p">)</span></span>
+<span class="code-line">ggplot<span class="p">(</span>aes<span class="p">(</span>x<span class="p">,</span> y<span class="p">),</span> data <span class="o">=</span> dataSet<span class="p">)</span> <span class="o">+</span> geom_point<span class="p">()</span> <span class="o">+</span> geom_smooth<span class="p">(</span>method <span class="o">=</span> <span class="s">&quot;lm&quot;</span><span class="p">,</span></span>
+<span class="code-line">    color <span class="o">=</span> <span class="s">&quot;green&quot;</span><span class="p">,</span> lty <span class="o">=</span> <span class="m">1</span><span class="p">,</span> se <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span> <span class="o">+</span> geom_smooth<span class="p">(</span>method <span class="o">=</span> <span class="s">&quot;loess&quot;</span><span class="p">,</span> color <span class="o">=</span> <span class="s">&quot;red&quot;</span><span class="p">,</span></span>
+<span class="code-line">    lty <span class="o">=</span> <span class="m">2</span><span class="p">,</span> se <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk 18" src="/images/article/a36/18.png"></p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/data-science.html">data science</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

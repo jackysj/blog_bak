@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="文本挖掘简介 2" />
+<meta name="keywords" content="data science, r, machine learning, text mining">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="数据科学20：文本挖掘2"/>
+<meta property="og:description" content="文本挖掘简介 2"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./text-mining-2.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-06-26 15:02:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="machine learning"/>
+<meta property="article:tag" content="text mining"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 数据科学20：文本挖掘2</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="text-mining-2">数据科学20：文本挖掘2</h1>
+    <p>
+          Posted on 2014-06-26 in <a href="./category/data-science.html">Data Science</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h2>一、对词条-文档矩阵的操作</h2>
+<hr>
+<p>在'tm'包中，提供了一些常用的函数，可以对得到的Document Term
+Matrix进行一些操作。当然，我们也可以使用自己的方式，对该矩阵进行一些探索，比如，我们先来看看词条的频数：</p>
+<h3>1.1 词条频数</h3>
+<hr>
+<div class="highlight"><pre><span class="code-line"><span></span>freq <span class="o">&lt;-</span> <span class="kp">colSums</span><span class="p">(</span><span class="kp">as.matrix</span><span class="p">(</span>dtm<span class="p">))</span></span>
+<span class="code-line"><span class="kp">length</span><span class="p">(</span>freq<span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] 780</span></span>
+</pre></div>
+
+
+<p>如果我们想看看，哪些频数是大于等于30的，我们可以：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kp">names</span><span class="p">(</span>freq<span class="p">[</span>freq <span class="o">&gt;=</span> <span class="m">30</span><span class="p">])</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] &quot;market&quot; &quot;mln&quot;    &quot;oil&quot;    &quot;opec&quot;   &quot;price&quot;  &quot;said&quot;</span></span>
+</pre></div>
+
+
+<p>但其实，在'tm'包中有自带的函数可以解决：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>findFreqTerms<span class="p">(</span>dtm<span class="p">,</span> lowfreq <span class="o">=</span> <span class="m">30</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] &quot;market&quot; &quot;mln&quot;    &quot;oil&quot;    &quot;opec&quot;   &quot;price&quot;  &quot;said&quot;</span></span>
+</pre></div>
+
+
+<p>如果得到了每个词条的频数，我们可以列一个表查看一些其它的东西：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>ord <span class="o">&lt;-</span> <span class="kp">order</span><span class="p">(</span>freq<span class="p">,</span> decreasing <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span></span>
+<span class="code-line"><span class="c1">## 查看频数排在前十的词条及其频数</span></span>
+<span class="code-line"><span class="kp">head</span><span class="p">(</span>freq<span class="p">[</span>ord<span class="p">],</span> <span class="m">10</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">##    oil   said  price   opec    mln market barrel   last    bpd   dlrs</span></span>
+<span class="code-line"><span class="c1">##     86     73     63     47     31     30     26     24     23     23</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## 查看频数的频数</span></span>
+<span class="code-line"><span class="kp">tail</span><span class="p">(</span><span class="kp">table</span><span class="p">(</span>freq<span class="p">),</span> <span class="m">10</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## freq</span></span>
+<span class="code-line"><span class="c1">## 21 23 24 26 30 31 47 63 73 86</span></span>
+<span class="code-line"><span class="c1">##  2  2  1  1  1  1  1  1  1  1</span></span>
+</pre></div>
+
+
+<h3>1.2 相关性</h3>
+<hr>
+<p>除了词条的频数，我们大都还会对词条之间的相关性感兴趣。如何计算，其实很简单：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>corr <span class="o">&lt;-</span> cor<span class="p">(</span><span class="kp">as.matrix</span><span class="p">(</span>dtm<span class="p">))</span></span>
+<span class="code-line">corr<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">##           abdul     abil      abl   abroad   accept</span></span>
+<span class="code-line"><span class="c1">## abdul   1.00000 -0.08812 -0.05263 -0.05263 -0.05263</span></span>
+<span class="code-line"><span class="c1">## abil   -0.08812  1.00000 -0.08812  0.79309 -0.08812</span></span>
+<span class="code-line"><span class="c1">## abl    -0.05263 -0.08812  1.00000 -0.05263 -0.05263</span></span>
+<span class="code-line"><span class="c1">## abroad -0.05263  0.79309 -0.05263  1.00000 -0.05263</span></span>
+<span class="code-line"><span class="c1">## accept -0.05263 -0.08812 -0.05263 -0.05263  1.00000</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="kp">dim</span><span class="p">(</span>corr<span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] 780 780</span></span>
+</pre></div>
+
+
+<p>比如我们想知道，与词条'oil'相关性超过0.8的词条有哪些：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>op <span class="o">&lt;-</span> <span class="kp">options</span><span class="p">()</span></span>
+<span class="code-line"><span class="kp">options</span><span class="p">(</span>digits <span class="o">=</span> <span class="m">2</span><span class="p">)</span></span>
+<span class="code-line">name <span class="o">&lt;-</span> <span class="kp">setdiff</span><span class="p">(</span><span class="kp">names</span><span class="p">(</span>corr<span class="p">[,</span> <span class="s">&quot;oil&quot;</span><span class="p">][</span>corr<span class="p">[,</span> <span class="s">&quot;oil&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="m">0.8</span><span class="p">]),</span> <span class="s">&quot;oil&quot;</span><span class="p">)</span></span>
+<span class="code-line">value <span class="o">&lt;-</span> corr<span class="p">[</span>name<span class="p">,</span> <span class="s">&quot;oil&quot;</span><span class="p">]</span></span>
+<span class="code-line"><span class="kt">matrix</span> <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>value<span class="p">[</span><span class="kp">order</span><span class="p">(</span>value<span class="p">,</span> decreasing <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)])</span></span>
+<span class="code-line"><span class="kp">rownames</span><span class="p">(</span><span class="kt">matrix</span><span class="p">)</span> <span class="o">=</span> <span class="kp">names</span><span class="p">(</span>value<span class="p">)</span></span>
+<span class="code-line"><span class="kp">colnames</span><span class="p">(</span><span class="kt">matrix</span><span class="p">)</span> <span class="o">=</span> <span class="s">&quot;oil&quot;</span></span>
+<span class="code-line"><span class="kt">matrix</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">##       oil</span></span>
+<span class="code-line"><span class="c1">## name 0.87</span></span>
+<span class="code-line"><span class="c1">## opec 0.81</span></span>
+<span class="code-line"><span class="c1">## tri  0.81</span></span>
+<span class="code-line"><span class="c1">## want 0.81</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="kp">options</span><span class="p">(</span>op<span class="p">)</span></span>
+</pre></div>
+
+
+<p>但其实，'tm'包中提供了现成函数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>findAssocs<span class="p">(</span>dtm<span class="p">,</span> <span class="s">&quot;oil&quot;</span><span class="p">,</span> <span class="m">0.8</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">##       oil</span></span>
+<span class="code-line"><span class="c1">## opec 0.87</span></span>
+<span class="code-line"><span class="c1">## name 0.81</span></span>
+<span class="code-line"><span class="c1">## tri  0.81</span></span>
+<span class="code-line"><span class="c1">## want 0.81</span></span>
+</pre></div>
+
+
+<p>可以看到，这一个函数实现了上面我们那一长串的功能。<strong>但是，我觉得，提供的现成函数有好处，但还是需要自己想想如何实现这个现成的函数。这不仅对概念理解有帮助，也对程序编写以及了解别人写的函数有更加深刻的理解。</strong></p>
+<h3>1.3 删减稀疏条目</h3>
+<hr>
+<p>大部分时候，Document Term
+Matrix是一个很大的矩阵，而且是行数远小于列数。也就是说，这个矩阵实际上是很稀疏的，不妨来看看我们这个只有20个文档的矩阵，稀疏程度如何：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Sparse <span class="o">&lt;-</span> <span class="kp">length</span><span class="p">(</span><span class="kp">which</span><span class="p">(</span><span class="kt">matrix</span><span class="p">(</span>dtm<span class="p">)</span> <span class="o">==</span> <span class="m">0</span><span class="p">))</span></span>
+<span class="code-line">Sparse</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] 14030</span></span>
+<span class="code-line"></span>
+<span class="code-line">Non <span class="o">&lt;-</span> <span class="kp">length</span><span class="p">(</span><span class="kp">which</span><span class="p">(</span><span class="kt">matrix</span><span class="p">(</span>dtm<span class="p">)</span> <span class="o">!=</span> <span class="m">0</span><span class="p">))</span></span>
+<span class="code-line">Non</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] 1570</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="kp">sprintf</span><span class="p">(</span><span class="s">&quot;%d%%&quot;</span><span class="p">,</span> <span class="kp">round</span><span class="p">(</span>Sparse<span class="o">/</span><span class="p">(</span>Non <span class="o">+</span> Sparse<span class="p">),</span> <span class="m">2</span><span class="p">)</span> <span class="o">*</span> <span class="m">100</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## [1] &quot;90%&quot;</span></span>
+</pre></div>
+
+
+<p>可以看到，矩阵中等于零的数目是14030，不为零的为1570，稀疏程度达到了90%，显然是非常稀疏的。当然，其实这个可以不用自己算的：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>dtm</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## &lt;&lt;DocumentTermMatrix (documents: 20, terms: 780)&gt;&gt;</span></span>
+<span class="code-line"><span class="c1">## Non-/sparse entries: 1570/14030</span></span>
+<span class="code-line"><span class="c1">## Sparsity           : 90%</span></span>
+<span class="code-line"><span class="c1">## Maximal term length: 13</span></span>
+<span class="code-line"><span class="c1">## Weighting          : term frequency (tf)</span></span>
+</pre></div>
+
+
+<p>上面的输出，前两个就知道它的意思了。那么另外两个呢？“Maximal term
+length”，顾名思义，就是最长的那个词条的长度。不妨来看一下：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>name <span class="o">&lt;-</span> <span class="kp">colnames</span><span class="p">(</span><span class="kp">as.matrix</span><span class="p">(</span>dtm<span class="p">))</span></span>
+<span class="code-line">name.length <span class="o">&lt;-</span> <span class="kp">sapply</span><span class="p">(</span>name<span class="p">,</span> <span class="kp">nchar</span><span class="p">)</span></span>
+<span class="code-line">max.name <span class="o">&lt;-</span> name<span class="p">[</span>name.length <span class="o">==</span> <span class="kp">max</span><span class="p">(</span>name.length<span class="p">)]</span></span>
+<span class="code-line">max.value <span class="o">&lt;-</span> name.length<span class="p">[</span>max.name<span class="p">]</span></span>
+<span class="code-line">max.value</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## responsibilit</span></span>
+<span class="code-line"><span class="c1">##            13</span></span>
+</pre></div>
+
+
+<p>可以看到是吻合的。至于最后一个“Weighting”，是指Document Term
+Matrix中的每一条目的值是如何计算的。这里用的是“term
+frequency”，就是词条频率，简写为“tf”。除了这个，还有一些其它计算方法，比如：tf-idf，即term
+frequency-inverse document frequency。这个以后再说。</p>
+<hr>
+<p><strong>回到主题：</strong>计算出了稀疏条目的比例，证实了矩阵的确是很稀疏的，那么下面就是要去删除一些条目。有些条目在很少的文档中出现，甚至只在一篇文档中出现了。一般来说，删除这样的条目不会对矩阵的信息继承带来显著的影响。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>remove.sparseterms <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>dtm<span class="p">,</span> per<span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    dtm.Matrix <span class="o">&lt;-</span> <span class="kp">as.matrix</span><span class="p">(</span>dtm<span class="p">)</span></span>
+<span class="code-line">    term.per <span class="o">&lt;-</span> <span class="kp">apply</span><span class="p">(</span>dtm.Matrix<span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="kr">function</span><span class="p">(</span>item<span class="p">)</span> <span class="kp">length</span><span class="p">(</span><span class="kp">which</span><span class="p">(</span>item <span class="o">==</span> <span class="m">0</span><span class="p">))</span><span class="o">/</span><span class="kp">length</span><span class="p">(</span>item<span class="p">))</span></span>
+<span class="code-line">    name <span class="o">&lt;-</span> <span class="kp">names</span><span class="p">(</span>term.per<span class="p">[</span><span class="kp">which</span><span class="p">(</span>term.per <span class="o">&lt;</span> per<span class="p">)])</span></span>
+<span class="code-line">    <span class="kr">return</span><span class="p">(</span>dtm.Matrix<span class="p">[,</span> name<span class="p">])</span></span>
+<span class="code-line"><span class="p">}</span></span>
+<span class="code-line">remove.sparseterms<span class="p">(</span>dtm<span class="p">,</span> <span class="m">0.4</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">##      Terms</span></span>
+<span class="code-line"><span class="c1">## Docs  barrel oil one price reuter said</span></span>
+<span class="code-line"><span class="c1">##   127      2   5   0     5      1    3</span></span>
+<span class="code-line"><span class="c1">##   144      0  12   1     6      2   11</span></span>
+<span class="code-line"><span class="c1">##   191      1   2   0     2      1    1</span></span>
+<span class="code-line"><span class="c1">##   194      1   1   1     2      1    1</span></span>
+<span class="code-line"><span class="c1">##   211      0   1   0     0      1    3</span></span>
+<span class="code-line"><span class="c1">##   236      4   7   1     8      1   10</span></span>
+<span class="code-line"><span class="c1">##   237      0   4   1     1      1    1</span></span>
+<span class="code-line"><span class="c1">##   242      0   3   2     2      1    3</span></span>
+<span class="code-line"><span class="c1">##   246      1   5   1     2      1    5</span></span>
+<span class="code-line"><span class="c1">##   248      3   9   1    10      1    7</span></span>
+<span class="code-line"><span class="c1">##   273      3   5   1     5      1    8</span></span>
+<span class="code-line"><span class="c1">##   349      0   4   0     1      1    1</span></span>
+<span class="code-line"><span class="c1">##   352      1   5   0     5      1    2</span></span>
+<span class="code-line"><span class="c1">##   353      1   4   1     2      1    1</span></span>
+<span class="code-line"><span class="c1">##   368      0   3   0     0      1    3</span></span>
+<span class="code-line"><span class="c1">##   489      3   4   2     3      1    2</span></span>
+<span class="code-line"><span class="c1">##   502      3   5   2     3      1    2</span></span>
+<span class="code-line"><span class="c1">##   543      1   3   1     3      1    4</span></span>
+<span class="code-line"><span class="c1">##   704      0   3   4     3      1    4</span></span>
+<span class="code-line"><span class="c1">##   708      2   1   0     0      1    1</span></span>
+</pre></div>
+
+
+<p>这边的计算就是：检查词条的稀疏程度是否低于给定的系数<code>per</code>，如果是，就保留该词条；如果不是，则舍弃。</p>
+<p>当然，在'tm'包中也有自带的函数可以解决：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>rsterms <span class="o">&lt;-</span> removeSparseTerms<span class="p">(</span>dtm<span class="p">,</span> <span class="m">0.4</span><span class="p">)</span></span>
+<span class="code-line">inspect<span class="p">(</span>rsterms<span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1">## &lt;&lt;DocumentTermMatrix (documents: 20, terms: 6)&gt;&gt;</span></span>
+<span class="code-line"><span class="c1">## Non-/sparse entries: 103/17</span></span>
+<span class="code-line"><span class="c1">## Sparsity           : 14%</span></span>
+<span class="code-line"><span class="c1">## Maximal term length: 6</span></span>
+<span class="code-line"><span class="c1">## Weighting          : term frequency (tf)</span></span>
+<span class="code-line"><span class="c1">##</span></span>
+<span class="code-line"><span class="c1">##      Terms</span></span>
+<span class="code-line"><span class="c1">## Docs  barrel oil one price reuter said</span></span>
+<span class="code-line"><span class="c1">##   127      2   5   0     5      1    3</span></span>
+<span class="code-line"><span class="c1">##   144      0  12   1     6      2   11</span></span>
+<span class="code-line"><span class="c1">##   191      1   2   0     2      1    1</span></span>
+<span class="code-line"><span class="c1">##   194      1   1   1     2      1    1</span></span>
+<span class="code-line"><span class="c1">##   211      0   1   0     0      1    3</span></span>
+<span class="code-line"><span class="c1">##   236      4   7   1     8      1   10</span></span>
+<span class="code-line"><span class="c1">##   237      0   4   1     1      1    1</span></span>
+<span class="code-line"><span class="c1">##   242      0   3   2     2      1    3</span></span>
+<span class="code-line"><span class="c1">##   246      1   5   1     2      1    5</span></span>
+<span class="code-line"><span class="c1">##   248      3   9   1    10      1    7</span></span>
+<span class="code-line"><span class="c1">##   273      3   5   1     5      1    8</span></span>
+<span class="code-line"><span class="c1">##   349      0   4   0     1      1    1</span></span>
+<span class="code-line"><span class="c1">##   352      1   5   0     5      1    2</span></span>
+<span class="code-line"><span class="c1">##   353      1   4   1     2      1    1</span></span>
+<span class="code-line"><span class="c1">##   368      0   3   0     0      1    3</span></span>
+<span class="code-line"><span class="c1">##   489      3   4   2     3      1    2</span></span>
+<span class="code-line"><span class="c1">##   502      3   5   2     3      1    2</span></span>
+<span class="code-line"><span class="c1">##   543      1   3   1     3      1    4</span></span>
+<span class="code-line"><span class="c1">##   704      0   3   4     3      1    4</span></span>
+<span class="code-line"><span class="c1">##   708      2   1   0     0      1    1</span></span>
+</pre></div>
+
+
+<p>与之前的结果相同。</p>
+<h2>二、相关的绘图</h2>
+<hr>
+<p>介绍完Document Term
+Matrix之后，其实已经可以开始使用模型去处理了。之前介绍过聚类、分类啊等等的内容，有了这个矩阵之后，其实都可以去做了。不过，在建立模型之前，我想先说说有关绘图的问题。</p>
+<p>我们前面算了很多的量，比如频数啊、相关系数啊等等。但其实，我们大多时候需要用图形将它们展示出来。在R中，我们可以使用<code>Rgraphviz</code>包来绘制词条之间的关系图：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">require</span><span class="p">(</span>Rgraphviz<span class="p">)</span></span>
+<span class="code-line">plot<span class="p">(</span>dtm<span class="p">,</span> terms <span class="o">=</span> findFreqTerms<span class="p">(</span>dtm<span class="p">,</span> lowfreq <span class="o">=</span> <span class="m">20</span><span class="p">))</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk TM2.2.1" src="/images/article/a42/TM2.2.11.png"></p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">## 指定相关性必须在0.5之上才可连线</span></span>
+<span class="code-line">plot<span class="p">(</span>dtm<span class="p">,</span> terms <span class="o">=</span> findFreqTerms<span class="p">(</span>dtm<span class="p">,</span> lowfreq <span class="o">=</span> <span class="m">20</span><span class="p">),</span> corThreshold <span class="o">=</span> <span class="m">0.5</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk TM2.2.1" src="/images/article/a42/TM2.2.12.png"></p>
+<p>在默认不指定<code>terms</code>和<code>corThreshold</code>参数的情况下，<code>plot</code>函数会绘制随机20个词条，相关性至少0.7的图形。</p>
+<hr>
+<p>当然，我们还可以绘制熟悉的频数直方图：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>freq <span class="o">&lt;-</span> <span class="kp">sort</span><span class="p">(</span><span class="kp">colSums</span><span class="p">(</span><span class="kp">as.matrix</span><span class="p">(</span>dtm<span class="p">)),</span> decreasing <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span></span>
+<span class="code-line">tf <span class="o">&lt;-</span> <span class="kt">data.frame</span><span class="p">(</span>term <span class="o">=</span> <span class="kp">names</span><span class="p">(</span>freq<span class="p">),</span> freq <span class="o">=</span> freq<span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line">g <span class="o">&lt;-</span> ggplot<span class="p">(</span><span class="kp">subset</span><span class="p">(</span>tf<span class="p">,</span> freq <span class="o">&gt;</span> <span class="m">20</span><span class="p">),</span> aes<span class="p">(</span>term<span class="p">,</span> freq<span class="p">))</span></span>
+<span class="code-line">g <span class="o">&lt;-</span> g <span class="o">+</span> geom_bar<span class="p">(</span>stat <span class="o">=</span> <span class="s">&quot;identity&quot;</span><span class="p">,</span> aes<span class="p">(</span>fill <span class="o">=</span> freq<span class="p">))</span></span>
+<span class="code-line"><span class="kp">print</span><span class="p">(</span>g<span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk TM2.2.2" src="/images/article/a42/TM2.2.2.png"></p>
+<hr>
+<p>另外一个比较流行好看的图，应该就是文本云(wordcloud)了，可以使用<code>wordcloud</code>包实现：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">require</span><span class="p">(</span>wordcloud<span class="p">)</span></span>
+<span class="code-line">wordcloud<span class="p">(</span><span class="kp">names</span><span class="p">(</span>freq<span class="p">),</span> freq<span class="p">,</span> min.freq <span class="o">=</span> <span class="m">5</span><span class="p">,</span> max.words <span class="o">=</span> <span class="m">80</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk TM2.2.3" src="/images/article/a42/TM2.2.31.png"></p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">## 添加颜色</span></span>
+<span class="code-line"><span class="kn">require</span><span class="p">(</span>RColorBrewer<span class="p">)</span></span>
+<span class="code-line">wordcloud<span class="p">(</span><span class="kp">names</span><span class="p">(</span>freq<span class="p">),</span> freq<span class="p">,</span> min.freq <span class="o">=</span> <span class="m">5</span><span class="p">,</span> max.words <span class="o">=</span> <span class="m">80</span><span class="p">,</span> colors <span class="o">=</span> brewer.pal<span class="p">(</span><span class="m">8</span><span class="p">,</span></span>
+<span class="code-line">    <span class="s">&quot;Paired&quot;</span><span class="p">))</span></span>
+</pre></div>
+
+
+<p><img alt="plot of chunk TM2.2.3" src="/images/article/a42/TM2.2.32.png"></p>
+<p>当然，<code>wordcloud()</code>函数提供了很多选项，可以自行查看，我就不多讲了。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/data-science.html">data science</a>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
+      <a href="./tag/text-mining.html">text mining</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

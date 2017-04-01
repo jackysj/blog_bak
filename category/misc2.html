@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="author" content="Jacky Gong" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Jacky MSC"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content=".."/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash;     Category misc
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="..">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href="..">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="..">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../ryu-yan-hui-tu-4rzhong-de-hui-tu-xi-tong.html#ryu-yan-hui-tu-4rzhong-de-hui-tu-xi-tong">"R语言绘图4：R中的绘图系统"</a></h2>
+    <p>
+          Posted on 2014-06-08 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 39" src="/images/article/article39.jpg">
+<!-- more --></p>
+<p>图片为本文中的某一张~~</p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>前面三篇大致介绍了绘图的基础以及一些基础图形的绘制，其中重点使用R自带的基础绘图系统实现，部分也使用了<code>ggplot2</code>做了简单地演示。其实，在R中存在四套绘图系统，分别是：<strong>基础绘图系统</strong>(The Base Plotting System)、<strong>grid图形系统</strong>、<strong>Lattice绘图系统</strong>(The Lattice System)以及<strong>ggplot2绘图系统</strong>(The ggplot2 System)。</p>
+<p>grid图形系统提供了一种比标准图形系统更低水平的方法，使用者可以在图形设备上随意创建矩形区域，然后再该区域定义坐标系统，其后使用绘图的基础单元来控制图形！由此可见，grid图形非常的灵活，但是grid包没有提供生成统计图形，甚至没有提供完整绘图的函数，所以，一般来说，我们不会直接使用grid。</p>
+<p>Lattice绘图系统是基于grid图形系统的，我们在使用Lattice的时候，其实就会使用grid，只是不会直接去调用而已。这一篇，就简单看看这三个绘图系统：基础绘图系统、Lattice绘图系统以及ggplot2绘图系统。</p>
+<h3>1. 基础绘图系统</h3>
+<hr>
+<p>基础绘图系统，即是R语言自带的绘图系统。R中核心的绘图系统主要基于以下两个包 …</p>
+      <br>
+      <a class="btn" href="../ryu-yan-hui-tu-4rzhong-de-hui-tu-xi-tong.html#ryu-yan-hui-tu-4rzhong-de-hui-tu-xi-tong">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../ryu-yan-hui-tu-3ji-chu-tu-xing-2.html#ryu-yan-hui-tu-3ji-chu-tu-xing-2">"R语言绘图3：基础图形2"</a></h2>
+    <p>
+          Posted on 2014-06-04 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 38" src="/images/article/article38.jpg">
+<!-- more --></p>
+<p>图片为本文中的某一张~~</p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h3>三、直方图</h3>
+<hr>
+<p>前面介绍的两种图形，一般都是用来处理离散数据的。那么对于连续数据，常用的图形就有这里所说的直方图。直方图在横轴上将数据值域划分成若干个组别，然后在纵轴上显示其频数。通过这种方式，可以将连续的点离散化，从而来描述连续型变量的分布。</p>
+<p>在R语言中，可以使用<code>hist()</code>函数来绘制直方图：</p>
+<div class="highlight"><pre><span></span><span class="c1">## 构造数据</span>
+<span class="kp">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
+x <span class="o">&lt;-</span> rnorm<span class="p">(</span><span class="m">100</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="c1">## 设置画布</span>
+par<span class="p">(</span>mfrow <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+<span class="c1">## 1</span>
+hist<span class="p">(</span>x<span class="p">)</span>
+box<span class="p">()</span>
+<span class="c1">## 2 修改颜色，组数</span>
+hist<span class="p">(</span>x<span class="p">,</span> breaks <span class="o">=</span> <span class="m">10</span><span class="p">,</span> col <span class="o">=</span> <span class="s">&quot;gray&quot;</span><span class="p">)</span>
+box<span class="p">()</span>
+<span class="c1">## 3 添加核密度曲线</span>
+hist …</pre></div>
+      <br>
+      <a class="btn" href="../ryu-yan-hui-tu-3ji-chu-tu-xing-2.html#ryu-yan-hui-tu-3ji-chu-tu-xing-2">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../ryu-yan-hui-tu-2ji-chu-tu-xing-1.html#ryu-yan-hui-tu-2ji-chu-tu-xing-1">"R语言绘图2：基础图形1"</a></h2>
+    <p>
+          Posted on 2014-05-29 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 37" src="/images/article/article37.jpg">
+<!-- more --></p>
+<p>图片为本文中的某一张~~</p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h3>一、 饼图</h3>
+<hr>
+<p>饼图，简单来说，就是将一个圆（或者圆饼）按分类变量分成几块，每一块所占的面积比例就是相对应的变量在总体中所占的比例。</p>
+<p>饼图在统计上，其实并不被看好。一般都会推荐使用条形图去代替，因为相比较面积，长度更能让人产生直观的判断。</p>
+<div class="highlight"><pre><span></span><span class="c1">## 构造一批数据</span>
+year <span class="o">&lt;-</span> <span class="m">2001</span><span class="o">:</span><span class="m">2010</span>
+<span class="kp">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
+counts <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="m">100</span><span class="o">:</span><span class="m">500</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
+
+<span class="c1">## 绘图 在同一张画布上绘制4幅图，对于`par`的使用，可以`?par`</span>
+par<span class="p">(</span>mfrow <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">))</span>
+
+<span class="c1">### 1</span>
+pie<span class="p">(</span>counts<span class="p">,</span> labels <span class="o">=</span> year<span class="p">)</span>
+
+<span class="c1">### 2</span>
+pie<span class="p">(</span>counts<span class="p">,</span> labels <span class="o">=</span> year …</pre></div>
+      <br>
+      <a class="btn" href="../ryu-yan-hui-tu-2ji-chu-tu-xing-1.html#ryu-yan-hui-tu-2ji-chu-tu-xing-1">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../ryu-yan-hui-tu-1hui-tu-ji-chu.html#ryu-yan-hui-tu-1hui-tu-ji-chu">"R语言绘图1：绘图基础"</a></h2>
+    <p>
+          Posted on 2014-05-24 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 36" src="/images/article/article36.jpg">
+<!-- more --></p>
+<p>图片为本文中的某一张~~</p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>以数字和文字展示统计分析的结果，很多时候并不直观，也不能吸引人！而且，从数字和文字中寻找规律、异常等等的东西也并不容易。但是，对于图形来说，这些就容易解决得多了。</p>
+<p>图形的作用不言而喻，就不想多说了。R语言具有强大的绘图功能，这篇就从最基础的绘图工具讲起，谈谈如何在R中绘制各种各样的图形。</p>
+<h4>一、点</h4>
+<hr>
+<p>散点图，无论是在处理数据之前，还是在处理数据的过程中，它都显得非常的重要。在R语言中，绘制散点图非常简单，这就需要使用到函数<strong><code>plot()</code></strong>。</p>
+<p>构造以下的数据以作演示使用：</p>
+<div class="highlight"><pre><span></span><span class="kp">set.seed</span><span class="p">(</span><span class="m">1234</span><span class="p">)</span>
+x <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">100</span><span class="p">,</span> <span class="m">80</span><span class="p">,</span> replace <span class="o">=</span> <span class="kc">FALSE</span><span class="p">)</span>
+y <span class="o">&lt;-</span> <span class="m">2</span> <span class="o">*</span> x <span class="o">+</span> <span class="m">20</span> <span class="o">+</span> rnorm<span class="p">(</span><span class="m">80</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">10</span><span class="p">)</span>
+</pre></div>
+
+
+<h6>1. 首先绘制一个最简单的散点图：</h6>
+<div class="highlight"><pre><span></span>plot<span class="p">(</span>x …</pre></div>
+      <br>
+      <a class="btn" href="../ryu-yan-hui-tu-1hui-tu-ji-chu.html#ryu-yan-hui-tu-1hui-tu-ji-chu">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../yin-zi-fen-xi-2.html#yin-zi-fen-xi-2">"因子分析2"</a></h2>
+    <p>
+          Posted on 2014-05-19 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 35" src="/images/article/article35_new.jpg">
+<!-- more --></p>
+<p>图片来源于<a href="http://software.ssri.co.jp/statweb2/column/column0811.html">网址</a></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>这两天来了个同学，大家聚了聚，我也乘机休息了两天（好奢侈！）。这两天属于什么都没有写，就翻看了两本书。一本是二月河的<a href="http://www.amazon.cn/gp/product/B0032K0X6Q/ref=olp_product_details?ie=UTF8&amp;me=&amp;seller=">康熙大帝</a>，另外一本是<a href="http://www.ituring.com.cn/book/894">推荐系统实践</a>，这本书的电子版，图灵正在打折，有兴趣可以买本看看。</p>
+<hr>
+<p>好了，不废话了，下面就接着上一篇讲的继续！上一篇简单介绍了因子分析的一些概念，以及最基础的因子模型：<strong>正交因子模型</strong>。那么这一篇，就来说说正交因子模型的<strong>参数估计问题</strong>。</p>
+<p>对于一组p维样本，有n个观测值：</p>
+<div class="math">$$x_1, x_2, \dots, x_n$$</div>
+<p>，则其均值和协方差矩阵可以使用样本均值和样本协方差矩阵来估计：</p>
+<div class="math">$$ \hat{\mu} = \overline{x} = \frac{1}{n} {\sum_{i=1}^{n} x_i} $$</div>
+<div class="math">$$ \hat{\Sigma} = S = \frac{1 …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../yin-zi-fen-xi-2.html#yin-zi-fen-xi-2">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+    <a class="btn float-left" href="../category/misc3.html">
+      <i class="fa fa-angle-left"></i>     Older Posts
+
+    </a>
+    <a class="btn float-right" href="../category/misc.html">
+          Newer Posts
+ <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : "..",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

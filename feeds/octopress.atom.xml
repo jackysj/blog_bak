@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jacky MSC - Octopress</title><link href="//jacky-sj/" rel="alternate"></link><link href="//jacky-sj/feeds/octopress.atom.xml" rel="self"></link><id>//jacky-sj/</id><updated>2017-03-29T20:30:00+08:00</updated><entry><title>记录：最近对博客的一些修改</title><link href="//jacky-sj/octopress3.html" rel="alternate"></link><published>2014-03-18T18:52:00+08:00</published><updated>2017-03-29T20:30:00+08:00</updated><author><name>Jacky Gong</name></author><id>tag:jacky-sj,2014-03-18:/octopress3.html</id><summary type="html">&lt;p&gt;记录修改 Octopress 配置的过程&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;“文章原创，转载请注明出处”&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;前两天发现了一款很不错的主题&lt;code&gt;bootstrap&lt;/code&gt;，心中一直很是惦记，终于还是在昨天晚上换了主题。趁着换主题的时间，我也顺便为我的博客添加了一些其它的功能，也设置了一下侧边栏，详情如下。&lt;/p&gt;
+&lt;h4&gt;1. 加入Google Analytics&lt;/h4&gt;
+&lt;p&gt;对于自己的博客，总是想了解它的现状的。起码我希望知道我的博客有没人来看，所以加了这个功能。&lt;/p&gt;
+&lt;p&gt;加入这个功能的方法很简单，就是去&lt;a href="http://www.google.com/analytics/"&gt;Google Analytics&lt;/a&gt;注册个帐号，然后把你的帐号填到&lt;code&gt;_config.yml&lt;/code&gt;中对应的位置就OK啦。&lt;/p&gt;
+&lt;p&gt;当然我就遇到了一个问题，就是填入帐号之后，Google Analytics总是跟踪不到。最后我只能把&lt;code&gt;_config.yml&lt;/code&gt;中的帐号注释掉，然后进入&lt;code&gt;source/_includes/head.html&lt;/code&gt;中，添加了申请帐号之后给出的脚本。等了大概几分钟，Google Analytics就显示跟踪到了。如果你遇到类似的问题，可以试一下这个方法。&lt;/p&gt;
+&lt;h4&gt;2. 加入数学公式支持&lt;/h4&gt;
+&lt;p&gt;首先启用MathJax，即在&lt;code&gt;source/_includes/custom/footer.html&lt;/code&gt;的第一行添加代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!--&lt;/span&gt; &lt;span class="nx"&gt;mathjax&lt;/span&gt; &lt;span class="nx"&gt;config&lt;/span&gt; &lt;span class="nx"&gt;similar&lt;/span&gt; &lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="nx"&gt;math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;stackexchange&lt;/span&gt; &lt;span class="o"&gt;--&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;script&lt;/span&gt; &lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;text/x-mathjax-config&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="nx"&gt;MathJax&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Hub&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Config&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="nx"&gt;jax&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;input/TeX&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;output/HTML-CSS&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="nx"&gt;tex2jax&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;inlineMath&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;],&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;displayMath&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;$$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;$$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]],&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;processEscapes&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;skipTags&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;noscript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;style&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;textarea&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pre&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;code&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;},&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;messageStyle&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;none&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="s2"&gt;&amp;quot;HTML-CSS&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nx"&gt;preferredFont&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;TeX&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;availableFonts&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;STIX&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;TeX&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/script&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;script&lt;/span&gt; &lt;span class="nx"&gt;src&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&amp;quot;&lt;/span&gt; &lt;span class="nx"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="err"&gt;/script&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;添加之后，就在博客里面引入了MathJax，那么就可以在markdown里面直接输入公式了，例如：&lt;code&gt;$n^2$&lt;/code&gt;就可以解析成&lt;span class="math"&gt;\(n^2\)&lt;/span&gt;。&lt;/p&gt;
+&lt;p&gt;在引入MathJax之后，我更换了解析器，因为自带的&lt;code&gt;rdiscount&lt;/code&gt;解析器对于MathJax的细节处理存在一些小问题。更换解析器，可以到&lt;code&gt;Gemfile&lt;/code&gt;中添加：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;gem&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;kramdown&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;~&amp;gt; 0.13.8&amp;#39;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后在终端运行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;bundle&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最后，在&lt;code&gt;_config.yml&lt;/code&gt;文件中，将解析器更换：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;markdown&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="n"&gt;kramdown&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使用kramdown，有两点需要注意：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;公式无论行内行间都以&lt;code&gt;$$&lt;/code&gt;开头；行间公式，必须独占一行；&lt;/li&gt;
+&lt;li&gt;代码块开头必须空一行，否则代码高亮会失效。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;至于其它的，可以去&lt;a href="http://kramdown.rubyforge.org/syntax.html"&gt;官方文档&lt;/a&gt;查看。&lt;/p&gt;
+&lt;h4&gt;3. 更换主题&lt;/h4&gt;
+&lt;p&gt;如何更换主题，在之前的文章里面早已说过。这次就是将主题更换成了&lt;code&gt;bootstrap&lt;/code&gt;。&lt;/p&gt;
+&lt;h4&gt;4. 侧边栏的修改&lt;/h4&gt;
+&lt;h5&gt;a. 关于我&lt;/h5&gt;
+&lt;p&gt;添加自己的简介，可以在&lt;code&gt;custom/asides/&lt;/code&gt;文件夹下添加&lt;code&gt;about.html&lt;/code&gt;，然后添加内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;well&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;about&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;nav nav-list&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nav-header&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ root_url }}/about&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;关于我&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;介绍一下自己&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;可以留下联系方式，比如微博等等&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;p&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这里我使用了我博客主题的样式，就是里面的&lt;code&gt;class&lt;/code&gt;和&lt;code&gt;id&lt;/code&gt;的值。这些值需要你根据自己博客的主题样式设定，可以参看其自带的侧边栏的一些网页，比如&lt;code&gt;_includes/asides/recent_post.html&lt;/code&gt;。&lt;/p&gt;
+&lt;h5&gt;b. 文章分类&lt;/h5&gt;
+&lt;p&gt;给自己的文章分类，需要的操作稍微麻烦一些。首先需要在&lt;code&gt;plugins&lt;/code&gt;目录下创建&lt;code&gt;category_list_tag.rb&lt;/code&gt;文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;module&lt;/span&gt; &lt;span class="nn"&gt;Jekyll&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;CategoryListTag&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="no"&gt;Liquid&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Tag&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;render&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="n"&gt;categories&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;registers&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:site&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;categories&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;keys&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="n"&gt;categories&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;each&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;&lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;|&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="n"&gt;posts_in_category&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;registers&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:site&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;categories&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="n"&gt;category_dir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;context&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;registers&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="ss"&gt;:site&lt;/span&gt;&lt;span class="o"&gt;].&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category_dir&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="n"&gt;category_url&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="no"&gt;File&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;category_dir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gsub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sr"&gt;/_|\P{Word}/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gsub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="sr"&gt;/-{2,}/&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;downcase&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&amp;lt;li class=&amp;#39;category&amp;#39;&amp;gt;&amp;lt;a href=&amp;#39;/&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;category_url&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;/&amp;#39;&amp;gt;&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;category&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt; (&lt;/span&gt;&lt;span class="si"&gt;#{&lt;/span&gt;&lt;span class="n"&gt;posts_in_category&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;)&amp;lt;/a&amp;gt;&amp;lt;/li&amp;gt;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="k"&gt;end&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="n"&gt;html&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="k"&gt;end&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="k"&gt;end&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="k"&gt;end&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="no"&gt;Liquid&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;Template&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;register_tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;category_list&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="no"&gt;Jekyll&lt;/span&gt;&lt;span class="o"&gt;::&lt;/span&gt;&lt;span class="no"&gt;CategoryListTag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后新建&lt;code&gt;source/_includes/asides/category_list.html&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;well&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;category_list&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nav nav-list&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nav-header&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;文章分类&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;categories&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;% category_list %}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这样就可以了。&lt;/p&gt;
+&lt;h5&gt;c. 推荐站点&lt;/h5&gt;
+&lt;p&gt;跟添加&lt;strong&gt;关于我&lt;/strong&gt;类似，可以直接在&lt;code&gt;custom/asides/&lt;/code&gt;目录下添加&lt;code&gt;links.html&lt;/code&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;well&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;links&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nav nav-list&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;nav-header&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;推荐站点&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://macshuo.com/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;MacTalk-池建强的随想录&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;      &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://yihui.name/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Yihui Xie&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;d. License&lt;/h5&gt;
+&lt;p&gt;与推荐站点一样，可以在&lt;code&gt;custom/asides/&lt;/code&gt;目录下添加&lt;code&gt;license.html&lt;/code&gt;。然后到&lt;a href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/"&gt;署名-非商业性使用-相同方式共享 2.5 中国大陆&lt;/a&gt;网页获取license的网页代码。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;建好这些文件后，别忘了在&lt;code&gt;_config.yml&lt;/code&gt;中修改侧边栏项：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;default_asides: [custom/asides/about.html, asides/category_list.html]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;5. 其它一些修改&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;将博客大部分文字换成了中文；&lt;/li&gt;
+&lt;li&gt;去除了之前的Home页；&lt;/li&gt;
+&lt;li&gt;修改各篇文章内部的图片大小，统一使用8cm*8cm；&lt;/li&gt;
+&lt;li&gt;将所有的头部的导图长度加长。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h4&gt;参考资源&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.yanjiuyanjiu.com/blog/20130402/"&gt;研究研究: 我的Octopress配置&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html"&gt;冯威的学习专栏: Octopress博客设置&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://shanewfx.github.io/blog/2012/08/13/improve-blog-theme/"&gt;思考的轨迹: Octopress主题改造&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://www.google.com.hk/search?newwindow=1&amp;amp;safe=strict&amp;amp;espv=210&amp;amp;es_sm=119&amp;amp;q=octopress%E6%95%99%E7%A8%8B&amp;amp;oq=octopress%E6%95%99%E7%A8%8B&amp;amp;gs_l=serp.12..35i39.5308.6241.0.8806.10.8.0.0.0.1.237.921.0j3j2.5.0....0...1c.1j4.35.serp..6.4.789.PMKW2jRRdPI"&gt;。。。&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' &amp;&amp; location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="blog"></category></entry><entry><title>记录：Octopress配置修改之旅</title><link href="//jacky-sj/octopress2.html" rel="alternate"></link><published>2014-02-26T15:40:00+08:00</published><updated>2017-03-29T20:30:00+08:00</updated><author><name>Jacky Gong</name></author><id>tag:jacky-sj,2014-02-26:/octopress2.html</id><summary type="html">&lt;p&gt;记录修改 Octopress 配置的过程&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;“文章原创，转载请注明出处”&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;花了两天的时间对主题进行了修改，由于对Web的东西了解的不多，查资料找东西修改代码着实累了一把(丫的，这些代码可读性很强，比起R，Python神马的可是容易学的多。只是要看懂框架还真是需要大大的一番功夫，而且怎么修改CSS做效果，作为门外汉的我是真心欲哭无泪啊)。&lt;/p&gt;
+&lt;p&gt;本来想把网页做得美观大方简洁，高大上吧反正。最终出来这么个效果，虽说离高大上远了点，但我也就算是满意了，起码它是自己独有的，也算是独一无二了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;在修改配置的过程中发现了一些东西，在这里做个小记录。&lt;/p&gt;
+&lt;h4&gt;1. 安装第三方主题的结果&lt;/h4&gt;
+&lt;p&gt;由于想偷懒，所以一开始就想直接使用现有的第三方主题，安装的主题多了之后，发现一个很严重的问题。那就是当我对一些配置进行修改后，发现网页根本没有作出反应。最终我在网页审查元素时发现，我做的很多修改都被其它设置覆盖掉了。很多主题同时安装会导致出现越来越多的配置文件，最终配置混乱难以修改。但是我只是遇到字体啊，颜色啊一类小的问题，大的问题倒是没有遇到。&lt;/p&gt;
+&lt;p&gt;有了这个教训，我就将所有的内容重新部署之后，使用默认主题进行修改，这样的好处是，没有那么多杂七杂八的配置文件，找个什么东西也比较方便。&lt;/p&gt;
+&lt;h4&gt;2. 统一文章的样式&lt;/h4&gt;
+&lt;p&gt;之前发过两篇博文，第一篇很短，第二篇很长。直接发上去的结果就是列表页面太长，看起来很难受。所以就决定采用&lt;code&gt;read on&lt;/code&gt;的方法，在文中加了&lt;code&gt;&amp;lt;!-- more --&amp;gt;&lt;/code&gt;之后的确或多或少解决了这个问题。&lt;/p&gt;
+&lt;p&gt;但是不同的文章无法控制其样式统一，保持好的视觉效果。后来在&lt;a href="http://beyondvincent.com/"&gt;破船之家&lt;/a&gt;网站和&lt;a href="http://www.uiweek.com/"&gt;UIWeek&lt;/a&gt;杂志上得到了启发；最终决定将博客的&lt;strong&gt;Header&lt;/strong&gt;设定成蓝色渐变，每一篇日志都以蓝色图片的形式出现在列表，更多的内容就放到博文内部。这样一来就能够保证样式统一，而且看起来比较简洁，换个专业点的话就是学习成本低（呵呵）。&lt;/p&gt;
+&lt;h4&gt;3. 隐藏侧边栏&lt;/h4&gt;
+&lt;p&gt;对于我这种有洁癖的人来说，大部分情况下侧边栏不存在比较好(难得看到一个侧边栏存在还好看简洁的网站)，所以打一开始就是要结束它的。要想做到这个效果，需要修改&lt;code&gt;_config.yml&lt;/code&gt;文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;# remove the sidebar&lt;/span&gt;
+&lt;span class="code-line"&gt;default_asides: []&lt;/span&gt;
+&lt;span class="code-line"&gt;sidebar: collapse&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;即将&lt;code&gt;default_asides&lt;/code&gt;里面的东西全删掉，然后添加&lt;code&gt;sidebar: collapse&lt;/code&gt;就可以了。&lt;/p&gt;
+&lt;h4&gt;4. 添加多说评论&lt;/h4&gt;
+&lt;p&gt;首先去&lt;a href="http://duoshuo.com/"&gt;多说&lt;/a&gt;注册帐号，然后多说会给你一段代码，如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;&amp;lt;!-- Duoshuo Comment BEGIN --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ds-thread&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt; &lt;span class="na"&gt;type&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;duoshuoQuery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;short_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;yourname&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://static.duoshuo.com/embed.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;         &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;})();&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;script&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c"&gt;&amp;lt;!-- Duoshuo Comment END --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;你获得的代码跟这段唯一的区别就在于short_name不同。然后：&lt;/p&gt;
+&lt;h6&gt;a. 在&lt;code&gt;_config.yml&lt;/code&gt;文件中添加：&lt;/h6&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;# duoshuo comments&lt;/span&gt;
+&lt;span class="code-line"&gt;duoshuo_comments: true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h6&gt;b. 在&lt;code&gt;source/_layouts/post.html&lt;/code&gt;中添加多说的模块：&lt;/h6&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;{% if site.duoshuo_short_name and site.duoshuo_comments == true and page.comments == true %}&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Comments&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt; &lt;span class="na"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comments&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;aria-live&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;polite&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{% include post/abc.html %}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;div&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;  &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;section&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;{% endif %}&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="c"&gt;&amp;lt;!-- 其中`abc.html`随便你起什么名字，个人建议为`duoshuo.html`. --&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h6&gt;c. 创建&lt;code&gt;source/_includes/post/duoshuo.html&lt;/code&gt;，并把多说给你的代码放进去就OK了。&lt;/h6&gt;
+&lt;h6&gt;d. 发布到博客上&lt;/h6&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake generate&lt;/span&gt;
+&lt;span class="code-line"&gt;git add .&lt;/span&gt;
+&lt;span class="code-line"&gt;git commit -m &amp;#39;add duoshuo comment&amp;#39;&lt;/span&gt;
+&lt;span class="code-line"&gt;git push origin source&lt;/span&gt;
+&lt;span class="code-line"&gt;rake deploy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h6&gt;e. 打完收工&lt;/h6&gt;
+&lt;h4&gt;5. 修改样式&lt;/h4&gt;
+&lt;p&gt;对于样式的修改，需要学习CSS。以前虽然在&lt;a href="http://www.codecademy.com/"&gt;Codecademy&lt;/a&gt;上看过一点，但是从没有自己真正用过，所以也还算是初学。我对样式的修改大致就是将&lt;strong&gt;Header&lt;/strong&gt;，&lt;strong&gt;Navigation&lt;/strong&gt;以及&lt;strong&gt;Artical&lt;/strong&gt;这些部分分开来，对不同的部分使用了一些特效。有些代码是在网上搜到后自己稍作了修改，有些是原创，有兴趣可以直接到我的GitHub网站上去看，不要告诉我找不到它在哪哦。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;总结&lt;/h3&gt;
+&lt;p&gt;花了两天修改，发现其实干的事情并不很多。仔细想来大部分修改的时间都在调整不同的系数，以及在网上看材料。这两天学到的东西很多，也让我发现很多很好玩的东西，比如Web的框架，特效，还有很多很好很美的设计，大爱！&lt;/p&gt;
+&lt;h4&gt;参考&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://beyondvincent.com/"&gt;破船之家&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.uiweek.com/"&gt;UIWeek&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://octopress.org/"&gt;Octopress官网&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://shanewfx.github.io/blog/2012/08/13/improve-blog-theme/"&gt;Octopress主题改造&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.jcodecraeer.com/a/cssjiqiaoyuguifan/2012/0628/289.html"&gt;css实现简约的纸张卷角效果&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html"&gt;Octopress博客设置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.google.com.hk/search?q=Octopress%E4%B8%BB%E9%A2%98%E6%94%B9%E9%80%A0&amp;amp;oq=Octopress%E4%B8%BB%E9%A2%98%E6%94%B9%E9%80%A0&amp;amp;aqs=chrome..69i57&amp;amp;sourceid=chrome&amp;amp;espv=210&amp;amp;es_sm=119&amp;amp;ie=UTF-8"&gt;。。。&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="blog"></category></entry><entry><title>记录：Octopress建站之旅</title><link href="//jacky-sj/octopress1.html" rel="alternate"></link><published>2014-02-23T10:40:00+08:00</published><updated>2017-03-29T20:30:00+08:00</updated><author><name>Jacky Gong</name></author><id>tag:jacky-sj,2014-02-23:/octopress1.html</id><summary type="html">&lt;p&gt;记录如何使用 Octopress 建站的过程&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;“文章原创，转载请注明出处”&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;博客建立好了，花了不少时间，今天就想将自己如何建立这个博客的过程梳理一遍，写在这里，当作复习回顾的同时，也与人参考。&lt;/p&gt;
+&lt;p&gt;自己的这个小博客是用的Octopress搭建的，托管在github上面(没有资金但又想建立一个自己独立博客的同志们可以使用GitHub，free哦)。&lt;/p&gt;
+&lt;p&gt;使用Octopress唯一的问题在于你得学一点shell commands和Git基础(其实用的内容并不很多，照着顺序搭建部署都可以搞定）。以后发博客只需要一些&lt;strong&gt;简单的&lt;/strong&gt;&lt;em&gt;每次都一样的&lt;/em&gt;步骤就可以搞定了，直接复制粘贴就好。但是我想你需要对这些命令不感到反感才行，正如Octopress官方文档开头说的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You should be comfortable running shell commands and familiar with the basics of Git. If that sounds daunting, Octopress probably isn't for you.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;但是shell跟Git是很好的东东，shell可以帮你很大限度地减少重复工作，而且学习shell的过程会让你对计算机有更深入的了解；Git是一个开源的分布式版本控制系统，它让我一次性放弃了CVS而投入它的怀抱（变得是不是太快了）。GitHub就是为开源项目免费提供Git存储的网站，看看现在无数的开源项目在GitHub里面活跃，你就知道不是我变得太快，而是它的优秀让你无法抗拒。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3&gt;一、准备工作&lt;/h3&gt;
+&lt;p&gt;在安装Octopress之前，你必须得先安装上Git和Ruby。安装很简单，直接百度就可以了。如果你用的是Mac，那么恭喜你，你的电脑里面已经自带了Ruby。当然你仍然可以选择用rvm或者rbenv去安装更新Ruby，这些命令在官网上都有，就不多说了。&lt;/p&gt;
+&lt;p&gt;安装完成后，在终端中运行命令：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git --version&lt;/span&gt;
+&lt;span class="code-line"&gt;ruby --version&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;如果能正确显示版本号，类似于我的输出：分别是&lt;code&gt;git version 1.8.3.4 (Apple Git-47)&lt;/code&gt;和&lt;code&gt;ruby 2.0.0p247 (2013-06-27 revision 41674) [universal.x86_64-darwin13]&lt;/code&gt;，就没有问题了，继续往下吧！&lt;/p&gt;
+&lt;h3&gt;二、安装Octopress&lt;/h3&gt;
+&lt;p&gt;首先在终端进入你想安装Octopress的文件夹中，然后使用git命令将Octopress clone到本地：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git clone git://github.com/imathis/octopress.git octopress&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;进入octopress文件夹：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;cd octopress&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装依赖项:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;gem install bundler&lt;/span&gt;
+&lt;span class="code-line"&gt;rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command&lt;/span&gt;
+&lt;span class="code-line"&gt;bundle install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;当然你有可能跟我一样遇到权限不足，操作无法完成的情况，那么你需要在命令前面加上&lt;code&gt;sudo&lt;/code&gt;，第一次终端会要求你输入密码，输入成功后就可以正常安装了。&lt;/p&gt;
+&lt;p&gt;安装好依赖项后，你需要安装主题：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake install&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上面命令会安装默认主题，当然你可以选择安装第三方主题，在&lt;a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes"&gt;这里&lt;/a&gt;有很多第三方的主题，你可以挑选自己喜欢的主题，然后安装：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git clone GIT_URL .themes/THEME_NAME&lt;/span&gt;
+&lt;span class="code-line"&gt;rake install[&amp;#39;THEME_NAME&amp;#39;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;比如我的用的是CleanPress主题：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git clone git://github.com/macjasp/cleanpress.git .themes/cleanpress&lt;/span&gt;
+&lt;span class="code-line"&gt;rake install[&amp;#39;cleanpress&amp;#39;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;三、注册GitHub&lt;/h3&gt;
+&lt;p&gt;到&lt;a href="https://github.com/"&gt;GitHub&lt;/a&gt;网站上注册一个免费账户，然后新建一个repository。&lt;strong&gt;repository一定要使用这样的格式命名：&lt;code&gt;yourname.github.io&lt;/code&gt;，其中&lt;code&gt;yourname&lt;/code&gt;是你注册时的用户名。&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;四、部署到GitHub&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake setup_github_pages&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;输入上述的命令会要求你输入SSH(你注册GitHub时会有)或者是你的repository的url，找到复制粘贴就好。&lt;/p&gt;
+&lt;p&gt;然后就可以开始部署了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake generate&lt;/span&gt;
+&lt;span class="code-line"&gt;rake deploy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;此时可能会让你登录你的github，按照提示进行输入即可。&lt;/p&gt;
+&lt;p&gt;到此为止，就差博客的source还没有提交了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;git add .&lt;/span&gt;
+&lt;span class="code-line"&gt;git commit -m &amp;#39;your message&amp;#39;&lt;/span&gt;
+&lt;span class="code-line"&gt;git push origin source&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;五、配置Octopress&lt;/h3&gt;
+&lt;p&gt;我对Octopress没有做很大的配置改动，只是设置了博客名称，以及添加了Home页及其它一些页面的内容(其实就是给了一个空网页，里面神马都没有，以后再慢慢填充吧)。&lt;/p&gt;
+&lt;p&gt;在octopress文件夹中，需要在&lt;code&gt;_config.yml&lt;/code&gt;中设置自己博客的名称等等的内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nl"&gt;url&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;your&lt;/span&gt; &lt;span class="n"&gt;github&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nl"&gt;title&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;your&lt;/span&gt; &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nl"&gt;subtitle&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;subtitle&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;your&lt;/span&gt; &lt;span class="n"&gt;blog&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nl"&gt;author&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;your&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nl"&gt;simple_search&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nl"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="c1"&gt;//google.com/search&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="nl"&gt;description&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;some&lt;/span&gt; &lt;span class="n"&gt;other&lt;/span&gt; &lt;span class="n"&gt;information&lt;/span&gt; &lt;span class="n"&gt;you&lt;/span&gt; &lt;span class="n"&gt;want&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;除此之外，我还将里面有关twitter、facebook等等的社交信息全部给删除掉了(谢谢&lt;a href="http://beyondvincent.com/"&gt;船哥&lt;/a&gt;，这个明显的是偷师啊～)。当然你要是有这些帐号也可以设置，只是在国内用处不大呀。&lt;/p&gt;
+&lt;p&gt;之后，我对&lt;code&gt;octopress/source/_includes/custom&lt;/code&gt;下的&lt;code&gt;navigation.html&lt;/code&gt;进行了简单的修改，就是添加了&lt;code&gt;Home&lt;/code&gt;，以及变换了&lt;code&gt;About&lt;/code&gt;的位置：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ root_url }}/home&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Home&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ root_url }}/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Blog&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ root_url }}/portfolio&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Portfolio&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ root_url }}/archives&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;Archive&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ root_url }}/about&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;About&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;li&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class="code-line"&gt;&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;ul&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;现在添加了Home页，但是Home页其实还是不存在的，所有需要建立一个新的page：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake new_page[home]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上述命令会在&lt;code&gt;octopress/source&lt;/code&gt;文件夹下生成一个新的文件夹&lt;code&gt;home&lt;/code&gt;，&lt;code&gt;home&lt;/code&gt;文件夹下面有一个markdown文件&lt;code&gt;index.markdown&lt;/code&gt;。编辑该文件，将你想放在Home页上的东西写进去就OK了。&lt;/p&gt;
+&lt;p&gt;默认情况下，&lt;code&gt;About&lt;/code&gt;,&lt;code&gt;porfolio&lt;/code&gt;页面都是不存在的，所以需要自己设置，方法与设置&lt;code&gt;home&lt;/code&gt;页面的一样，就不多说了。&lt;/p&gt;
+&lt;p&gt;根据自己的需求，修改完成后，不要忘了：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake generate&lt;/span&gt;
+&lt;span class="code-line"&gt;git add .&lt;/span&gt;
+&lt;span class="code-line"&gt;git commit -m &amp;#39;customise octopress&amp;#39;&lt;/span&gt;
+&lt;span class="code-line"&gt;git push origin source&lt;/span&gt;
+&lt;span class="code-line"&gt;rake deploy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;六、发布新博客&lt;/h3&gt;
+&lt;p&gt;根据Jekyll的命名规则，文章命名必须有这样的格式：&lt;code&gt;YYYY-MM-DD-post-title.markdown&lt;/code&gt;，使用Octopress的rake task可以简单解决这个问题：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake new_post[&amp;quot;title&amp;quot;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;命令会生成这样的文件：&lt;code&gt;source/_posts/YYYY-MM-DD-title.markdown&lt;/code&gt;，然后你可以修改markdown文件，写自己的博文。写好后，别忘记部署到GitHub：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="code-line"&gt;&lt;span&gt;&lt;/span&gt;rake generate&lt;/span&gt;
+&lt;span class="code-line"&gt;git add .&lt;/span&gt;
+&lt;span class="code-line"&gt;git commit -am &amp;#39;YYYY-MM_DD post&amp;#39;&lt;/span&gt;
+&lt;span class="code-line"&gt;git push origin source&lt;/span&gt;
+&lt;span class="code-line"&gt;rake deploy&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;至此文章就部署好了，过两分钟去自己的博客看看吧。&lt;/p&gt;
+&lt;h3&gt;七、最后&lt;/h3&gt;
+&lt;p&gt;利用Octopress搭建一个GitHub博客的简单流程差不多就像上述。但是对于自己的博客，可能我们还需要做更多的一些配置，比如添加评论系统，社交分享啊等等。这些内容网上有很多，可以到Google里面百度一下～&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4&gt;参考资源以及更多配置Octopress的资源推荐&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://octopress.org/docs/setup/"&gt;Octopress官方文档&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://beyondvincent.com/"&gt;破船之家&lt;/a&gt;：&lt;a href="http://beyondvincent.com/blog/2013/08/03/108-creating-a-github-blog-using-octopress/"&gt;利用Octopress搭建一个Github博客&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://never.doubting.me/"&gt;Never Doubting Me&lt;/a&gt;：&lt;a href="http://never.doubting.me/2013/04/18/2013-04-18-setup-octopress-on-github-step-by-step/"&gt;教程:一步步在github上建立octopress博客&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://williamherry.com/"&gt;William's Blog with Octopress&lt;/a&gt;：&lt;a href="http://williamherry.com/blog/2012/07/20/octopress-setup/"&gt;Octopress - 像黑客一样写博客&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.yanjiuyanjiu.com/"&gt;研究研究&lt;/a&gt;：&lt;a href="http://www.yanjiuyanjiu.com/blog/20130402/"&gt;我的Octopress配置&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://agiledon.github.io/"&gt;简单文本&lt;/a&gt;：&lt;a href="http://agiledon.github.io/blog/2012/12/25/octopress-issues-solution-and-tips/"&gt;Octopress博客问题解决方案与技巧&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.google.com.hk/search?newwindow=1&amp;amp;safe=strict&amp;amp;espv=210&amp;amp;es_sm=119&amp;amp;q=octopress%E6%95%99%E7%A8%8B&amp;amp;oq=octopress%E6%95%99%E7%A8%8B&amp;amp;gs_l=serp.12..35i39.5308.6241.0.8806.10.8.0.0.0.1.237.921.0j3j2.5.0....0...1c.1j4.35.serp..6.4.789.PMKW2jRRdPI"&gt;。。。&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;如果有什么问题或者建议，可以直接回复我或者给我发邮件：&lt;code&gt;jackycodemsc@gmail.com&lt;/code&gt;。&lt;/strong&gt;&lt;/p&gt;</content><category term="blog"></category></entry><entry><title>Hello, my blog</title><link href="//jacky-sj/hello.html" rel="alternate"></link><published>2014-02-21T14:17:00+08:00</published><updated>2017-03-29T20:30:00+08:00</updated><author><name>Jacky Gong</name></author><id>tag:jacky-sj,2014-02-21:/hello.html</id><summary type="html">&lt;p&gt;Hello, my blog!&lt;/p&gt;</summary><content type="html">&lt;p&gt;花了一个晚上以及一个上午的时间，总算是把这个博客弄出来了(对一个数学系的孩子不容易啊！)。这里要非常感谢&lt;a href="http://beyondvincent.com/"&gt;破船之家&lt;/a&gt;，&lt;a href="http://williamherry.com/"&gt;William's Blog with Octopress&lt;/a&gt;以及&lt;a href="http://octopress.org/"&gt;Octopress&lt;/a&gt;的官方文档和一些其它网站上的材料(翻了不少材料，没记住那么多，sorry！)。我大致是照着做了两遍，其中大错了一次(对Git掌握有待加强啊)，小错蛮多次(对Web这些语言实在是不甚了了，需要好好摸索学习)，一路错下来倒也是把这个小站弄出来了。非常感谢Github，不然我一个穷学生还真没钱去买个域名建博客，非常感谢Octopress，不然我也没本事弄出个博客系统来～哈哈！&lt;/p&gt;</content><category term="blog"></category></entry></feed>

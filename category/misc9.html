@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="author" content="Jacky Gong" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Jacky MSC"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content=".."/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash;     Category misc
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="..">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href="..">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="..">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../ryu-yan-ji-lu-1-ji-chu.html#ryu-yan-ji-lu-1-ji-chu">"R语言记录1 ：基础"</a></h2>
+    <p>
+          Posted on 2014-03-06 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="ariticle 4" src="/images/article/article4.jpg"></p>
+<!-- more -->
+
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h3>一. 配置与帮助</h3>
+<p>很多时候我们希望软件可以根据我们的需要输出结果，比如我想将所有的结果小数都保留三位，那么就需要自己去更改设置，这时候就需要使用函数：<code>options(...)</code>。这个函数可以用来<strong><em>显示或设置当前的选项</em></strong>。运行<code>options()</code>，可以查看选项当前的设置，<code>help(options)</code>可以显示可用选项的说明。如果想要单独查看某一个设置，则需要使用函数<code>getOption(x, default=NULL)</code>。</p>
+<p>可以运行这些代码以查看：</p>
+<p>``` r config_set.R https://github.com/JackyCode/RSeries
+options()
+getOption("digits")
+options(digits=3)
+getOption("digits")</p>
+<div class="highlight"><pre><span></span>在学习一个软件之前，最重要的是知道在哪里才能获取帮助。R语言提供了强大的帮助系统，提供了已安装包中所有函数的细节、参考文献以及使用示例。以和函数`sum()`为例，你可以直接输入`help …</pre></div>
+      <br>
+      <a class="btn" href="../ryu-yan-ji-lu-1-ji-chu.html#ryu-yan-ji-lu-1-ji-chu">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../ji-lu-octopresspei-zhi-xiu-gai-zhi-lu.html#ji-lu-octopresspei-zhi-xiu-gai-zhi-lu">"记录：Octopress配置修改之旅"</a></h2>
+    <p>
+          Posted on 2014-02-26 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="ariticle 3" src="/images/article/article3.jpg"></p>
+<!-- more -->
+
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>花了两天的时间对主题进行了修改，由于对Web的东西了解的不多，查资料找东西修改代码着实累了一把(丫的，这些代码可读性很强，比起R，Python神马的可是容易学的多。只是要看懂框架还真是需要大大的一番功夫，而且怎么修改CSS做效果，作为门外汉的我是真心欲哭无泪啊)。</p>
+<p>本来想把网页做得美观大方简洁，高大上吧反正。最终出来这么个效果，虽说离高大上远了点，但我也就算是满意了，起码它是自己独有的，也算是独一无二了。</p>
+<hr>
+<p>在修改配置的过程中发现了一些东西，在这里做个小记录。</p>
+<h4>1. 安装第三方主题的结果</h4>
+<p>由于想偷懒，所以一开始就想直接使用现有的第三方主题，安装的主题多了之后，发现一个很严重的问题。那就是当我对一些配置进行修改后，发现网页根本没有作出反应。最终我在网页审查元素时发现，我做的很多修改都被其它设置覆盖掉了。很多主题同时安装会导致出现越来越多的配置文件，最终配置混乱难以修改。但是我只是遇到字体啊，颜色啊一类小的问题，大的问题倒是没有遇到。</p>
+<p>有了这个教训，我就将所有的内容重新部署之后，使用默认主题进行修改，这样的好处是，没有那么多杂七杂八的配置文件，找个什么东西也比较方便。</p>
+<h4>2. 统一文章的样式</h4>
+<p>之前发过两篇博文，第一篇很短，第二篇很长。直接发上去的结果就是列表页面太长，看起来很难受。所以就决定采用 …</p>
+      <br>
+      <a class="btn" href="../ji-lu-octopresspei-zhi-xiu-gai-zhi-lu.html#ji-lu-octopresspei-zhi-xiu-gai-zhi-lu">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../ji-lu-octopressjian-zhan-zhi-lu.html#ji-lu-octopressjian-zhan-zhi-lu">"记录：Octopress建站之旅"</a></h2>
+    <p>
+          Posted on 2014-02-23 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="ariticle 2" src="/images/article/article2.jpg"></p>
+<!-- more -->
+
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>博客建立好了，花了不少时间，今天就想将自己如何建立这个博客的过程梳理一遍，写在这里，当作复习回顾的同时，也与人参考。</p>
+<p>自己的这个小博客是用的Octopress搭建的，托管在github上面(没有资金但又想建立一个自己独立博客的同志们可以使用GitHub，free哦)。</p>
+<p>使用Octopress唯一的问题在于你得学一点shell commands和Git基础(其实用的内容并不很多，照着顺序搭建部署都可以搞定）。以后发博客只需要一些<strong>简单的</strong><em>每次都一样的</em>步骤就可以搞定了，直接复制粘贴就好。但是我想你需要对这些命令不感到反感才行，正如Octopress官方文档开头说的：</p>
+<blockquote>
+<p>You should be comfortable running shell commands and familiar with the basics of Git. If that sounds daunting, Octopress probably isn't for you.</p>
+</blockquote>
+<p>但是shell跟Git是很好的东东，shell可以帮你很大限度地减少重复工作，而且学习shell的过程会让你对计算机有更深入的了解；Git是一个开源的分布式版本控制系统 …</p>
+      <br>
+      <a class="btn" href="../ji-lu-octopressjian-zhan-zhi-lu.html#ji-lu-octopressjian-zhan-zhi-lu">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+    <a class="btn float-right" href="../category/misc8.html">
+          Newer Posts
+ <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : "..",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

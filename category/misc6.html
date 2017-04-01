@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="author" content="Jacky Gong" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Jacky MSC"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content=".."/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash;     Category misc
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="..">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href="..">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="..">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-5fen-lei-zhi-k-jin-lin-suan-fa.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-5fen-lei-zhi-k-jin-lin-suan-fa">"数据科学之机器学习5：分类之k-近邻算法"</a></h2>
+    <p>
+          Posted on 2014-04-05 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 19" src="/images/article/article19.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h4>基本思想</h4>
+<hr>
+<p>kNN，k-Nearest Neighbor algorithm，也就这边的k-近邻算法，是数据挖掘十大算法之一，是一个比较简单的分类方法。</p>
+<p>其基本的思想是：对于一个输入样本（未知分类的样本），考虑其与测试样本中与之距离最近（特征最相似）的k个样本，用这k个样本中出现最多的分类作为输入样本的分类。</p>
+<h4>具体流程</h4>
+<hr>
+<p>对于输入样本中的每一个点，进行以下操作：</p>
+<ol>
+<li>计算点与测试样本中点的距离；</li>
+<li>取出与当前点距离最小的k个点；</li>
+<li>确定k个点的分类，计算各个分类的频数；</li>
+<li>返回频数最高的类别，作为该输入点的预测分类。</li>
+</ol>
+<h4>距离的计算</h4>
+<hr>
+<p>上面一直在说，计算输入样本中点与测试样本中点之间的距离，那么这个距离应该怎么计算呢？这个距离一般就是使用欧式距离：</p>
+<div class="math">$$ d = \sqrt{(x - y)^T(x - y)} $$</div>
+<p>其中</p>
+<div class="math">$$x^T=[x_1, x_2,\dots,x_n], y^T=[y_1,y_2,\dots …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-5fen-lei-zhi-k-jin-lin-suan-fa.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-5fen-lei-zhi-k-jin-lin-suan-fa">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-4xian-xing-hui-gui-3.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-4xian-xing-hui-gui-3">"数据科学之机器学习4：线性回归3"</a></h2>
+    <p>
+          Posted on 2014-04-02 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 18" src="/images/article/article18.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>这是介绍线性回归的最后一篇，首先回顾一下之前的两篇。第一篇主要就是介绍了如何去估计回归系数得到回归方程，以及在R语言中如何使用自带的函数去实现。第二篇主要介绍了对于回归方程和回归系数的显著性检验，以及给出了我自己写的一个处理线性回归的函数。</p>
+<p>这一篇介绍线性回归中回归诊断的一些问题，也就是估计出回归方程，检验了回归方程的显著性以及回归系数的显著性后，对这个模型所做的进一步的诊断分析。然后对存在的问题进行探讨，选择不同的方式去解决这些问题。这大致可以分成三块：残差分析，影响分析以及共线性问题。</p>
+<hr>
+<h4>一、残差分析</h4>
+<hr>
+<h5>1. 残差</h5>
+<hr>
+<p>首先看一看残差的定义，常用的残差大致有三种：残差，标准化残差以及学生化残差：</p>
+<ul>
+<li>残差：<div class="math">$$\hat{\varepsilon} = y - \hat{y} = (1-H)y$$</div>,其中<div class="math">$$H=X(X^TX)^{-1}X$$</div>称作帽子矩阵；</li>
+<li>标准化残差：<div class="math">$$ZRE = \hat{\varepsilon} / \hat{\sigma}$$</div>
+</li>
+<li>学生化残差：<div class="math">$$SRE_i = \hat …</div></li></ul><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-4xian-xing-hui-gui-3.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-4xian-xing-hui-gui-3">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-3xian-xing-hui-gui-2.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-3xian-xing-hui-gui-2">"数据科学之机器学习3：线性回归2"</a></h2>
+    <p>
+          Posted on 2014-04-01 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 17" src="/images/article/article17.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>上一篇简单介绍了线性回归中系数估计的问题，给出了一元以及多元情况下，系数估计值的表达式！此外，还给出了在R语言中如何使用自带的函数计算系数估计值。</p>
+<p>这一篇，打算介绍一下线性回归中的一些显著性检验问题。这个就是完全属于统计学中的理论内容，不过依旧有着很强的实际意义。简单来说，显著性检验不能通过，说明你的线性回归的效果不好，可能你就需要选择其它的方式去处理你手头的数据，而不是选择线性回归了。</p>
+<hr>
+<h4>一、回归方程的显著性检验</h4>
+<hr>
+<p>考虑回归方程是否显著，意思就是查看自变量</p>
+<div class="math">$$x_1,x_2,\dots,x_p$$</div>
+<p>从整体上是否对因变量</p>
+<div class="math">$$y$$</div>
+<p>有显著的影响。则，我们可以考虑这样的假设检验问题：</p>
+<div class="math">$$ H_0:\beta_0=\beta_1=\dots=\beta_p=0;~H_1:\beta_0,\beta_1,\dots,\beta_p\text{不全为0}$$</div>
+<p>显然，如果原假设成立的话，自变量对因变量的影响不大，也就是用线性回归模型来解释就显得不合适了。</p>
+<p>在正态假设下，原假设</p>
+<div class="math">$$H_0$$</div>
+<p>成立时 …</p><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-3xian-xing-hui-gui-2.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-3xian-xing-hui-gui-2">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-2xian-xing-hui-gui-1.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-2xian-xing-hui-gui-1">"数据科学之机器学习2：线性回归1"</a></h2>
+    <p>
+          Posted on 2014-03-30 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 16" src="/images/article/article16.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h4>一、回归分析</h4>
+<hr>
+<p>在统计分析中，最大的两支应该算是相关分析和回归分析。而回归分析应该是统计学的核心。回归分析，就是研究因变量<span class="math">\(y\)</span>与自变量<span class="math">\(x\)</span>之间的关系，存在条件数学期望：<span class="math">\(f(x)=E(y\|x)\)</span>。此时有：<span class="math">\(y=f(x)+\varepsilon\)</span>，一般假设<span class="math">\(\varepsilon \sim N(0,\sigma^2)\)</span>。</p>
+<p>回归分析有很多变种：简单线性回归；多项式回归；Logistic回归；非参数回归；非线性回归等等。本篇就介绍最简单的线性回归，首先来看看一元线性回归。</p>
+<hr>
+<h4>二、一元线性回归</h4>
+<hr>
+<p>对于一元线性回归来说，<span class="math">\(f(x)\)</span>就是线性的，则有：<span class="math">\(f(x)=E(y …</span></p><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-2xian-xing-hui-gui-1.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-2xian-xing-hui-gui-1">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-1jian-jie.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-1jian-jie">"数据科学之机器学习1：简介"</a></h2>
+    <p>
+          Posted on 2014-03-30 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 15" src="/images/article/article15.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>上一篇“<a href="http://jackycode.github.io/blog/2014/03/27/an-introduction-to-data-science/">数据科学简介</a>”简单地说了一下数据科学是什么，以及它包罗的东西。这一篇打算简单介绍一下<strong>机器学习</strong>，并理一理机器学习中涉及的内容。</p>
+<hr>
+<h4>机器学习的定义</h4>
+<hr>
+<p>一般来说，教科书介绍一样东西，首先会给它下一个确切的定义。不过，对于机器学习的定义，我还真不知道该怎么去下。有太多的版本，太多的述说方式，不知道用哪个好。这里就列举一些我觉得有代表性的，讲的容易懂的那些定义。对于机器学习是什么，看看这些定义，应该就能够有个大致的了解了。</p>
+<p>首先，在“<a href="http://www.amazon.cn/Machine-Learning-The-Art-and-Science-of-Algorithms-That-Make-Sense-of-Data-Flach-Peter/dp/1107422221/ref=tmm_pap_title_0">Machine Learning: the art and science of algorithms that make sense of data</a>”一书中，有这样一个定义：</p>
+<blockquote>
+<p>Machine Learning is the systematic study of algorithms and …</p></blockquote>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-1jian-jie.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-1jian-jie">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+    <a class="btn float-left" href="../category/misc7.html">
+      <i class="fa fa-angle-left"></i>     Older Posts
+
+    </a>
+    <a class="btn float-right" href="../category/misc5.html">
+          Newer Posts
+ <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : "..",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

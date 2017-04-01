@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="R 语言编程 2 - 数据相关" />
+<meta name="keywords" content="r, data science">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="R语言记录2 ：R语言中的数据"/>
+<meta property="og:description" content="R 语言编程 2 - 数据相关"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./r-series-2.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-07 17:03:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="data science"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; R语言记录2 ：R语言中的数据</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="r-series-2">R语言记录2 ：R语言中的数据</h1>
+    <p>
+          Posted on 2014-03-07 in <a href="./category/r.html">R</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>上一次简单地讲了一下R语言编程的一些控制语句，这次来看一看R中的数据。</p>
+<h4>一. 数据类型简介</h4>
+<p>首先，要记住，R语言中的一切都是对象，<code>Everything in R is an Object</code>。那么对象就存在其属性，R中每一个对象包含多个属性用来描述该对象。最重要的两个属性是<strong>模式</strong>和<strong>类</strong>。可以使用函数<code>mode()</code>和函数<code>class()</code>去查看对象的模式和类。</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># 比如查看函数sum的模式和类</span></span>
+<span class="code-line"><span class="kp">mode</span><span class="p">(</span><span class="kp">sum</span><span class="p">)</span>   <span class="c1"># function</span></span>
+<span class="code-line"><span class="kp">class</span><span class="p">(</span><span class="kp">sum</span><span class="p">)</span>  <span class="c1"># function</span></span>
+</pre></div>
+
+
+<p>我们用R语言来处理数据，遇到的最多的对象模式应该是<em>数值型</em>，<em>字符型</em>，<em>逻辑型</em>，<em>因子</em>和<em>日期时间</em>。而我们正常处理的数据中往往会存在不止一种数据模式，比如一批数据中有变量：姓名和年龄，显然姓名是字符型而年龄是数值型。那么在存储这些变量的时候，就出现一个对象需要对应多个模式。R语言中<strong>像矩阵，数组等等的对象只能存储相同模式的数据；而像数据框，列表等等的对象则可存储多种模式的数据</strong>。</p>
+<p>在R中最常遇到的数据模式是<strong><em>列表</em></strong>，因为其可以存储具有不同模式和不同长度的对象。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>create.list <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">(</span>name <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;Li&quot;</span><span class="p">,</span> <span class="s">&quot;Wang&quot;</span><span class="p">,</span><span class="s">&quot; Xue&quot;</span><span class="p">),</span> age <span class="o">=</span> <span class="kt">c</span><span class="p">(</span><span class="m">21</span><span class="p">,</span> <span class="m">22</span><span class="p">,</span> <span class="m">24</span><span class="p">),</span> sex <span class="o">=</span> <span class="kp">factor</span><span class="p">(</span><span class="s">&quot;b&quot;</span><span class="p">,</span> <span class="s">&quot;g&quot;</span><span class="p">,</span> <span class="s">&quot;b&quot;</span><span class="p">))</span></span>
+<span class="code-line"><span class="c1"># 使用sapply查看模式和类（回想上一节内容）</span></span>
+<span class="code-line"><span class="kp">sapply</span><span class="p">(</span>create.list<span class="p">,</span> <span class="kp">mode</span><span class="p">)</span></span>
+<span class="code-line"><span class="kp">sapply</span><span class="p">(</span>create.list<span class="p">,</span> <span class="kp">class</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h4>二. 简单的数据操作</h4>
+<h6>1. 进入R程序，更改工作空间：</h6>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># 获取当前的路径</span></span>
+<span class="code-line"><span class="kp">getwd</span><span class="p">()</span></span>
+<span class="code-line"><span class="c1"># 更改到目标路径</span></span>
+<span class="code-line"><span class="kp">setwd</span><span class="p">(</span><span class="s">&quot;~/DataInR&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h6>2. 向量</h6>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># c函数：连接或合并数据</span></span>
+<span class="code-line">x <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span></span>
+<span class="code-line">y <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;abc&quot;</span><span class="p">,</span> <span class="s">&quot;bc&quot;</span><span class="p">,</span> <span class="s">&quot;c&quot;</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># 使用seq函数创建数据</span></span>
+<span class="code-line">z <span class="o">&lt;-</span> <span class="kp">seq</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">21</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="c1"># 或 z &lt;- 1:21</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># 查看数据</span></span>
+<span class="code-line"><span class="kp">head</span><span class="p">(</span>z<span class="p">)</span></span>
+<span class="code-line"><span class="kp">tail</span><span class="p">(</span>z<span class="p">)</span></span>
+<span class="code-line"><span class="kp">head</span><span class="p">(</span>z<span class="p">,</span> <span class="m">3</span><span class="p">)</span></span>
+<span class="code-line"><span class="kp">tail</span><span class="p">(</span>z<span class="p">,</span> <span class="m">3</span><span class="p">)</span></span>
+<span class="code-line"><span class="kp">nchar</span><span class="p">(</span>y<span class="p">)</span> <span class="c1"># 注意空格</span></span>
+<span class="code-line">z<span class="p">[</span><span class="m">1</span><span class="p">]</span></span>
+<span class="code-line">z<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">]</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># 合并数据</span></span>
+<span class="code-line"><span class="kp">mode</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line"><span class="kp">mode</span><span class="p">(</span>y<span class="p">)</span></span>
+<span class="code-line">xy <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span>x<span class="p">,</span> y<span class="p">)</span></span>
+<span class="code-line"><span class="kp">mode</span><span class="p">(</span>xy<span class="p">)</span></span>
+<span class="code-line"><span class="c1">## c函数合并不同模式的数据：logical &lt; integer &lt; numeric &lt; complex &lt; character &lt; list</span></span>
+<span class="code-line"><span class="c1">## 当级别低的遇到级别高的，则转为级别高的</span></span>
+<span class="code-line"><span class="c1">## 比如logical与integer合并，则logical类型中TRUE转成1，FALSE转成0，全部转成integer</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># 简单运算</span></span>
+<span class="code-line">z <span class="o">+</span> <span class="m">1</span></span>
+<span class="code-line">z <span class="o">+</span> x <span class="c1"># 注意长度不同</span></span>
+<span class="code-line">k <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">20</span></span>
+<span class="code-line">z <span class="o">+</span> k <span class="c1"># 注意warning</span></span>
+</pre></div>
+
+
+<h6>3. 矩阵</h6>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># 创建矩阵</span></span>
+<span class="code-line">v <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">12</span></span>
+<span class="code-line">m <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>v<span class="p">,</span> nrow <span class="o">=</span> <span class="m">3</span><span class="p">,</span> ncol <span class="o">=</span> <span class="m">4</span><span class="p">)</span></span>
+<span class="code-line">m1 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>v<span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span></span>
+<span class="code-line">m2 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>v<span class="p">,</span> <span class="m">3</span><span class="p">)</span></span>
+<span class="code-line">m3 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>v<span class="p">,</span> <span class="m">4</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line">m4 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="c1"># 创建零矩阵</span></span>
+<span class="code-line">m5 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="c1"># 全一矩阵</span></span>
+<span class="code-line">m6 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="c1"># 行相同矩阵</span></span>
+<span class="code-line">m7 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">4</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="c1"># 列相同矩阵</span></span>
+<span class="code-line">m8 <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">)</span> <span class="c1"># 注意warning</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="c1"># 查看数据</span></span>
+<span class="code-line">m<span class="p">[</span><span class="m">1</span><span class="p">,</span> <span class="m">1</span><span class="p">]</span></span>
+<span class="code-line">m<span class="p">[</span><span class="m">2</span><span class="o">:</span><span class="m">3</span><span class="p">,</span> <span class="m">3</span><span class="o">:</span><span class="m">4</span><span class="p">]</span></span>
+<span class="code-line"><span class="kp">dim</span><span class="p">(</span>m<span class="p">)</span></span>
+<span class="code-line"><span class="kp">length</span><span class="p">(</span>m<span class="p">)</span></span>
+<span class="code-line"><span class="kp">head</span><span class="p">(</span>m<span class="p">,</span> <span class="m">2</span><span class="p">)</span></span>
+<span class="code-line"><span class="kp">tail</span><span class="p">(</span>m<span class="p">,</span> <span class="m">1</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h4>三. 小节</h4>
+<p>到此为止，我们就可以在R语言中创建录入一些数据，并对数据进行一些简单的操作。利用上一节中所讲的控制语句，我们就可以编写R语言的小程序了。试试用R语言解决一些你在学习中遇到的小问题吧。下一次我将讲讲如何从文件中导入数据，以及一些其他的处理。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/data-science.html">data science</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

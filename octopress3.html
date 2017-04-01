@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="记录修改 Octopress 配置的过程" />
+<meta name="keywords" content="blog">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="记录：最近对博客的一些修改"/>
+<meta property="og:description" content="记录修改 Octopress 配置的过程"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./octopress3.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-18 18:52:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Octopress"/>
+<meta property="article:tag" content="blog"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 记录：最近对博客的一些修改</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="octopress3">记录：最近对博客的一些修改</h1>
+    <p>
+          Posted on 2014-03-18 in <a href="./category/octopress.html">Octopress</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>前两天发现了一款很不错的主题<code>bootstrap</code>，心中一直很是惦记，终于还是在昨天晚上换了主题。趁着换主题的时间，我也顺便为我的博客添加了一些其它的功能，也设置了一下侧边栏，详情如下。</p>
+<h4>1. 加入Google Analytics</h4>
+<p>对于自己的博客，总是想了解它的现状的。起码我希望知道我的博客有没人来看，所以加了这个功能。</p>
+<p>加入这个功能的方法很简单，就是去<a href="http://www.google.com/analytics/">Google Analytics</a>注册个帐号，然后把你的帐号填到<code>_config.yml</code>中对应的位置就OK啦。</p>
+<p>当然我就遇到了一个问题，就是填入帐号之后，Google Analytics总是跟踪不到。最后我只能把<code>_config.yml</code>中的帐号注释掉，然后进入<code>source/_includes/head.html</code>中，添加了申请帐号之后给出的脚本。等了大概几分钟，Google Analytics就显示跟踪到了。如果你遇到类似的问题，可以试一下这个方法。</p>
+<h4>2. 加入数学公式支持</h4>
+<p>首先启用MathJax，即在<code>source/_includes/custom/footer.html</code>的第一行添加代码：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c">&lt;!--</span> <span class="nx">mathjax</span> <span class="nx">config</span> <span class="nx">similar</span> <span class="nx">to</span> <span class="nx">math</span><span class="p">.</span><span class="nx">stackexchange</span> <span class="o">--&gt;</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/x-mathjax-config&quot;</span><span class="o">&gt;</span></span>
+<span class="code-line">  <span class="nx">MathJax</span><span class="p">.</span><span class="nx">Hub</span><span class="p">.</span><span class="nx">Config</span><span class="p">({</span></span>
+<span class="code-line">    <span class="nx">jax</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;input/TeX&quot;</span><span class="p">,</span> <span class="s2">&quot;output/HTML-CSS&quot;</span><span class="p">],</span></span>
+<span class="code-line">    <span class="nx">tex2jax</span><span class="o">:</span> <span class="p">{</span></span>
+<span class="code-line">        <span class="nx">inlineMath</span><span class="o">:</span> <span class="p">[</span> <span class="p">[</span><span class="s1">&#39;$&#39;</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">]</span> <span class="p">],</span></span>
+<span class="code-line">        <span class="nx">displayMath</span><span class="o">:</span> <span class="p">[</span> <span class="p">[</span><span class="s1">&#39;$$&#39;</span><span class="p">,</span> <span class="s1">&#39;$$&#39;</span><span class="p">]],</span></span>
+<span class="code-line">        <span class="nx">processEscapes</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span></span>
+<span class="code-line">        <span class="nx">skipTags</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;script&#39;</span><span class="p">,</span> <span class="s1">&#39;noscript&#39;</span><span class="p">,</span> <span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">,</span> <span class="s1">&#39;pre&#39;</span><span class="p">,</span> <span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="p">},</span></span>
+<span class="code-line">        <span class="nx">messageStyle</span><span class="o">:</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span></span>
+<span class="code-line">        <span class="s2">&quot;HTML-CSS&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="nx">preferredFont</span><span class="o">:</span> <span class="s2">&quot;TeX&quot;</span><span class="p">,</span> <span class="nx">availableFonts</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;STIX&quot;</span><span class="p">,</span><span class="s2">&quot;TeX&quot;</span><span class="p">]</span> <span class="p">}</span> <span class="p">});</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="err">/script&gt;</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&quot;</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span></span>
+</pre></div>
+
+
+<p>添加之后，就在博客里面引入了MathJax，那么就可以在markdown里面直接输入公式了，例如：<code>$n^2$</code>就可以解析成<span class="math">\(n^2\)</span>。</p>
+<p>在引入MathJax之后，我更换了解析器，因为自带的<code>rdiscount</code>解析器对于MathJax的细节处理存在一些小问题。更换解析器，可以到<code>Gemfile</code>中添加：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">gem</span> <span class="s1">&#39;kramdown&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 0.13.8&#39;</span></span>
+</pre></div>
+
+
+<p>然后在终端运行：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">bundle</span> <span class="n">install</span></span>
+</pre></div>
+
+
+<p>最后，在<code>_config.yml</code>文件中，将解析器更换：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="n">markdown</span><span class="o">:</span><span class="n">kramdown</span></span>
+</pre></div>
+
+
+<p>使用kramdown，有两点需要注意：</p>
+<ol>
+<li>公式无论行内行间都以<code>$$</code>开头；行间公式，必须独占一行；</li>
+<li>代码块开头必须空一行，否则代码高亮会失效。</li>
+</ol>
+<p>至于其它的，可以去<a href="http://kramdown.rubyforge.org/syntax.html">官方文档</a>查看。</p>
+<h4>3. 更换主题</h4>
+<p>如何更换主题，在之前的文章里面早已说过。这次就是将主题更换成了<code>bootstrap</code>。</p>
+<h4>4. 侧边栏的修改</h4>
+<h5>a. 关于我</h5>
+<p>添加自己的简介，可以在<code>custom/asides/</code>文件夹下添加<code>about.html</code>，然后添加内容：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;well&quot;</span><span class="p">&gt;</span></span>
+<span class="code-line">  <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;about&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&#39;nav nav-list&#39;</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-header&quot;</span><span class="p">&gt;&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;{{ root_url }}/about&quot;</span><span class="p">&gt;</span>关于我<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>介绍一下自己<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></span>
+<span class="code-line">      <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>可以留下联系方式，比如微博等等<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span></span>
+<span class="code-line">  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span>
+<span class="code-line"><span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></span>
+</pre></div>
+
+
+<p>这里我使用了我博客主题的样式，就是里面的<code>class</code>和<code>id</code>的值。这些值需要你根据自己博客的主题样式设定，可以参看其自带的侧边栏的一些网页，比如<code>_includes/asides/recent_post.html</code>。</p>
+<h5>b. 文章分类</h5>
+<p>给自己的文章分类，需要的操作稍微麻烦一些。首先需要在<code>plugins</code>目录下创建<code>category_list_tag.rb</code>文件：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="k">module</span> <span class="nn">Jekyll</span></span>
+<span class="code-line">  <span class="k">class</span> <span class="nc">CategoryListTag</span> <span class="o">&lt;</span> <span class="no">Liquid</span><span class="o">::</span><span class="no">Tag</span></span>
+<span class="code-line">    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="n">context</span><span class="p">)</span></span>
+<span class="code-line">      <span class="n">html</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span></span>
+<span class="code-line">      <span class="n">categories</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">registers</span><span class="o">[</span><span class="ss">:site</span><span class="o">].</span><span class="n">categories</span><span class="o">.</span><span class="n">keys</span></span>
+<span class="code-line">      <span class="n">categories</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">category</span><span class="o">|</span></span>
+<span class="code-line">        <span class="n">posts_in_category</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">registers</span><span class="o">[</span><span class="ss">:site</span><span class="o">].</span><span class="n">categories</span><span class="o">[</span><span class="n">category</span><span class="o">].</span><span class="n">size</span></span>
+<span class="code-line">        <span class="n">category_dir</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">registers</span><span class="o">[</span><span class="ss">:site</span><span class="o">].</span><span class="n">config</span><span class="o">[</span><span class="s1">&#39;category_dir&#39;</span><span class="o">]</span></span>
+<span class="code-line">        <span class="n">category_url</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">category_dir</span><span class="p">,</span> <span class="n">category</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/_|\P{Word}/</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/-{2,}/</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">downcase</span><span class="p">)</span></span>
+<span class="code-line">        <span class="n">html</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;&lt;li class=&#39;category&#39;&gt;&lt;a href=&#39;/</span><span class="si">#{</span><span class="n">category_url</span><span class="si">}</span><span class="s2">/&#39;&gt;</span><span class="si">#{</span><span class="n">category</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">posts_in_category</span><span class="si">}</span><span class="s2">)&lt;/a&gt;&lt;/li&gt;</span><span class="se">\n</span><span class="s2">&quot;</span></span>
+<span class="code-line">      <span class="k">end</span></span>
+<span class="code-line">      <span class="n">html</span></span>
+<span class="code-line">    <span class="k">end</span></span>
+<span class="code-line">  <span class="k">end</span></span>
+<span class="code-line"><span class="k">end</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="no">Liquid</span><span class="o">::</span><span class="no">Template</span><span class="o">.</span><span class="n">register_tag</span><span class="p">(</span><span class="s1">&#39;category_list&#39;</span><span class="p">,</span> <span class="no">Jekyll</span><span class="o">::</span><span class="no">CategoryListTag</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p>然后新建<code>source/_includes/asides/category_list.html</code>：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;well&quot;</span><span class="p">&gt;</span></span>
+<span class="code-line">  <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;category_list&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav nav-list&quot;</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-header&quot;</span><span class="p">&gt;</span>文章分类<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">      <span class="p">&lt;</span><span class="nt">li</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;categories&quot;</span><span class="p">&gt;</span>% category_list %}<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">  <span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span>
+<span class="code-line"><span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></span>
+</pre></div>
+
+
+<p>这样就可以了。</p>
+<h5>c. 推荐站点</h5>
+<p>跟添加<strong>关于我</strong>类似，可以直接在<code>custom/asides/</code>目录下添加<code>links.html</code>：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="p">&lt;</span><span class="nt">section</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;well&quot;</span><span class="p">&gt;</span></span>
+<span class="code-line">  <span class="p">&lt;</span><span class="nt">ul</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;links&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav nav-list&quot;</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;nav-header&quot;</span><span class="p">&gt;</span>推荐站点<span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;http://macshuo.com/&quot;</span><span class="p">&gt;</span>MacTalk-池建强的随想录<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line">      <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;http://yihui.name/&quot;</span><span class="p">&gt;</span>Yihui Xie<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span></span>
+<span class="code-line">    <span class="p">&lt;/</span><span class="nt">li</span><span class="p">&gt;</span></span>
+<span class="code-line"><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span></span>
+<span class="code-line"><span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span></span>
+</pre></div>
+
+
+<h5>d. License</h5>
+<p>与推荐站点一样，可以在<code>custom/asides/</code>目录下添加<code>license.html</code>。然后到<a href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/">署名-非商业性使用-相同方式共享 2.5 中国大陆</a>网页获取license的网页代码。</p>
+<p><strong>建好这些文件后，别忘了在<code>_config.yml</code>中修改侧边栏项：</strong></p>
+<div class="highlight"><pre><span class="code-line"><span></span>default_asides: [custom/asides/about.html, asides/category_list.html]</span>
+</pre></div>
+
+
+<h4>5. 其它一些修改</h4>
+<ol>
+<li>将博客大部分文字换成了中文；</li>
+<li>去除了之前的Home页；</li>
+<li>修改各篇文章内部的图片大小，统一使用8cm*8cm；</li>
+<li>将所有的头部的导图长度加长。</li>
+</ol>
+<hr>
+<h4>参考资源</h4>
+<ol>
+<li>
+<p><a href="http://www.yanjiuyanjiu.com/blog/20130402/">研究研究: 我的Octopress配置</a></p>
+</li>
+<li>
+<p><a href="http://www.cnblogs.com/oec2003/archive/2013/05/31/3109577.html">冯威的学习专栏: Octopress博客设置</a></p>
+</li>
+<li>
+<p><a href="http://shanewfx.github.io/blog/2012/08/13/improve-blog-theme/">思考的轨迹: Octopress主题改造</a></p>
+</li>
+<li>
+<p><a href="https://www.google.com.hk/search?newwindow=1&amp;safe=strict&amp;espv=210&amp;es_sm=119&amp;q=octopress%E6%95%99%E7%A8%8B&amp;oq=octopress%E6%95%99%E7%A8%8B&amp;gs_l=serp.12..35i39.5308.6241.0.8806.10.8.0.0.0.1.237.921.0j3j2.5.0....0...1c.1j4.35.serp..6.4.789.PMKW2jRRdPI">。。。</a></p>
+</li>
+</ol>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/blog.html">blog</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

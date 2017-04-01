@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="数据科学简介" />
+<meta name="keywords" content="data science, r, machine learning">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="数据科学简介"/>
+<meta property="og:description" content="数据科学简介"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./an-introduction-to-data-science.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-27 14:39:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="machine learning"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 数据科学简介</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="an-introduction-to-data-science">数据科学简介</h1>
+    <p>
+          Posted on 2014-03-27 in <a href="./category/data-science.html">Data Science</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>对于这两年渐渐兴起的大数据，云计算之类的技术，相信没有人会陌生。即便不知道这个东西是什么，但也是应该听得耳朵起茧子了。归结原因呢，出现这些技术实在是因为现在的数据越来越多，以前的很多数据分析技术越来越不合适。即便是简单的最小二乘线性回归，直接放到大数据上用，跑起来也是够累的。这时候，各种处理大数据的技术就纷纷崛起了，和之前的云计算相同的就是，大数据也改变了计算机原本的使用方式。</p>
+<p>OK，说说数据科学吧。数据科学，Data Science，这个玩意儿最早有一本书，叫做“What is Data Science”，O'Reilly出版的（不得不说其出版了太多太牛太厉害的书籍材料，牛得不需要解释）。数据科学就像是一个综合体，包罗的东西非常多，大致有三个方面。</p>
+<h5>第一，概率统计（数学）</h5>
+<p>这个提供了大数据的很多理论基础。大数据的处理技术，需要用到非常之多的概率统计学知识。而要想学好概率统计，那你数学得先学学好才行。简单罗列一下：概率论基础，统计学基础，高等概率论，测度论，高等参数统计，随机过程等等等等。这些内容都是理论基础，要是理论学的不咋样，估计折腾大数据也就是玩玩工具，弄点儿结果出来。话说，如果真没学好理论，能不能把结果解释清楚还需要质疑，更何况自己去设计改进一个技术算法呢。</p>
+<p>嗯，说到这，回过头去看看泛函分析吧~</p>
+<h5>第二，计算机科学</h5>
+<p>这个就提供了大数据处理的工具平台了。那么多的数据，你就是理论学得再牛，没有计算机，你自己手算试试！你说你要处理数据，OK，计算机提供了工具平台，那么你就得学习如何运用这些系统环境吧，那么就得学习<strong>分布式计算机系统环境</strong>，这个主流的有：Hadoop(鼎鼎大名吧); Spark(也听说过吧); Cassandra等等。</p>
+<p>好了，环境搞明白了，下面你就得发号施令，让计算机去处理数据了。计算可不是人类，你可以跟他讲普通话，讲英文让他帮你干活。你要想它听你的，你得先学会点它能懂的、能听明白的话。OK，编程语言就降临了。一般来说，用于数据处理的语言有R，Python，Octave（与Matlab类似，只是这个开源免费），Matlab等等。为了使用各个平台，说不得你也得学点Java，C，C++。</p>
+<p>写到这边，估计已经头大了，这么多东西，这数据科学是不是恐怖了点，谁能受得了啊！！！是的，包含的东西的确多了点，但是学习起来还是很好玩的，我保证(当然，前提你得跟我一样，看见数学不会头晕)！</p>
+<p>当然除了上面提到的，数据科学包含的计算机知识还有很多，像数据结构啊，数据库啊，Mahout这样的架构啊等等。</p>
+<h5>第三，专业</h5>
+<p>这个也就是应用啦。练就了一身绝世内功（理论基础），找到了一把趁手的绝世神兵（计算机科学），现在需要决定的就是出山之后是想做个武林盟主呢，还是独创一个门派，也就是想把这些东西用到哪些地方去。像生物学，跟统计一结合就成了生物统计，要是再加上点计算机科学，那就成了生物学数据科学。OK，这么说应该是很明白的了。</p>
+<hr>
+<p>数据科学家Drew Conway绘制过一幅图，很好地描述了我上面所说的东西：</p>
+<p><img alt="Venn diagram" src="/images/article/drew-conway-data-science-venn-diagram.jpg"></p>
+<p>前几天图灵上出了一本书，叫做“<a href="http://www.ituring.com.cn/book/1268">Software Design 中文版 01</a>”。里面介绍了数据科学的很多基础内容，也给出了很多的学习材料，大部分都是网上的视频教程。此外书中还介绍了一些如何使用Excel，R以及Mahout这些工具的基础知识，有兴趣倒是可以入手一本，作为学习数据科学的开始。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/data-science.html">data science</a>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

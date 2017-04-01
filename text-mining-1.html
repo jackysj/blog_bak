@@ -1,0 +1,706 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="文本挖掘简介 1" />
+<meta name="keywords" content="data science, r, machine learning, text mining">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="数据科学18：文本挖掘1"/>
+<meta property="og:description" content="文本挖掘简介 1"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./text-mining-1.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-06-18 15:08:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="machine learning"/>
+<meta property="article:tag" content="text mining"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 数据科学18：文本挖掘1</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="text-mining-1">数据科学18：文本挖掘1</h1>
+    <p>
+          Posted on 2014-06-18 in <a href="./category/data-science.html">Data Science</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p><strong>文本挖掘</strong>，也称为文本数据挖掘，意思就如字面，对文本数据进行挖掘分析。文本挖掘一般包含：<em>文本分类</em>、<em>文本聚类</em>、<em>概念实体挖掘</em>、<em>自然语言处理</em>等等。接下来，我打算用一个简单的例子，介绍一下R语言文本挖掘的一般过程，顺便介绍一些文本挖掘中的概念。</p>
+<p>这边主要使用R中的<code>tm</code>包进行文本挖掘，首先加载Package：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">require</span><span class="p">(</span>tm<span class="p">)</span>  <span class="c1">## R中处理文本挖掘的框架包</span></span>
+<span class="code-line"><span class="kn">require</span><span class="p">(</span>ggplot2<span class="p">)</span></span>
+</pre></div>
+
+
+<h3>1. 载入Corpus</h3>
+<hr>
+<p><strong>Corpus</strong>（语料库），指一系列文档的集合，是<code>tm</code>包管理文件的数据结构。通常，我们需要将一批文档导入成Corpus结构的数据，然后才能进行进一步的处理分析。</p>
+<p>文档的格式有非常多的格式，<code>tm</code>包支持的格式其实只占很少的一部分，大致有：text, PDF, Mircosoft Word和XML。所以，如果需要处理的文档，其格式不在这里面的话，就需要对格式进行一些转换。个人建议，将文档格式转换成text或者XML会比较容易处理。我们可以查看一下，<code>tm</code>包支持的文档格式：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>getReaders<span class="p">()</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## [1] &quot;readDOC&quot;                 &quot;readPDF&quot;</span>
+<span class="code-line">## [3] &quot;readReut21578XML&quot;        &quot;readReut21578XMLasPlain&quot;</span>
+<span class="code-line">## [5] &quot;readPlain&quot;               &quot;readRCV1&quot;</span>
+<span class="code-line">## [7] &quot;readRCV1asPlain&quot;         &quot;readTabular&quot;</span>
+<span class="code-line">## [9] &quot;readXML&quot;</span>
+</pre></div>
+
+
+<p>在<code>tm</code>包中，Corpus可以分为两种。一种是Volatile Corpus，这种数据结构是作为R对象保存在内存中,使用<code>VCorpus()</code>或者<code>Corpus()</code>函数；另一种就是Permanent Corpus，作为R的外部保存，使用<code>PCorpus()</code>函数。显然，如何选择取决于内存大小以及运算速率的要求了。</p>
+<p>我们这里使用<code>tm</code>包自带的XML文档数据进行演示：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>xml <span class="o">&lt;-</span> <span class="kp">system.file</span><span class="p">(</span><span class="s">&quot;texts&quot;</span><span class="p">,</span> <span class="s">&quot;crude&quot;</span><span class="p">,</span> package <span class="o">=</span> <span class="s">&quot;tm&quot;</span><span class="p">)</span>  <span class="c1">## 数据所在的目录</span></span>
+<span class="code-line">docs <span class="o">&lt;-</span> Corpus<span class="p">(</span>DirSource<span class="p">(</span>xml<span class="p">),</span> readerControl <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>reader <span class="o">=</span> readReut21578XML<span class="p">))</span></span>
+</pre></div>
+
+
+<p>这里使用的数据源是<code>DirSource</code>，当然也可以从其他的数据源导入，可以使用<code>getSources()</code>查看：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>getSources<span class="p">()</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## [1] &quot;DataframeSource&quot; &quot;DirSource&quot;       &quot;ReutersSource&quot;   &quot;URISource&quot;</span>
+<span class="code-line">## [5] &quot;VectorSource&quot;</span>
+</pre></div>
+
+
+<p>如果读取的是其他格式的，就需要指定一些其他的参数，用<code>path</code>表示数据所在的目录：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">## txt</span></span>
+<span class="code-line">docs <span class="o">&lt;-</span> Corpus<span class="p">(</span>DirSource<span class="p">(</span><span class="o">&lt;</span>path<span class="o">&gt;</span><span class="p">))</span></span>
+<span class="code-line"><span class="c1">## PDF</span></span>
+<span class="code-line">docs <span class="o">&lt;-</span> Corpus<span class="p">(</span>DirSource<span class="p">(</span><span class="o">&lt;</span>path<span class="o">&gt;</span><span class="p">),</span> readerControl <span class="o">=</span> <span class="kt">list</span><span class="p">(</span>reader <span class="o">=</span> readPDF<span class="p">))</span></span>
+<span class="code-line"><span class="c1">## 其它的类似</span></span>
+</pre></div>
+
+
+<h3>2. 查看Corpus</h3>
+<hr>
+<p>将数据导入成Corpus之后，我们就需要查看Corpus。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>docs  <span class="c1">## 只显示了Corpus中含有的文档数据数量</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## A corpus with 20 text documents</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kp">names</span><span class="p">(</span>docs<span class="p">)[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">]</span>  <span class="c1">## 显示前3个文档的名称</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## [1] &quot;reut-00001.xml&quot; &quot;reut-00002.xml&quot; &quot;reut-00004.xml&quot;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kp">summary</span><span class="p">(</span>docs<span class="p">)</span>  <span class="c1">## 显示更多的meta data，但不显示源信息</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## A corpus with 20 text documents</span>
+<span class="code-line">##</span>
+<span class="code-line">## The metadata consists of 2 tag-value pairs and a data frame</span>
+<span class="code-line">## Available tags are:</span>
+<span class="code-line">##   create_date creator</span>
+<span class="code-line">## Available variables in the data frame are:</span>
+<span class="code-line">##   MetaID</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>inspect<span class="p">(</span>docs<span class="p">[</span><span class="m">1</span><span class="p">])</span>  <span class="c1">## 提取第一篇文档的完整信息、</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## A corpus with 1 text document</span>
+<span class="code-line">##</span>
+<span class="code-line">## The metadata consists of 2 tag-value pairs and a data frame</span>
+<span class="code-line">## Available tags are:</span>
+<span class="code-line">##   create_date creator</span>
+<span class="code-line">## Available variables in the data frame are:</span>
+<span class="code-line">##   MetaID</span>
+<span class="code-line">##</span>
+<span class="code-line">## $`reut-00001.xml`</span>
+<span class="code-line">## $doc</span>
+<span class="code-line">## $file</span>
+<span class="code-line">## [1] &quot;<span class="nt">&lt;buffer&gt;</span>&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## $version</span>
+<span class="code-line">## [1] &quot;1.0&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## $children</span>
+<span class="code-line">## $children$REUTERS</span>
+<span class="code-line">## <span class="nt">&lt;REUTERS</span> <span class="na">TOPICS=</span><span class="s">&quot;YES&quot;</span> <span class="na">LEWISSPLIT=</span><span class="s">&quot;TRAIN&quot;</span> <span class="na">CGISPLIT=</span><span class="s">&quot;TRAINING-SET&quot;</span> <span class="na">OLDID=</span><span class="s">&quot;5670&quot;</span> <span class="na">NEWID=</span><span class="s">&quot;127&quot;</span><span class="nt">&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;DATE&gt;</span>26-FEB-1987 17:00:56.04<span class="nt">&lt;/DATE&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;TOPICS&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;D&gt;</span>crude<span class="nt">&lt;/D&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;/TOPICS&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;PLACES&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;D&gt;</span>usa<span class="nt">&lt;/D&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;/PLACES&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;PEOPLE/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;ORGS/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;EXCHANGES/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;COMPANIES/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;UNKNOWN&gt;</span>Y</span>
+<span class="code-line">##    f0119 reute</span>
+<span class="code-line">## u f BC-DIAMOND-SHAMROCK-(DIA   02-26 0097<span class="nt">&lt;/UNKNOWN&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;TEXT&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;TITLE&gt;</span>DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES<span class="nt">&lt;/TITLE&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;DATELINE&gt;</span>NEW YORK, FEB 26 -<span class="nt">&lt;/DATELINE&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;BODY&gt;</span>Diamond Shamrock Corp said that</span>
+<span class="code-line">## effective today it had cut its contract prices for crude oil by</span>
+<span class="code-line">## 1.50 dlrs a barrel.</span>
+<span class="code-line">##     The reduction brings its posted price for West Texas</span>
+<span class="code-line">## Intermediate to 16.00 dlrs a barrel, the copany said.</span>
+<span class="code-line">##     <span class="ni">&amp;quot;</span>The price reduction today was made in the light of falling</span>
+<span class="code-line">## oil product prices and a weak crude oil market,<span class="ni">&amp;quot;</span> a company</span>
+<span class="code-line">## spokeswoman said.</span>
+<span class="code-line">##     Diamond is the latest in a line of U.S. oil companies that</span>
+<span class="code-line">## have cut its contract, or posted, prices over the last two days</span>
+<span class="code-line">## citing weak oil markets.</span>
+<span class="code-line">##  Reuter<span class="nt">&lt;/BODY&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;/TEXT&gt;</span></span>
+<span class="code-line">## <span class="nt">&lt;/REUTERS&gt;</span></span>
+<span class="code-line">##</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;class&quot;)</span>
+<span class="code-line">## [1] &quot;XMLDocumentContent&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## $dtd</span>
+<span class="code-line">## $external</span>
+<span class="code-line">## NULL</span>
+<span class="code-line">##</span>
+<span class="code-line">## $internal</span>
+<span class="code-line">## NULL</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;class&quot;)</span>
+<span class="code-line">## [1] &quot;DTDList&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;Author&quot;)</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">## attr(,&quot;DateTimeStamp&quot;)</span>
+<span class="code-line">## [1] &quot;1987-02-26 17:00:56 GMT&quot;</span>
+<span class="code-line">## attr(,&quot;Description&quot;)</span>
+<span class="code-line">## [1] &quot;&quot;</span>
+<span class="code-line">## attr(,&quot;Heading&quot;)</span>
+<span class="code-line">## [1] &quot;DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES&quot;</span>
+<span class="code-line">## attr(,&quot;ID&quot;)</span>
+<span class="code-line">## [1] &quot;127&quot;</span>
+<span class="code-line">## attr(,&quot;Language&quot;)</span>
+<span class="code-line">## [1] &quot;en&quot;</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$TOPICS</span>
+<span class="code-line">## [1] &quot;YES&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$LEWISSPLIT</span>
+<span class="code-line">## [1] &quot;TRAIN&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$CGISPLIT</span>
+<span class="code-line">## [1] &quot;TRAINING-SET&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$OLDID</span>
+<span class="code-line">## [1] &quot;5670&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Topics</span>
+<span class="code-line">## [1] &quot;crude&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Places</span>
+<span class="code-line">## [1] &quot;usa&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$People</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Orgs</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Exchanges</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;Origin&quot;)</span>
+<span class="code-line">## [1] &quot;Reuters-21578 XML&quot;</span>
+<span class="code-line">## attr(,&quot;class&quot;)</span>
+<span class="code-line">## [1] &quot;Reuters21578Document&quot; &quot;TextDocument&quot;         &quot;XMLDocument&quot;</span>
+<span class="code-line">## [4] &quot;XMLAbstractDocument&quot;  &quot;oldClass&quot;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">## inspect(docs) 可以提取所有文档的完整信息，不过数据量会很大</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span>  <span class="c1">## 提取第一个文档</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## $doc</span>
+<span class="code-line">## $file</span>
+<span class="code-line">## [1] &quot;<span class="nt">&lt;buffer&gt;</span>&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## $version</span>
+<span class="code-line">## [1] &quot;1.0&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## $children</span>
+<span class="code-line">## $children$REUTERS</span>
+<span class="code-line">## <span class="nt">&lt;REUTERS</span> <span class="na">TOPICS=</span><span class="s">&quot;YES&quot;</span> <span class="na">LEWISSPLIT=</span><span class="s">&quot;TRAIN&quot;</span> <span class="na">CGISPLIT=</span><span class="s">&quot;TRAINING-SET&quot;</span> <span class="na">OLDID=</span><span class="s">&quot;5670&quot;</span> <span class="na">NEWID=</span><span class="s">&quot;127&quot;</span><span class="nt">&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;DATE&gt;</span>26-FEB-1987 17:00:56.04<span class="nt">&lt;/DATE&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;TOPICS&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;D&gt;</span>crude<span class="nt">&lt;/D&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;/TOPICS&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;PLACES&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;D&gt;</span>usa<span class="nt">&lt;/D&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;/PLACES&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;PEOPLE/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;ORGS/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;EXCHANGES/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;COMPANIES/&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;UNKNOWN&gt;</span>Y</span>
+<span class="code-line">##    f0119 reute</span>
+<span class="code-line">## u f BC-DIAMOND-SHAMROCK-(DIA   02-26 0097<span class="nt">&lt;/UNKNOWN&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;TEXT&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;TITLE&gt;</span>DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES<span class="nt">&lt;/TITLE&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;DATELINE&gt;</span>NEW YORK, FEB 26 -<span class="nt">&lt;/DATELINE&gt;</span></span>
+<span class="code-line">##   <span class="nt">&lt;BODY&gt;</span>Diamond Shamrock Corp said that</span>
+<span class="code-line">## effective today it had cut its contract prices for crude oil by</span>
+<span class="code-line">## 1.50 dlrs a barrel.</span>
+<span class="code-line">##     The reduction brings its posted price for West Texas</span>
+<span class="code-line">## Intermediate to 16.00 dlrs a barrel, the copany said.</span>
+<span class="code-line">##     <span class="ni">&amp;quot;</span>The price reduction today was made in the light of falling</span>
+<span class="code-line">## oil product prices and a weak crude oil market,<span class="ni">&amp;quot;</span> a company</span>
+<span class="code-line">## spokeswoman said.</span>
+<span class="code-line">##     Diamond is the latest in a line of U.S. oil companies that</span>
+<span class="code-line">## have cut its contract, or posted, prices over the last two days</span>
+<span class="code-line">## citing weak oil markets.</span>
+<span class="code-line">##  Reuter<span class="nt">&lt;/BODY&gt;</span></span>
+<span class="code-line">##  <span class="nt">&lt;/TEXT&gt;</span></span>
+<span class="code-line">## <span class="nt">&lt;/REUTERS&gt;</span></span>
+<span class="code-line">##</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;class&quot;)</span>
+<span class="code-line">## [1] &quot;XMLDocumentContent&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## $dtd</span>
+<span class="code-line">## $external</span>
+<span class="code-line">## NULL</span>
+<span class="code-line">##</span>
+<span class="code-line">## $internal</span>
+<span class="code-line">## NULL</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;class&quot;)</span>
+<span class="code-line">## [1] &quot;DTDList&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;Author&quot;)</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">## attr(,&quot;DateTimeStamp&quot;)</span>
+<span class="code-line">## [1] &quot;1987-02-26 17:00:56 GMT&quot;</span>
+<span class="code-line">## attr(,&quot;Description&quot;)</span>
+<span class="code-line">## [1] &quot;&quot;</span>
+<span class="code-line">## attr(,&quot;Heading&quot;)</span>
+<span class="code-line">## [1] &quot;DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES&quot;</span>
+<span class="code-line">## attr(,&quot;ID&quot;)</span>
+<span class="code-line">## [1] &quot;127&quot;</span>
+<span class="code-line">## attr(,&quot;Language&quot;)</span>
+<span class="code-line">## [1] &quot;en&quot;</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$TOPICS</span>
+<span class="code-line">## [1] &quot;YES&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$LEWISSPLIT</span>
+<span class="code-line">## [1] &quot;TRAIN&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$CGISPLIT</span>
+<span class="code-line">## [1] &quot;TRAINING-SET&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$OLDID</span>
+<span class="code-line">## [1] &quot;5670&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Topics</span>
+<span class="code-line">## [1] &quot;crude&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Places</span>
+<span class="code-line">## [1] &quot;usa&quot;</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$People</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Orgs</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;LocalMetaData&quot;)$Exchanges</span>
+<span class="code-line">## character(0)</span>
+<span class="code-line">##</span>
+<span class="code-line">## attr(,&quot;Origin&quot;)</span>
+<span class="code-line">## [1] &quot;Reuters-21578 XML&quot;</span>
+<span class="code-line">## attr(,&quot;class&quot;)</span>
+<span class="code-line">## [1] &quot;Reuters21578Document&quot; &quot;TextDocument&quot;         &quot;XMLDocument&quot;</span>
+<span class="code-line">## [4] &quot;XMLAbstractDocument&quot;  &quot;oldClass&quot;</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1">## docs[[&#39;reut-00001.xml&#39;]] 同样可以提取第一个文档</span></span>
+</pre></div>
+
+
+<h3>3. 信息转化</h3>
+<hr>
+<p>创建好Corpus后，就需要对其进行一些修改，比如去除标点、停止词等等。这里就需要使用到一个函数<code>tm_map()</code>，其可以将转化函数作用到每一个文档数据上。</p>
+<h4>1. 转化为纯文本</h4>
+<p>如果Corpus中存储的是非纯文本的数据，比如XML格式的数据，那么就需要先将这些数据转换成纯文本格式:</p>
+<div class="highlight"><pre><span class="code-line"><span></span>docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> as.PlainTextDocument<span class="p">)</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## DIAMOND SHAMROCK (DIA) CUTS CRUDE PRICES</span>
+<span class="code-line">## NEW YORK, FEB 26 -</span>
+<span class="code-line">## Diamond Shamrock Corp said that</span>
+<span class="code-line">## effective today it had cut its contract prices for crude oil by</span>
+<span class="code-line">## 1.50 dlrs a barrel.</span>
+<span class="code-line">##     The reduction brings its posted price for West Texas</span>
+<span class="code-line">## Intermediate to 16.00 dlrs a barrel, the copany said.</span>
+<span class="code-line">##     &quot;The price reduction today was made in the light of falling</span>
+<span class="code-line">## oil product prices and a weak crude oil market,&quot; a company</span>
+<span class="code-line">## spokeswoman said.</span>
+<span class="code-line">##     Diamond is the latest in a line of U.S. oil companies that</span>
+<span class="code-line">## have cut its contract, or posted, prices over the last two days</span>
+<span class="code-line">## citing weak oil markets.</span>
+<span class="code-line">##  Reuter</span>
+</pre></div>
+
+
+<h4>2. 去除特殊字符</h4>
+<p>在文档数据中，可能会存在这样的字符："/"、"@"、"-"等等。大部分时候，我们需要将其去除掉：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kr">for</span> <span class="p">(</span>i <span class="kr">in</span> <span class="kp">seq</span><span class="p">(</span>docs<span class="p">))</span> <span class="p">{</span></span>
+<span class="code-line">    docs<span class="p">[[</span>i<span class="p">]]</span> <span class="o">&lt;-</span> <span class="kp">gsub</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">,</span> docs<span class="p">[[</span>i<span class="p">]])</span></span>
+<span class="code-line">    docs<span class="p">[[</span>i<span class="p">]]</span> <span class="o">&lt;-</span> <span class="kp">gsub</span><span class="p">(</span><span class="s">&quot;@&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">,</span> docs<span class="p">[[</span>i<span class="p">]])</span></span>
+<span class="code-line">    docs<span class="p">[[</span>i<span class="p">]]</span> <span class="o">&lt;-</span> <span class="kp">gsub</span><span class="p">(</span><span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="s">&quot; &quot;</span><span class="p">,</span> docs<span class="p">[[</span>i<span class="p">]])</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>如果存在更复杂的替换，可以使用正则表达式去解决，这里不做介绍。</p>
+<h4>3. 转换成小写</h4>
+<p>顾名思义，就是将所有的数据转换成小写字母，这样以便更加容易分析。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> <span class="kp">tolower</span><span class="p">)</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span>  <span class="c1">## 查看效果</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## diamond shamrock (dia) cuts crude prices</span>
+<span class="code-line">## new york, feb 26</span>
+<span class="code-line">## diamond shamrock corp said that</span>
+<span class="code-line">## effective today it had cut its contract prices for crude oil by</span>
+<span class="code-line">## 1.50 dlrs a barrel.</span>
+<span class="code-line">##     the reduction brings its posted price for west texas</span>
+<span class="code-line">## intermediate to 16.00 dlrs a barrel, the copany said.</span>
+<span class="code-line">##     &quot;the price reduction today was made in the light of falling</span>
+<span class="code-line">## oil product prices and a weak crude oil market,&quot; a company</span>
+<span class="code-line">## spokeswoman said.</span>
+<span class="code-line">##     diamond is the latest in a line of u.s. oil companies that</span>
+<span class="code-line">## have cut its contract, or posted, prices over the last two days</span>
+<span class="code-line">## citing weak oil markets.</span>
+<span class="code-line">##  reuter</span>
+</pre></div>
+
+
+<h4>4. 去除数字</h4>
+<p>有些时候，我们需要将文档中的数字去除掉：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> removeNumbers<span class="p">)</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## diamond shamrock (dia) cuts crude prices</span>
+<span class="code-line">## new york, feb</span>
+<span class="code-line">## diamond shamrock corp said that</span>
+<span class="code-line">## effective today it had cut its contract prices for crude oil by</span>
+<span class="code-line">## . dlrs a barrel.</span>
+<span class="code-line">##     the reduction brings its posted price for west texas</span>
+<span class="code-line">## intermediate to . dlrs a barrel, the copany said.</span>
+<span class="code-line">##     &quot;the price reduction today was made in the light of falling</span>
+<span class="code-line">## oil product prices and a weak crude oil market,&quot; a company</span>
+<span class="code-line">## spokeswoman said.</span>
+<span class="code-line">##     diamond is the latest in a line of u.s. oil companies that</span>
+<span class="code-line">## have cut its contract, or posted, prices over the last two days</span>
+<span class="code-line">## citing weak oil markets.</span>
+<span class="code-line">##  reuter</span>
+</pre></div>
+
+
+<h4>5. 去除停止词</h4>
+<div class="highlight"><pre><span class="code-line"><span></span>docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> removeWords<span class="p">,</span> stopwords<span class="p">(</span><span class="s">&quot;english&quot;</span><span class="p">))</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## diamond shamrock (dia) cuts crude prices</span>
+<span class="code-line">## new york, feb</span>
+<span class="code-line">## diamond shamrock corp said</span>
+<span class="code-line">## effective today   cut  contract prices  crude oil</span>
+<span class="code-line">## . dlrs  barrel.</span>
+<span class="code-line">##      reduction brings  posted price  west texas</span>
+<span class="code-line">## intermediate  . dlrs  barrel,  copany said.</span>
+<span class="code-line">##     &quot; price reduction today  made   light  falling</span>
+<span class="code-line">## oil product prices   weak crude oil market,&quot;  company</span>
+<span class="code-line">## spokeswoman said.</span>
+<span class="code-line">##     diamond   latest   line  u.s. oil companies</span>
+<span class="code-line">##  cut  contract,  posted, prices   last two days</span>
+<span class="code-line">## citing weak oil markets.</span>
+<span class="code-line">##  reuter</span>
+</pre></div>
+
+
+<h4>6. 去除标点</h4>
+<div class="highlight"><pre><span class="code-line"><span></span>docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> removePunctuation<span class="p">)</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## diamond shamrock dia cuts crude prices</span>
+<span class="code-line">## new york feb</span>
+<span class="code-line">## diamond shamrock corp said</span>
+<span class="code-line">## effective today   cut  contract prices  crude oil</span>
+<span class="code-line">##  dlrs  barrel</span>
+<span class="code-line">##      reduction brings  posted price  west texas</span>
+<span class="code-line">## intermediate   dlrs  barrel  copany said</span>
+<span class="code-line">##      price reduction today  made   light  falling</span>
+<span class="code-line">## oil product prices   weak crude oil market  company</span>
+<span class="code-line">## spokeswoman said</span>
+<span class="code-line">##     diamond   latest   line  us oil companies</span>
+<span class="code-line">##  cut  contract  posted prices   last two days</span>
+<span class="code-line">## citing weak oil markets</span>
+<span class="code-line">##  reuter</span>
+</pre></div>
+
+
+<h4>7. 去除多余的空格</h4>
+<div class="highlight"><pre><span class="code-line"><span></span>docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> stripWhitespace<span class="p">)</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## diamond shamrock dia cuts crude prices</span>
+<span class="code-line">## new york feb</span>
+<span class="code-line">## diamond shamrock corp said effective today cut contract prices crude oil dlrs barrel reduction brings posted price west texas intermediate dlrs barrel copany said price reduction today made light falling oil product prices weak crude oil market company spokeswoman said diamond latest line us oil companies cut contract posted prices last two days citing weak oil markets reuter</span>
+</pre></div>
+
+
+<h4>8. Stemming(词干化)</h4>
+<p>首先介绍一下什么是Stemming，我们知道在英文中一个单词会存在很多形式，比如说复数形式、过去分词等等。但其实它们外表看起来虽不一样，但实际上是一样的。所以在处理分析的时候，就需要将这些单词都转换成其本身。在R中可以使用<code>SnowballC</code>这个包来处理Stemming，举个例子：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">require</span><span class="p">(</span>SnowballC<span class="p">)</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## Loading required package: SnowballC</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>exam <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;prices, price, doing&quot;</span><span class="p">)</span></span>
+<span class="code-line">stemDocument<span class="p">(</span>exam<span class="p">)</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## [1] &quot;prices, price, do&quot;</span>
+</pre></div>
+
+
+<p>对于我们的例子：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="kn">require</span><span class="p">(</span>SnowballC<span class="p">)</span></span>
+<span class="code-line">docs <span class="o">&lt;-</span> tm_map<span class="p">(</span>docs<span class="p">,</span> stemDocument<span class="p">)</span></span>
+<span class="code-line">docs<span class="p">[[</span><span class="m">1</span><span class="p">]]</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## diamond shamrock dia cut crude price</span>
+<span class="code-line">## new york feb</span>
+<span class="code-line">## diamond shamrock corp said effect today cut contract price crude oil dlrs barrel reduct bring post price west texa intermedi dlrs barrel copani said price reduct today made light fall oil product price weak crude oil market compani spokeswoman said diamond latest line us oil compani cut contract post price last two day cite weak oil market reuter</span>
+</pre></div>
+
+
+<h3>4. 创建词条-文档关系矩阵</h3>
+<hr>
+<p>文本挖掘中，词条-文档关系矩阵是构建模型的基础，后续分析建模都是建立在这个矩阵之上的。首先来了解一下这个矩阵，举个例子：</p>
+<p>我们有两篇文档，内容分别为：text mining 和 data mining and text mining。 那么对应的矩阵为：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>d.Exam <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;text mining&quot;</span><span class="p">,</span> <span class="s">&quot;data mining and text mining&quot;</span><span class="p">)</span></span>
+<span class="code-line">doc.Exam <span class="o">&lt;-</span> Corpus<span class="p">(</span>VectorSource<span class="p">(</span>d.Exam<span class="p">))</span></span>
+<span class="code-line">dtm.Exam <span class="o">&lt;-</span> DocumentTermMatrix<span class="p">(</span>doc.Exam<span class="p">)</span></span>
+<span class="code-line">inspect<span class="p">(</span>dtm.Exam<span class="p">)</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## A document-term matrix (2 documents, 4 terms)</span>
+<span class="code-line">##</span>
+<span class="code-line">## Non-/sparse entries: 6/2</span>
+<span class="code-line">## Sparsity           : 25%</span>
+<span class="code-line">## Maximal term length: 6</span>
+<span class="code-line">## Weighting          : term frequency (tf)</span>
+<span class="code-line">##</span>
+<span class="code-line">##     Terms</span>
+<span class="code-line">## Docs and data mining text</span>
+<span class="code-line">##    1   0    0      1    1</span>
+<span class="code-line">##    2   1    1      2    1</span>
+</pre></div>
+
+
+<p>可以看到，词条-文档关系矩阵其实就是将文档作为列，词条作为行，矩阵的每个位置就是对应的词条在对应的文档中出现的次数。</p>
+<p>对于我们的例子，可以这样来生产词条-文档矩阵：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>dtm <span class="o">&lt;-</span> DocumentTermMatrix<span class="p">(</span>docs<span class="p">)</span></span>
+<span class="code-line">inspect<span class="p">(</span>dtm<span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">5</span><span class="p">,</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span><span class="p">])</span></span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="code-line"><span></span>## A document-term matrix (5 documents, 10 terms)</span>
+<span class="code-line">##</span>
+<span class="code-line">## Non-/sparse entries: 1/49</span>
+<span class="code-line">## Sparsity           : 98%</span>
+<span class="code-line">## Maximal term length: 6</span>
+<span class="code-line">## Weighting          : term frequency (tf)</span>
+<span class="code-line">##</span>
+<span class="code-line">##      Terms</span>
+<span class="code-line">## Docs  abdul abil abl abroad abu accept accord across activ add</span>
+<span class="code-line">##   127     0    0   0      0   0      0      0      0     0   0</span>
+<span class="code-line">##   144     0    2   0      0   0      0      0      0     0   0</span>
+<span class="code-line">##   191     0    0   0      0   0      0      0      0     0   0</span>
+<span class="code-line">##   194     0    0   0      0   0      0      0      0     0   0</span>
+<span class="code-line">##   211     0    0   0      0   0      0      0      0     0   0</span>
+</pre></div>
+
+
+<p>到这里，我们就已经生成了词条-文档矩阵。下一次，就来看看如何对这个矩阵进行一些操作，以及如何利用这个矩阵进行后续的建模分析。</p>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/data-science.html">data science</a>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
+      <a href="./tag/text-mining.html">text mining</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

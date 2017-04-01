@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="R 与 Python 的协作" />
+<meta name="keywords" content="python, r">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="R与Python的协作：rpy2简介"/>
+<meta property="og:description" content="R 与 Python 的协作"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./r-python.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-07-09 16:14:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Python"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="r"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; R与Python的协作：rpy2简介</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="r-python">R与Python的协作：rpy2简介</h1>
+    <p>
+          Posted on 2014-07-09 in <a href="./category/python.html">Python</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>R语言作为统计分析软件，其在统计分析、图形绘制等等方面是强大的，无与伦比的！但是，如果让R去处理一些文件操作、处理文本、获取数据等等的活，一般来讲，R并不太擅长。举个例子来讲，想从自己的Gmail邮箱中获取邮件信息数据，使用R去完成就有点悲剧了，使用Ruby或者Python，这样的活还是挺容易的。</p>
+<p>当然，使用Python做数据分析也是蛮不错的。这里我不想比较Python与R，只想说，我平时使用的习惯是“Python + R”。具体点就是：使用R做数据分析，使用Python完成其它工作！用上面那个例子来说，我会使用Python获取Gmail的数据，然后使用R对数据进行分析处理，大致就是这样！</p>
+<p>rpy2是Python的一个第三方程序库，可以实现用python读取R的对象、调⽤R的方法等等。好了，废话不说了，开始说说rpy2吧。</p>
+<h3>安装</h3>
+<hr>
+<p>与安装其它Python第三方程序库相同，使用<code>pip install rpy2</code>或者<code>easy_install rpy2</code>就OK了。当然，前提是你的电脑已经安装了R(3.0或以上的版本)。</p>
+<h3>开始使用</h3>
+<hr>
+<p>安装好之后，就需要导入rpy2。在rpy2中有一个模块：rpy2.robjects，是对R的一个高级封装，这个模块包含了R对象和一些了的R语言的函数。使用rpy2，一般来讲就是使用这个模块。简单理解，Python可以通过“rpy2.robjects”这座桥，连接到R。</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="kn">as</span> <span class="nn">robjects</span></span>
+<span class="code-line"><span class="n">data</span><span class="o">.</span><span class="n">table</span> <span class="mf">1.9</span><span class="o">.</span><span class="mi">2</span>  <span class="n">For</span> <span class="n">help</span> <span class="nb">type</span><span class="p">:</span> <span class="n">help</span><span class="p">(</span><span class="s2">&quot;data.table&quot;</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="n">Welcome</span> <span class="n">at</span>  <span class="n">Wed</span> <span class="n">Jul</span>  <span class="mi">9</span> <span class="mi">10</span><span class="p">:</span><span class="mi">59</span><span class="p">:</span><span class="mi">11</span> <span class="mi">2014</span></span>
+</pre></div>
+
+
+<p><em>注</em>：如果你跟我一样，R中安装了“data.table”包，并且设置<code>.First()</code>函数输出“Welcome”的话，你得到跟我一样的返回。</p>
+<h3>R实例</h3>
+<hr>
+<p><code>rpy2.robjects</code>中有一个r对象，即r实例指的就是<code>rpy2.robjects</code>.r。它是Python中的嵌入式R进程，可以理解成，通过<code>rpy2.robjects.r</code>，可以在Python中使用R命令，获取R对象。</p>
+<p>在rpy2的官方介绍里面，是这么说的：</p>
+<blockquote>
+<p>The object <strong>r</strong> in <strong>rpy2.robjects</strong> represents the running embedded <em>R</em> Process.</p>
+</blockquote>
+<p>举个例子，比如说获取R中的对象<code>pi</code>：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">FloatVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c434998</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09d4a1808</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="mf">3.141593</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></span>
+<span class="code-line"><span class="mf">3.141592653589793</span></span>
+</pre></div>
+
+
+<p>可见，<code>pi</code>是一个浮点数向量，是从R中获取的，使用<code>[</code>可以获取它的值。这里有一点需要注意的就是，这里获取得到的<code>pi</code>是一个向量：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">piPlus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">piPlus2</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">FloatVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c591170</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09d657828</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="mf">3.141593</span><span class="p">,</span> <span class="mf">2.000000</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">piPlus2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></span>
+<span class="code-line"><span class="mf">3.141592653589793</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">piPlus2</span><span class="o">.</span><span class="n">r_repr</span><span class="p">()</span></span>
+<span class="code-line"><span class="s1">&#39;c(3.14159265358979, 2)&#39;</span></span>
+</pre></div>
+
+
+<p>可以使用<code>r_repr()</code>方法，显示从R中调过来的对象，在R中的表示。所以如果单纯地想做<code>pi + 2</code>，必须先转换成Python中的数值。</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">piPlus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">piPlus2</span></span>
+<span class="code-line"><span class="mf">5.141592653589793</span></span>
+</pre></div>
+
+
+<h3>创建R向量</h3>
+<hr>
+<p>既然使用<code>robjects.r</code>获取的R对象<code>pi</code>是R向量，那么自然就会想到，如何在Python中创建R向量，其实很简单：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">StrVector</span><span class="p">([</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span> <span class="s1">&#39;bc&#39;</span><span class="p">])</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="o">.</span><span class="n">r_repr</span><span class="p">()</span></span>
+<span class="code-line"><span class="s1">&#39;c(&quot;ab&quot;, &quot;bc&quot;)&#39;</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">StrVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6dbe18</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09d5a12e8</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></span>
+<span class="code-line"><span class="s1">&#39;ab&#39;</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span></span>
+<span class="code-line"><span class="mi">2</span></span>
+</pre></div>
+
+
+<p>可以看到，str就是一个字符向量，属于R中的对象，在Python中使用<code>[</code>可以取出其中的值。</p>
+<p>同理，可以创建其它类型的向量：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">int</span><span class="o">.</span><span class="n">r_repr</span><span class="p">()</span></span>
+<span class="code-line"><span class="s1">&#39;1:3&#39;</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">float</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">FloatVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6dbf80</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09d7e7608</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="mf">1.000000</span><span class="p">,</span> <span class="mf">2.000000</span><span class="p">,</span> <span class="mf">3.000000</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="nb">float</span><span class="o">.</span><span class="n">r_repr</span><span class="p">()</span></span>
+<span class="code-line"><span class="s1">&#39;c(1, 2, 3)&#39;</span></span>
+</pre></div>
+
+
+<p>解决向量，那么就要考虑矩阵了，想想在R中是如何构建矩阵的：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> x <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">3</span><span class="p">,</span> <span class="m">4</span><span class="p">,</span> <span class="m">5</span><span class="p">,</span> <span class="m">6</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> x.mat <span class="o">&lt;-</span> <span class="kt">matrix</span><span class="p">(</span>x<span class="p">,</span> nrow <span class="o">=</span> <span class="m">2</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> x.mat</span>
+<span class="code-line">     <span class="p">[,</span><span class="m">1</span><span class="p">]</span> <span class="p">[,</span><span class="m">2</span><span class="p">]</span> <span class="p">[,</span><span class="m">3</span><span class="p">]</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">,]</span>    <span class="m">1</span>    <span class="m">3</span>    <span class="m">5</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">2</span><span class="p">,]</span>    <span class="m">2</span>    <span class="m">4</span>    <span class="m">6</span></span>
+</pre></div>
+
+
+<p>可以看到，我们需要用的函数<code>matrix()</code>。那么我们就需要调用R中的对象<code>matrix()</code>函数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">xMat</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;matrix&#39;</span><span class="p">](</span><span class="n">x</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">xMat</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">Matrix</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6dbb00</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09da59c20</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="mf">1.000000</span><span class="p">,</span> <span class="mf">2.000000</span><span class="p">,</span> <span class="mf">3.000000</span><span class="p">,</span> <span class="mf">4.000000</span><span class="p">,</span> <span class="mf">5.000000</span><span class="p">,</span> <span class="mf">6.000000</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">xMat</span><span class="o">.</span><span class="n">r_repr</span><span class="p">()</span></span>
+<span class="code-line"><span class="s1">&#39;structure(c(1, 2, 3, 4, 5, 6), .Dim = 2:3)&#39;</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">xMat</span><span class="p">)</span></span>
+<span class="code-line">     <span class="p">[,</span><span class="mi">1</span><span class="p">]</span> <span class="p">[,</span><span class="mi">2</span><span class="p">]</span> <span class="p">[,</span><span class="mi">3</span><span class="p">]</span></span>
+<span class="code-line"><span class="p">[</span><span class="mi">1</span><span class="p">,]</span>    <span class="mi">1</span>    <span class="mi">3</span>    <span class="mi">5</span></span>
+<span class="code-line"><span class="p">[</span><span class="mi">2</span><span class="p">,]</span>    <span class="mi">2</span>    <span class="mi">4</span>    <span class="mi">6</span></span>
+</pre></div>
+
+
+<p>想想，这样其实蛮麻烦的，在R中我们可以使用<code>1:6</code>创建向量，这边打这么长可是不喜欢。那么就有两种方式可以解决：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)[</span><span class="mi">1</span><span class="p">:])</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">FloatVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c434ab8</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09b7b5820</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="mf">1.000000</span><span class="p">,</span> <span class="mf">2.000000</span><span class="p">,</span> <span class="mf">3.000000</span><span class="p">,</span> <span class="mf">4.000000</span><span class="p">,</span> <span class="mf">5.000000</span><span class="p">,</span> <span class="mf">6.000000</span><span class="p">]</span></span>
+</pre></div>
+
+
+<p>这种就是使用Python本身的<code>range()</code>函数，然后使用<code>robjects.FloatVector()</code>转换数据结构。还有一种，就是使用R对象<code>:</code>：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="p">](</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">IntVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c44f170</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09b125b58</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span>       <span class="mi">1</span><span class="p">,</span>        <span class="mi">2</span><span class="p">,</span>        <span class="mi">3</span><span class="p">,</span>        <span class="mi">4</span><span class="p">,</span>        <span class="mi">5</span><span class="p">,</span>        <span class="mi">6</span><span class="p">]</span></span>
+</pre></div>
+
+
+<h3>调用R函数</h3>
+<hr>
+<p>上面已经试过了调用R中的<code>matrix()</code>函数，再试试调用R中的函数<code>mean()</code>函数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">rmean</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="p">](</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">x</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">IntVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6dba28</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09bb9b298</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span>       <span class="mi">1</span><span class="p">,</span>        <span class="mi">2</span><span class="p">,</span>        <span class="mi">3</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">rmean</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></span>
+<span class="code-line"><span class="mf">2.0</span></span>
+</pre></div>
+
+
+<p>这里需要记住的就是，调用的R函数作用在R对象上，返回的仍然是R对象。</p>
+<p>知道了如何调用R函数，那么如果是自己想写一个R函数呢？其实我们可以直接在<code>robjects.r</code>中添加对象：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span></span>
+<span class="code-line"><span class="s1">...         f &lt;- function(x) {</span></span>
+<span class="code-line"><span class="s1">...             if (length(x) &gt; 2) {</span></span>
+<span class="code-line"><span class="s1">...                 return(mean(x))</span></span>
+<span class="code-line"><span class="s1">...             }</span></span>
+<span class="code-line"><span class="s1">...             return(sum(x))</span></span>
+<span class="code-line"><span class="s1">...         }</span></span>
+<span class="code-line"><span class="s1">...         &#39;&#39;&#39;</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">SignatureTranslatedFunction</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6dbc20</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09d25aea8</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">rf</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">rf</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="p">](</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">FloatVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6dbd40</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09bd4ea68</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span><span class="mf">3.500000</span><span class="p">]</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">rf</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;:&#39;</span><span class="p">](</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">IntVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6f12d8</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09bd4dcf8</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span>       <span class="mi">3</span><span class="p">]</span></span>
+</pre></div>
+
+
+<p>在<code>robjects.r</code>中添加了<code>f()</code>函数的对象，我们就可以调用它了。当然，还可以在Python中直接写R的脚本，然后直接运行：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">rscript</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span></span>
+<span class="code-line"><span class="s1">...         f &lt;- function(x) {</span></span>
+<span class="code-line"><span class="s1">...             if (length(x) &gt; 2) {</span></span>
+<span class="code-line"><span class="s1">...                 return(mean(x))</span></span>
+<span class="code-line"><span class="s1">...             }</span></span>
+<span class="code-line"><span class="s1">...         return(sum(x))</span></span>
+<span class="code-line"><span class="s1">...         }</span></span>
+<span class="code-line"><span class="s1">...</span></span>
+<span class="code-line"><span class="s1">...         f(1:2)</span></span>
+<span class="code-line"><span class="s1">...         &#39;&#39;&#39;</span></span>
+<span class="code-line"><span class="o">&gt;&gt;&gt;</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rscript</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&lt;</span><span class="n">IntVector</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x10c6db7e8</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x7fd09bd4e268</span><span class="o">&gt;</span></span>
+<span class="code-line"><span class="p">[</span>       <span class="mi">3</span><span class="p">]</span></span>
+</pre></div>
+
+
+<p>上面两种其实是一个意思，都是在<code>robjects.r</code>中添加了R脚本。当然，也可以运行写好的"*.r"的脚本，使用<code>robjects.r.source(&lt;path&gt;)</code>即可。</p>
+<h3>最后</h3>
+<hr>
+<p>对<code>rpy2</code>的简单介绍就到这吧，这是一个很不错的库，功能远远不止我上面介绍的这一些，感兴趣的话，可以去<a href="http://rpy.sourceforge.net/">它的官网</a>查看其介绍的文档，你肯定会发现很多新鲜好玩的东西。</p>
+<h4>参考</h4>
+<hr>
+<ol>
+<li><a href="http://rpy.sourceforge.net/rpy2/doc-2.4/html/overview.html#installation">rpy2的官方文档</a></li>
+<li><a href="http://www.jeffkit.info/2010/02/475/">让R与Python共舞</a></li>
+<li><a href="https://www.google.com.hk/search?q=rpy2">...</a></li>
+</ol>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/python.html">python</a>
+      <a href="./tag/r.html">r</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="R 语言编程 7 - 相关分析" />
+<meta name="keywords" content="r, data science">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="R语言记录7：相关分析"/>
+<meta property="og:description" content="R 语言编程 7 - 相关分析"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./r-series-7.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-17 16:46:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="data science"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; R语言记录7：相关分析</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="r-series-7">R语言记录7：相关分析</h1>
+    <p>
+          Posted on 2014-03-17 in <a href="./category/r.html">R</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>变量之间的关系，大致可分为两种：<em>函数关系</em>和<em>相关关系</em>。</p>
+<p>函数关系，简单来说就是可以将变量之间的关系用方程(其实就是函数)来描述：<span class="math">\(y=f(x)\)</span>，处理这种关系对应的统计方法就是<strong><em>回归分析</em></strong>。</p>
+<p>相关关系，就是指变量之间存在不完全确定的依赖关系，其数值不能够使用函数表示出来，这个对应的就是<strong><em>相关分析</em></strong>。</p>
+<p>判断变量之间是否存在相关关系，最直接简单的方法就是画出两个变量之间的散点图。</p>
+<h4>1. 散点图</h4>
+<p>我们使用<code>cars</code>数据集中的数据进行演示,<code>cars</code>数据集中包含了汽车速度与制动距离的数据，显然直观感觉这两个变量之间肯定存在相关关系。画个散点图看看：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">head</span><span class="p">(</span>cars<span class="p">)</span></span>
+<span class="code-line">  speed dist</span>
+<span class="code-line"><span class="m">1</span>     <span class="m">4</span>    <span class="m">2</span></span>
+<span class="code-line"><span class="m">2</span>     <span class="m">4</span>   <span class="m">10</span></span>
+<span class="code-line"><span class="m">3</span>     <span class="m">7</span>    <span class="m">4</span></span>
+<span class="code-line"><span class="m">4</span>     <span class="m">7</span>   <span class="m">22</span></span>
+<span class="code-line"><span class="m">5</span>     <span class="m">8</span>   <span class="m">16</span></span>
+<span class="code-line"><span class="m">6</span>     <span class="m">9</span>   <span class="m">10</span></span>
+<span class="code-line"><span class="o">&gt;</span> with <span class="p">(</span>cars<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   plot<span class="p">(</span>speed<span class="p">,</span> dist<span class="p">)</span></span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+</pre></div>
+
+
+<p>得到如下图形：</p>
+<p><img alt="scatter" src="/images/article/RSeries7/scatter.jpg"></p>
+<p>从散点图看，汽车速度与其制动距离存在相关关系。但是，仅仅从图像来看，我们只能得到大概是否相关，而不能给出一个确切的描述。那么就希望能够找到一个方法，能够描述变量之间有多相关，程度有多大。</p>
+<h4>2. 相关的种类</h4>
+<p>根据相关程度，我们可以给相关进行分类：完全相关，不完全相关，完全不相关；而根据相关方向的不同，又可以分类：正相关(一个变大另一个也变大)，负相关。那么怎么用数学的方式去描述这些种类呢，那就需要用到相关系数。</p>
+<h5>(1). 相关系数</h5>
+<p>相关系数的符号用来代表正负相关( <span class="math">\(+\)</span> -&gt; 正；<span class="math">\(-\)</span> -&gt; 负)，其值的大小用来描述相关程度的大小(0~1:完全不相关~完全相关)。相关系数的定义有很多，常用的有Person相关系数、Spearman相关系数等等。这里给出最常用的Person相关系数的计算方法：</p>
+<div class="math">$$\gamma=\frac{\sum_{i=1}^{n}{(x_i-\overline{x})(y_i-\overline{y})}}{\sqrt{\sum_{i=1}^{n}{(x_i-\overline{x})^2}\sum_{i=1}^{n}{(y_i-\overline{y})^2}}}$$</div>
+<p>当样本个数充分大时，样本相关系数可以作为总体相关系数的估计。</p>
+<p>在R中，可以使用<code>cor</code>函数来得到变量间的相关系数矩阵：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> cor<span class="p">(</span>cars<span class="p">)</span></span>
+<span class="code-line">          speed      dist</span>
+<span class="code-line">speed <span class="m">1.0000000</span> <span class="m">0.8068949</span></span>
+<span class="code-line">dist  <span class="m">0.8068949</span> <span class="m">1.0000000</span></span>
+</pre></div>
+
+
+<p>可以看到，<span class="math">\(corr(speed, dist)=0.8068949\)</span>，说明汽车速度与其制动距离之间存在较强的正相关关系。</p>
+<h6>注：</h6>
+<p>可以指定<code>cor</code>的参数得到不同的相关系数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> cor<span class="p">(</span>cars<span class="p">,</span> method<span class="o">=</span><span class="s">&#39;spearman&#39;</span><span class="p">)</span></span>
+<span class="code-line">          speed      dist</span>
+<span class="code-line">speed <span class="m">1.0000000</span> <span class="m">0.8303568</span></span>
+<span class="code-line">dist  <span class="m">0.8303568</span> <span class="m">1.0000000</span></span>
+</pre></div>
+
+
+<h5>(2). 相关性的显著性检验</h5>
+<p>得到了两个变量之间的相关系数，那就需要检验，得到的结果是否能够通过显著性检验。即相关性到底显著与否。</p>
+<p>这里需要建立假设检验：<span class="math">\(H_0:\)</span> 变量X和Y不相关；那么可以构造检验统计量如下：</p>
+<div class="math">$$T = \frac{\gamma(X,Y)\sqrt{n-2}}{\sqrt{1-\gamma(X,Y)^2}}$$</div>
+<p>在零假设成立的条件下，<span class="math">\(T \sim t(n-2)\)</span>。那么若有 <span class="math">\(T &gt; t_{1-\alpha}(n-2)\)</span>，则拒绝原假设，说明变量X和Y存在显著的相关关系。</p>
+<h6>注：这里提到的内容可以到参数统计的书籍上寻找。</h6>
+<p>在R中，我们可以使用<code>cor.test</code>函数很轻松地对此进行检验：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">with</span><span class="p">(</span>cars<span class="p">,</span> <span class="p">{</span></span>
+<span class="code-line"><span class="o">+</span>   cor.test<span class="p">(</span>speed<span class="p">,</span> dist<span class="p">)</span></span>
+<span class="code-line"><span class="o">+</span> <span class="p">})</span></span>
+<span class="code-line"></span>
+<span class="code-line">    Pearson<span class="s">&#39;</span><span class="err">s product-moment correlation</span></span>
+<span class="code-line"></span>
+<span class="code-line">data<span class="o">:</span>  speed and dist</span>
+<span class="code-line">t <span class="o">=</span> <span class="m">9.464</span><span class="p">,</span> df <span class="o">=</span> <span class="m">48</span><span class="p">,</span> p<span class="o">-</span>value <span class="o">=</span> <span class="m">1.49e-12</span></span>
+<span class="code-line">alternative hypothesis<span class="o">:</span> true correlation is not equal to <span class="m">0</span></span>
+<span class="code-line"><span class="m">95</span> percent confidence interval<span class="o">:</span></span>
+<span class="code-line"> <span class="m">0.6816422</span> <span class="m">0.8862036</span></span>
+<span class="code-line">sample estimates<span class="o">:</span></span>
+<span class="code-line">      cor</span>
+<span class="code-line"><span class="m">0.8068949</span></span>
+</pre></div>
+
+
+<p>从结果可以看到，<span class="math">\(t=9.464\)</span> 这个不容易看出来结果，因为还需要查表。我们可以选择直接看<span class="math">\(p\)</span>值：1.49e-12，比0.05小太多了。故而拒绝原假设，认为汽车速度与制动距离存在高度相关关系。</p>
+<h6>注：这里如何修改，使得其使用spearman相关系数呢？</h6>
+<p>到此，就将相关分析的大致内容进行了阐述。但是，相关分析也还有很多其它内容，比如偏相关等等。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/data-science.html">data science</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

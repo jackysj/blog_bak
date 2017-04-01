@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="朴素贝叶斯算法" />
+<meta name="keywords" content="data science, r, machine learning, classification">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="数据科学之机器学习6: 分类之朴素贝叶斯"/>
+<meta property="og:description" content="朴素贝叶斯算法"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./cls-naive-bayes.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-04-08 15:54:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="Data Science"/>
+<meta property="article:tag" content="data science"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="machine learning"/>
+<meta property="article:tag" content="classification"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; 数据科学之机器学习6: 分类之朴素贝叶斯</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="cls-naive-bayes">数据科学之机器学习6: 分类之朴素贝叶斯</h1>
+    <p>
+          Posted on 2014-04-08 in <a href="./category/data-science.html">Data Science</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h3>0、kNN算法的优缺点</h3>
+<p>与kNN算法一样，朴素贝叶斯算法也是数据挖掘十大算法之一。我们介绍kNN算法时，并没有讨论kNN算法的优缺点，这边首先看看这个问题。</p>
+<p>从构造kNN算法的过程可以看到，这个分类算法的<strong>精度很高</strong>。因为这个算法计算了所有点与待分类点之间的相似度，然后去确定带分类点的类别。由此可见，这个算法对<strong>异常值并不敏感</strong>。但是正是因为它需要计算所有点之间的距离，所以其<strong>复杂度是很高的</strong>，换句话就是，如果数据量大的话，这个算法会很费时，并不高效。</p>
+<h3>一、贝叶斯决策</h3>
+<hr>
+<p>贝叶斯定理给出了条件概率之间的关系，是一个非常重要的定理。这里直接给出贝叶斯定理的结论：</p>
+<div class="math">$$ P(B  \mid A) = \frac{P(A \mid B)P(B) }{P(A)} $$</div>
+<p>在贝叶斯决策理论里面，要判断点<span class="math">\(x\)</span>是否属于<span class="math">\(C_i\)</span>类，只要验证是否存在：</p>
+<div class="math">$$ p(C_i \mid x) = \max_{j} \{ P(C_j \mid x) \} $$</div>
+<p>即是，使得 <span class="math">\(p(C_i \mid x)\)</span> 达到最大的那个 <span class="math">\(C_i\)</span> 就是 <span class="math">\(x\)</span> 所属的类别。</p>
+<h3>二、具体流程</h3>
+<hr>
+<p>要计算 <span class="math">\(P(C_i \mid x)\)</span>，那么就需要计算 <span class="math">\(\frac{P(x \mid C_i)P(C_i )}{P(x)}\)</span>，我们知道对于每一个 <span class="math">\(P(C_i \mid x)\)</span>，其计算公式中的分母都是 <span class="math">\(P(x)\)</span>，所以有：</p>
+<div class="math">$$ P(C_i \mid x) \propto P(x \mid C_i)P(C_i ) $$</div>
+<p>所以我们实际计算时，只需要考虑上式右侧的大小即可。首先我们来确定一些符号的意思：</p>
+<ul>
+<li><span class="math">\(x = [x_1, x_2, \dots, x_p]\)</span> 为一个带分类的项，<span class="math">\(x_i\)</span> 为其特征；</li>
+<li>data表示一个已知分类的数据集(<span class="math">\(n \times p\)</span> 的矩阵)，其每一行代表一个观测，每一列代表一个特征；</li>
+<li>label表示data中每一个数据对应的类别标签(<span class="math">\( n \times 1\)</span> 的矩阵)，比如 data 的第一行观测的类别就是 label 中的第一个取值；</li>
+<li><span class="math">\(C = [ C_1, C_2, \dots, C_m ]\)</span> 为一个类别集合，一般来说 <span class="math">\(m &lt; p\)</span>。</li>
+</ul>
+<h5>步骤：</h5>
+<ol>
+<li>
+<p>在已知分类的数据集data中统计：</p>
+<p>
+<div class="math">$$P(C_i), i = 1, 2, \dots, m$$</div>
+</p>
+<p>
+<div class="math">$$P(x_j \mid C_i), i = 1, 2, \dots, m; j = 1, 2, \dots p$$</div>
+</p>
+</li>
+<li>
+<p>计算</p>
+<p>
+<div class="math">$$P(x \mid C_i)P(C_i ) = P(C_i) \prod_{j=1}^{p} {P(x_j \mid C_i)}, i = 1, 2, \dots, m$$</div>
+</p>
+</li>
+<li>
+<p>若</p>
+<p>
+<div class="math">$$P(x \mid C_k)P(C_k) = \max\{ P(x \mid C_i)P(C_i ) \}$$</div>
+</p>
+<p>则 <span class="math">\(x \in C_k\)</span>。</p>
+</li>
+</ol>
+<h3>三、一些存在的问题</h3>
+<hr>
+<ol>
+<li>当步骤的第2步中，<span class="math">\(P(x \mid C_i)P(C_i ) = P(C_i) \prod_{j=1}^{p} {P(x_j \mid C_i)}, i = 1, 2, \dots, m\)</span>，中 <span class="math">\(P(x_j \mid C_i)\)</span> 可能在样本较小时取值出现0，那么就会影响乘积；</li>
+<li>计算机计算时会出现精度问题，比如，如果 <span class="math">\(P(x_j \mid C_i)\)</span> 的值有很多都是非常小的（像0.000001），那么计算机在计算是会将其四舍五入成0。</li>
+</ol>
+<p>出现上面的情况应该怎么办呢？</p>
+<p>学数学的应该都清楚，遇到这种问题有一个很简单的处理方式，那就是取个对数。虽说取对数后会改变值的大小，但是取对数不会改变原本数据趋势，即原来大的数，取对数后还是大的。</p>
+<p>此外，对于 <span class="math">\(P(x_j \mid C_i)\)</span> 可能在样本较小时取值出现0的情况，处理也很简单，那就是将每一个 <span class="math">\(x_j\)</span> 的初值都设置成1，所有特征的基数都从1开始，不会影响结果。（这时需要注意，所有特征的初值都是1，对应的总数初值也会发生变化。）</p>
+<h3>四、R语言实现</h3>
+<hr>
+<p>见<a href="https://github.com/JackyCode/Data_Science">我的项目</a></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/data-science.html">data science</a>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/machine-learning.html">machine learning</a>
+      <a href="./tag/classification.html">classification</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

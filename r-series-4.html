@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="./theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="./theme/pygments/github.min.css">
+  <link rel="stylesheet" type="text/css" href="./theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+
+<meta name="author" content="Jacky Gong" />
+<meta name="description" content="R 语言编程 4 - 函数" />
+<meta name="keywords" content="r, data science">
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:title" content="R语言记录4：自定义函数的深入"/>
+<meta property="og:description" content="R 语言编程 4 - 函数"/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./r-series-4.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-03-10 16:50:00+08:00"/>
+<meta property="article:modified_time" content="2017-03-29 20:30:00+08:00"/>
+<meta property="article:author" content="./author/jacky-gong.html">
+<meta property="article:section" content="R"/>
+<meta property="article:tag" content="r"/>
+<meta property="article:tag" content="data science"/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash; R语言记录4：自定义函数的深入</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href=".">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href=".">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href=".">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+<article class="single">
+  <header>
+    <h1 id="r-series-4">R语言记录4：自定义函数的深入</h1>
+    <p>
+          Posted on 2014-03-10 in <a href="./category/r.html">R</a>
+
+
+    </p>
+  </header>
+
+
+  <div>
+    <p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>在第一份笔记中，已经介绍过控制语句以及自定义函数。但是当时讲的很简单，只是讲了语法。这次打算深入介绍一下，如何在R中写出一个稳健的自定义函数。首先先介绍一个常用的控制语句<code>ifelse</code>。</p>
+<h4>一. 善用<code>ifelse</code></h4>
+<h6>1. 首先生成一组成绩数据</h6>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> scoreList <span class="o">&lt;-</span> <span class="kt">list</span><span class="p">()</span></span>
+<span class="code-line"><span class="o">&gt;</span> scoreList<span class="o">$</span>name <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="s">&quot;Wang&quot;</span><span class="p">,</span> <span class="s">&quot;Li&quot;</span><span class="p">,</span> <span class="s">&quot;Sun&quot;</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> scoreList<span class="o">$</span>score <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span><span class="m">90</span><span class="p">,</span> <span class="m">50</span><span class="p">,</span> <span class="m">70</span><span class="p">)</span></span>
+</pre></div>
+
+
+<h6>2. 然后对成绩进行分级</h6>
+<p>一般来说，可能我们会想到利用循环，在学生成绩中一个一个比较。大于<span class="math">\(60\)</span>及格，小于就不及格。但是循环相对而言是费资源的，在R语言中，处理像这种问题，完全可以避开循环去做。回想一下，之前讲<code>any</code>和<code>all</code>函数时，可以使用<code>which</code>函数取出满足条件的元素的位置。当然这也是一个不错的方式，但其实还有更好的方法，那就是利用<code>ifelse</code>函数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> con <span class="o">&lt;-</span> scoreList<span class="o">$</span>score <span class="o">&gt;</span> <span class="m">60</span></span>
+<span class="code-line"><span class="o">&gt;</span> scoreList<span class="o">$</span>level <span class="o">&lt;-</span> <span class="kp">ifelse</span><span class="p">(</span>con<span class="p">,</span> <span class="s">&quot;good&quot;</span><span class="p">,</span> <span class="s">&quot;not good&quot;</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p>如果使用<code>which</code>函数的话，也不复杂：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> scoreList<span class="o">$</span>level2 <span class="o">&lt;-</span> <span class="kp">rep</span><span class="p">(</span><span class="s">&quot;good&quot;</span><span class="p">,</span> <span class="m">3</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> scoreList<span class="o">$</span>level2<span class="p">[</span><span class="kp">which</span><span class="p">(</span>scoreList<span class="o">$</span>score<span class="o">&lt;</span><span class="m">60</span><span class="p">)]</span> <span class="o">&lt;-</span> <span class="s">&quot;not good&quot;</span></span>
+</pre></div>
+
+
+<p>上面两种方式比较起来的话，当然个人更喜欢第一种啦。便于理解逻辑性也强。不过第二种方式怎么看怎么觉得牛，哈哈。</p>
+<h4>二. 自定义函数的深入</h4>
+<h6>1. 首先先设计一个计算简单的函数</h6>
+<p>R语言是统计软件，那么就设计一个函数，能够输出一组值的均值，方差好了。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>这样看起来程序已经写好了，但其实是有问题的。我们来测试一下。</p>
+<h6>2. 生成一组服从<span class="math">\(N(0,1)\)</span>的随机数用来测试</h6>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> <span class="kp">set.seed</span><span class="p">(</span><span class="m">10</span><span class="p">)</span>  <span class="c1"># 设定种子</span></span>
+<span class="code-line"><span class="o">&gt;</span> x <span class="o">&lt;-</span> rnorm<span class="p">(</span><span class="m">20</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line">Summary.MeanAndSd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">result <span class="o">&lt;-</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">)</span></span>
+</pre></div>
+
+
+<p>运行可以发现，直接调用函数<code>Summary.MeanAndSd</code>函数没有任何输出；即使赋值给<code>result</code>，<code>result</code>也只得到了方差。</p>
+<h6>3. 选择返回值(<code>return</code>函数):</h6>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kt">c</span><span class="p">(</span><span class="kp">mean</span><span class="p">,</span> sd<span class="p">))</span></span>
+<span class="code-line"><span class="p">}</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.06053267</span>  <span class="m">0.79990931</span></span>
+</pre></div>
+
+
+<p>这次就可以得到输出，赋值给<code>result</code>也就可以成功了。下面我们来将程序加一个功能，那就是计算置信区间。</p>
+<h6>4. 函数参数：</h6>
+<p>计算置信区间，那就需要知道置信度<span class="math">\(\alpha\)</span>的大小。这个时候函数就必须能够接受参数：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">,</span> alpha<span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  upper <span class="o">&lt;-</span> <span class="m">1</span> <span class="o">-</span> alpha<span class="o">/</span><span class="m">2</span></span>
+<span class="code-line">  ci <span class="o">&lt;-</span> mean <span class="o">+</span> <span class="kt">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="o">*</span> qnorm<span class="p">(</span>alpha<span class="o">/</span><span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="o">*</span>sd<span class="o">/</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">length</span><span class="p">(</span>x<span class="p">))</span> <span class="c1"># qnorm计算正态分布的分位数</span></span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kt">list</span><span class="p">(</span>mean <span class="o">=</span> <span class="kp">mean</span><span class="p">,</span> sd <span class="o">=</span> sd<span class="p">,</span> ci <span class="o">=</span> ci<span class="p">))</span> <span class="c1"># 使用列表输出结果是常用方式</span></span>
+<span class="code-line"><span class="p">}</span></span>
+<span class="code-line"></span>
+<span class="code-line">Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">0.05</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p>运行上面的程序能够很轻松地得到结果。但是，如果我们运行<code>Summary.MeanAndSd(x)</code>，程序就会报错，它会提醒你没有键入<code>alpha</code>。但实际上，大部分默认情况下，<span class="math">\(\alpha=0.05\)</span>，完全可以将其设定成默认值：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">,</span> alpha<span class="o">=</span><span class="m">0.05</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  upper <span class="o">&lt;-</span> <span class="m">1</span> <span class="o">-</span> alpha<span class="o">/</span><span class="m">2</span></span>
+<span class="code-line">  ci <span class="o">&lt;-</span> mean <span class="o">+</span> <span class="kt">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="o">*</span> qnorm<span class="p">(</span>alpha<span class="o">/</span><span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="o">*</span>sd<span class="o">/</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">length</span><span class="p">(</span>x<span class="p">))</span> <span class="c1"># qnorm计算正态分布的分位数</span></span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kt">list</span><span class="p">(</span>mean <span class="o">=</span> <span class="kp">mean</span><span class="p">,</span> sd <span class="o">=</span> sd<span class="p">,</span> ci <span class="o">=</span> ci<span class="p">))</span> <span class="c1"># 使用列表输出结果是常用方式</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>这回再运行<code>Summary.MeanAndSd(x)</code>可以发现没有问题了。这里我们选取了列表作为输出的方式，这是一个常用的方式，利于查看保存。</p>
+<h6>5. 参数的合法性：</h6>
+<p>我们知道<span class="math">\(\alpha\)</span>是介于<span class="math">\((0,1)\)</span>之间的值，而且一般来说，<span class="math">\(\alpha&lt;0.5\)</span>。但上面的程序并不能够处理这类的问题，当参数不合法时，它依然能够计算出一个结果：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">1.5</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">$</span><span class="kp">mean</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.06053267</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>sd</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.7999093</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>ci</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.18117539</span>  <span class="m">0.06011005</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">0.8</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">$</span><span class="kp">mean</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.06053267</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>sd</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.7999093</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>ci</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.0152177</span> <span class="m">-0.1058476</span></span>
+</pre></div>
+
+
+<p>这样的结果显然是不合理的，函数并不具备一定的报错能力。对于用户不合法的输入参数，程序要能够及时停止程序的运行，并且告诉用户哪里错了。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">,</span> alpha<span class="o">=</span><span class="m">0.05</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  <span class="kr">if</span> <span class="p">(</span>alpha <span class="o">&lt;=</span> <span class="m">0</span> <span class="o">||</span> alpha <span class="o">&gt;=</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">stop</span><span class="p">(</span><span class="s">&quot;The argument &#39;alpha&#39; should be between 0 and 1!&quot;</span> <span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>alpha <span class="o">&gt;</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">warning</span><span class="p">(</span><span class="s">&quot;The argument &#39;alpha&#39; is often smaller than 0.5 and  close to 0!&quot;</span><span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span></span>
+<span class="code-line"></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">)</span></span>
+<span class="code-line">  upper <span class="o">&lt;-</span> <span class="m">1</span> <span class="o">-</span> alpha<span class="o">/</span><span class="m">2</span></span>
+<span class="code-line">  ci <span class="o">&lt;-</span> mean <span class="o">+</span> <span class="kt">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="o">*</span> qnorm<span class="p">(</span>alpha<span class="o">/</span><span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="o">*</span>sd<span class="o">/</span><span class="kp">sqrt</span><span class="p">(</span><span class="kp">length</span><span class="p">(</span>x<span class="p">))</span> <span class="c1"># qnorm计算正态分布的分位数</span></span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kt">list</span><span class="p">(</span>mean <span class="o">=</span> <span class="kp">mean</span><span class="p">,</span> sd <span class="o">=</span> sd<span class="p">,</span> ci <span class="o">=</span> ci<span class="p">))</span> <span class="c1"># 使用列表输出结果是常用方式</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>运行一下：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">1.5</span><span class="p">)</span></span>
+<span class="code-line">Error <span class="kr">in</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">1.5</span><span class="p">)</span> <span class="o">:</span></span>
+<span class="code-line">  The argument <span class="s">&#39;alpha&#39;</span> should be between <span class="m">0</span> and <span class="m">1</span><span class="o">!</span></span>
+<span class="code-line"><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">0.8</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">$</span><span class="kp">mean</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.06053267</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>sd</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.7999093</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>ci</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.0152177</span> <span class="m">-0.1058476</span></span>
+<span class="code-line"></span>
+<span class="code-line">Warning <span class="kp">message</span><span class="o">:</span></span>
+<span class="code-line">In Summary.MeanAndSd<span class="p">(</span>x<span class="p">,</span> <span class="m">0.8</span><span class="p">)</span> <span class="o">:</span></span>
+<span class="code-line">  The argument <span class="s">&#39;alpha&#39;</span> is often smaller than <span class="m">0.5</span> and  close to <span class="m">0</span><span class="o">!</span></span>
+</pre></div>
+
+
+<p>这样程序就具备了一定的稳健性，能够具备一些报错的能力。但是在实际处理数据的时候，往往还会遇到一种情况，那就是缺失值。想想看，上面写的程序能够很好地应付存在缺失值的数据吗？显然是不行的。</p>
+<h6>6. 注意缺失值</h6>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="c1"># 生成一组具有缺失值的数据</span></span>
+<span class="code-line"><span class="o">&gt;</span> <span class="kp">set.seed</span><span class="p">(</span><span class="m">10</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> y <span class="o">&lt;-</span> rnorm<span class="p">(</span><span class="m">20</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span></span>
+<span class="code-line"><span class="o">&gt;</span> y <span class="o">&lt;-</span> <span class="kt">c</span><span class="p">(</span>y<span class="p">,</span> <span class="kc">NA</span><span class="p">)</span></span>
+</pre></div>
+
+
+<p>试试上面的程序，能否得到结果:</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>y<span class="p">)</span></span>
+<span class="code-line"><span class="o">$</span><span class="kp">mean</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="kc">NA</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>sd</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="kc">NA</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>ci</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="kc">NA</span> <span class="kc">NA</span></span>
+</pre></div>
+
+
+<p>显然上面的程序无法处理存在缺失值的数据。回想一下，我们之前学过<code>na.rm</code>参数，我们可以通过设定此参数剔除缺失值：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">,</span> alpha<span class="o">=</span><span class="m">0.05</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  <span class="kr">if</span> <span class="p">(</span>alpha <span class="o">&lt;=</span> <span class="m">0</span> <span class="o">||</span> alpha <span class="o">&gt;=</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">stop</span><span class="p">(</span><span class="s">&quot;The argument &#39;alpha&#39; should be between 0 and 1!&quot;</span> <span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>alpha <span class="o">&gt;</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">warning</span><span class="p">(</span><span class="s">&quot;The argument &#39;alpha&#39; is often smaller than 0.5 and  close to 0!&quot;</span><span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span></span>
+<span class="code-line">  <span class="kr">if</span> <span class="p">(</span><span class="kp">any</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>y<span class="p">)))</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">warning</span><span class="p">(</span><span class="s">&quot;There are any &#39;NA&#39; in the data, we&#39;ll ignore these datas!&quot;</span><span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span></span>
+<span class="code-line"></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">,</span> na.rm<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">,</span> na.rm<span class="o">=</span><span class="kc">TRUE</span><span class="p">)</span></span>
+<span class="code-line">  n <span class="o">&lt;-</span> <span class="kp">ifelse</span><span class="p">(</span><span class="kp">any</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>y<span class="p">)),</span> <span class="kp">length</span><span class="p">(</span>x<span class="p">)</span><span class="o">-</span><span class="kp">sum</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>x<span class="p">)),</span> <span class="kp">length</span><span class="p">(</span>x<span class="p">))</span> <span class="c1"># n &lt;- length(x)-sum(is.na(x)) 也可以</span></span>
+<span class="code-line">  upper <span class="o">&lt;-</span> <span class="m">1</span> <span class="o">-</span> alpha<span class="o">/</span><span class="m">2</span></span>
+<span class="code-line">  ci <span class="o">&lt;-</span> mean <span class="o">+</span> <span class="kt">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="o">*</span> qnorm<span class="p">(</span>alpha<span class="o">/</span><span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="o">*</span>sd<span class="o">/</span><span class="kp">sqrt</span><span class="p">(</span>n<span class="p">)</span> <span class="c1"># qnorm计算正态分布的分位数</span></span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kt">list</span><span class="p">(</span>mean <span class="o">=</span> <span class="kp">mean</span><span class="p">,</span> sd <span class="o">=</span> sd<span class="p">,</span> ci <span class="o">=</span> ci<span class="p">))</span> <span class="c1"># 使用列表输出结果是常用方式</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>现在运行一下：</p>
+<div class="highlight"><pre><span class="code-line"><span></span><span class="o">&gt;</span> Summary.MeanAndSd<span class="p">(</span>y<span class="p">)</span></span>
+<span class="code-line"><span class="o">$</span><span class="kp">mean</span></span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">-0.06053267</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>sd</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">0.7999093</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="o">$</span>ci</span>
+<span class="code-line"><span class="p">[</span><span class="m">1</span><span class="p">]</span>  <span class="m">0.2900366</span> <span class="m">-0.4111019</span></span>
+<span class="code-line"></span>
+<span class="code-line">Warning <span class="kp">message</span><span class="o">:</span></span>
+<span class="code-line">In Summary.MeanAndSd<span class="p">(</span>y<span class="p">)</span> <span class="o">:</span></span>
+<span class="code-line">  There are any <span class="s">&#39;NA&#39;</span> <span class="kr">in</span> the data<span class="p">,</span> we<span class="s">&#39;</span><span class="err">ll ignore these datas!</span></span>
+</pre></div>
+
+
+<p>这样上面的程序就具备了处理缺失值的能力，它能够自动识别数据中是否存在缺失值，如果存在的话就剔除缺失值再进行计算，并且提醒用户存在缺失值。</p>
+<p>但其实R语言中存在另外一个方式，可以使得程序具备处理缺失值等等的问题。可以使用使用<code>...</code>参数，使得自定义函数能够接受其它某些函数的参数，想象一下，如果可以这样调用我们的函数，<code>Summary.MeanAndSd(y, na.rm=TRUE)</code>，是不是perfect。</p>
+<div class="highlight"><pre><span class="code-line"><span></span>Summary.MeanAndSd <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">,</span> alpha<span class="o">=</span><span class="m">0.05</span><span class="p">,</span> <span class="kc">...</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  <span class="kr">if</span> <span class="p">(</span>alpha <span class="o">&lt;=</span> <span class="m">0</span> <span class="o">||</span> alpha <span class="o">&gt;=</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">stop</span><span class="p">(</span><span class="s">&quot;The argument &#39;alpha&#39; should be between 0 and 1!&quot;</span> <span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span> <span class="kr">else</span> <span class="kr">if</span> <span class="p">(</span>alpha <span class="o">&gt;</span> <span class="m">0.5</span><span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">    <span class="kp">warning</span><span class="p">(</span><span class="s">&quot;The argument &#39;alpha&#39; is often smaller than 0.5 and  close to 0!&quot;</span><span class="p">)</span></span>
+<span class="code-line">  <span class="p">}</span></span>
+<span class="code-line">  <span class="c1"># ellipsis.arguments &lt;- list(...)</span></span>
+<span class="code-line"></span>
+<span class="code-line">  mean <span class="o">&lt;-</span> <span class="kp">mean</span><span class="p">(</span>x<span class="p">,</span> <span class="kc">...</span><span class="p">)</span></span>
+<span class="code-line">  sd <span class="o">&lt;-</span> sd<span class="p">(</span>x<span class="p">,</span> <span class="kc">...</span><span class="p">)</span></span>
+<span class="code-line">  n <span class="o">&lt;-</span> <span class="kp">ifelse</span><span class="p">(</span><span class="kp">any</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>y<span class="p">)),</span> <span class="kp">length</span><span class="p">(</span>x<span class="p">)</span><span class="o">-</span><span class="kp">sum</span><span class="p">(</span><span class="kp">is.na</span><span class="p">(</span>x<span class="p">)),</span> <span class="kp">length</span><span class="p">(</span>x<span class="p">))</span></span>
+<span class="code-line">  upper <span class="o">&lt;-</span> <span class="m">1</span> <span class="o">-</span> alpha<span class="o">/</span><span class="m">2</span></span>
+<span class="code-line">  ci <span class="o">&lt;-</span> mean <span class="o">+</span> <span class="kt">c</span><span class="p">(</span><span class="m">-1</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span> <span class="o">*</span> qnorm<span class="p">(</span>alpha<span class="o">/</span><span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span><span class="o">*</span>sd<span class="o">/</span><span class="kp">sqrt</span><span class="p">(</span>n<span class="p">)</span> <span class="c1"># qnorm计算正态分布的分位数</span></span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kt">list</span><span class="p">(</span>mean <span class="o">=</span> <span class="kp">mean</span><span class="p">,</span> sd <span class="o">=</span> sd<span class="p">,</span> ci <span class="o">=</span> ci<span class="p">))</span> <span class="c1"># 使用列表输出结果是常用方式</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>这样就可以直接使用<code>Summary.MeanAndSd(y, na.rm=TRUE)</code>来计算了。</p>
+<h6>7. 递归函数</h6>
+<p>递归函数即自调用函数，有些时候我们会使用到，这里举个例子：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plusFun1 <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kp">ifelse</span><span class="p">(</span>x <span class="o">&lt;</span> <span class="m">10</span><span class="p">,</span> plusFun<span class="p">(</span>x <span class="o">+</span> <span class="m">1</span><span class="p">),</span> x<span class="p">))</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<p>当然也可以使用R的内置函数<code>Recall</code>：</p>
+<div class="highlight"><pre><span class="code-line"><span></span>plusFun2 <span class="o">&lt;-</span> <span class="kr">function</span> <span class="p">(</span>x<span class="p">)</span> <span class="p">{</span></span>
+<span class="code-line">  <span class="kr">return</span><span class="p">(</span><span class="kp">ifelse</span><span class="p">(</span>x <span class="o">&lt;</span> <span class="m">10</span><span class="p">,</span> <span class="kp">Recall</span><span class="p">(</span>x<span class="m">+1</span><span class="p">),</span> x<span class="p">))</span></span>
+<span class="code-line"><span class="p">}</span></span>
+</pre></div>
+
+
+<h4>三. 小结</h4>
+<p>今天讲了如何在R语言里面构造一个稳健的函数，以及<code>ifelse</code>和<code>Recall</code>函数的使用。写完这些，基本上R语言的基础就结束了。下面就开始写如何使用R语言去解决统计问题。由于我是概率统计专业的，而且是数学系出生，所以写的东西会有不少的理论。</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="./tag/r.html">r</a>
+      <a href="./tag/data-science.html">data science</a>
+    </p>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline">
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'jacky-msc';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+        Please enable JavaScript to view comments.
+
+</noscript>
+</article>
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : ".",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

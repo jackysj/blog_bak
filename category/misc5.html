@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="author" content="Jacky Gong" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Jacky MSC"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content=".."/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash;     Category misc
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="..">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href="..">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="..">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-9-ju-lei-suan-fa-zhi-kmeans.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-9-ju-lei-suan-fa-zhi-kmeans">"数据科学之机器学习9: 聚类算法之KMeans"</a></h2>
+    <p>
+          Posted on 2014-04-19 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 24" src="/images/article/article24.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h2>The k-means algorithm</h2>
+<hr>
+<p>前面写了很多监督学习的东西，除了回归就是分类，今儿有点想换换口味，写写无监督学习的算法。k-means算法是一种聚类算法，聚类就是无监督学习里面的内容。那么先来说说聚类：</p>
+<h3>一、聚类简介</h3>
+<hr>
+<ol>
+<li>
+<p>聚类是一种无监督学习方法，它主要就是将相似的对象归并到一个类别中。</p>
+</li>
+<li>
+<p>聚类分析的目的是把分类对象按照一定的规则，分成若干个类。这些类并不是事先给定的，而是在处理数据时，根据数据的特征确定的。因而，在处理之前无需对类的数目、结构等等作出假定(理论如此，实际应用时并不完全这样，以后讲聚类分析时再具体说)。</p>
+</li>
+<li>
+<p>在同一类别中，对象具有某种意义下的相似性；不同的类别中，对象具有某种意义下的不相似。</p>
+</li>
+<li>
+<p><strong>聚类与分类的最大不同</strong>：分类的目标事先已知，而聚类未知。正因为聚类产生的结构与分类相同，只是类别没有预先定义，所以聚类也被称为“无监督分类”。</p>
+</li>
+</ol>
+<h3>二、k-means法</h3>
+<hr>
+<p>k-means法是由MacQueen提出并命名的一种聚类算法。其使用聚类中的均值进行聚类划分，这样说不大好理解，可以先看一下算法的基本步骤：</p>
+<ol>
+<li>从n个数据对象中任意取出k个样品对象作为初始聚类点（或者将所有数据分成k份，计算每一份中的重心（均值）作为初始聚类点）；</li>
+<li>对所有样品对象逐个归类 …</li></ol>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-9-ju-lei-suan-fa-zhi-kmeans.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-9-ju-lei-suan-fa-zhi-kmeans">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-8-jue-ce-shu-zhi-id3.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-8-jue-ce-shu-zhi-id3">"数据科学之机器学习8: 决策树之ID3"</a></h2>
+    <p>
+          Posted on 2014-04-14 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 23" src="/images/article/article23.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>ID3算法的核心问题就在于：如何选取在决策树的每个节点处要测试的属性。那么如何去选择呢？当然，我们要选取<strong>分类能力最好的属性</strong>，那么怎么去确定哪个属性是分类能力最好的呢？ID3算法中，使用<strong>信息增益</strong>作为评判标准。在看信息增益之前，我们先看看这个决策树的构造过程：</p>
+<h3>一、构造过程</h3>
+<hr>
+<ol>
+<li>选取<strong>分类能力最好的属性</strong>作为决策树根部节点的测试；</li>
+<li>为根节点属性的每一个可能值产生一个分支；</li>
+<li>以各个分支节点为根节点，重复上述过程。</li>
+</ol>
+<h3>二、信息增益</h3>
+<hr>
+<h4>1. 熵</h4>
+<hr>
+<p>在看信息增益之前，首先需要介绍一个概念，那就是<strong>香农熵</strong>，简称为<strong>熵</strong>。相信学过物理的应该大都听过这个名词，在热力学中不就有个熵增原理嘛。其实，<strong>熵是信息论中广泛使用的一个度量标准，刻画了任意样例集合的纯度。</strong></p>
+<p><strong>熵是信息的期望值</strong>，所以可以用熵来刻画一个数据集的纯度。若用<span class="math">\(x_i,i=1,2,\dots,n\)</span>来表示数据集所包含的属性，那么这个数据集的熵为：</p>
+<div class="math">$$ H …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-8-jue-ce-shu-zhi-id3.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-8-jue-ce-shu-zhi-id3">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../da-zhe-de-apps.html#da-zhe-de-apps">"打折的Apps"</a></h2>
+    <p>
+          Posted on 2014-04-11 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 22" src="/images/article/article22.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>这两天，很多Mac和iPhone上的Apps都在打折，比如出名的Day one、1Password等等。</p>
+<p>在StackSoical上面也介绍了一些，链接如下：<a href="https://stacksocial.com/ios_bundle?utm_source=ssnetwork&amp;utm_medium=hellobar&amp;utm_campaign=iosbundle">链接</a></p>
+<p><img alt="stack" src="/images/a22/stack.jpg"></p>
+<p>StackSoical上没有介绍的，就是打折的<a href="https://agilebits.com/store">1Password</a></p>
+<p><img alt="1pass" src="/images/a22/1pass.jpg"></p>
+<p>这些打折的应用，都可以直接在App Store购买。我暂时不知道打折持续的时间有多少，也不知道打折的原因。没关系啦，这个打折总归是我们这些消费者福音，像1Password这样贵的应用，如果需要的，抓紧时间购买吧！！！</p>
+      <br>
+      <a class="btn" href="../da-zhe-de-apps.html#da-zhe-de-apps">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-7-jue-ce-shu.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-7-jue-ce-shu">"数据科学之机器学习7: 决策树"</a></h2>
+    <p>
+          Posted on 2014-04-11 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 21" src="/images/article/article21.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h3>一、开始</h3>
+<hr>
+<p>在介绍决策树的概念内容之前，先来初步了解一下决策树的流程。这是一个很简单的概念，通过一张简单的流程图就可以大致了解决策树是干什么的，怎么干的。</p>
+<p><img alt="decision trees" src="\images\a21\decisiontrees.jpg"></p>
+<h3>二、相关概念</h3>
+<hr>
+<h4>1. 一些概念</h4>
+<hr>
+<ul>
+<li>决策树学习是一种逼近离散值目标函数的方法。</li>
+<li>决策树通过把实例从根节点排列到某个叶子节点来分类实例，叶子的节点即为实例所属的分类。</li>
+<li>决策树上的每一个节点，指定了对实例的某一个属性的测试，并且，该节点的每一个后续分支对应该属性的一个可能值。</li>
+</ul>
+<h4>2. 分类方法</h4>
+<hr>
+<p>从树的根节点开始，测试这个节点指定的属性，然后按照给定实例的该属性值对应的分支向下移动。然后以新节点作为根节点重复上面的过程直至结束。</p>
+<h3>三、 评价</h3>
+<hr>
+<p>通过决策树的流程，可以发现决策树的计算复杂度不高，而且其输出的结果易于理解，并且对缺失值不敏感。</p>
+<p>但是，正是由于其划分过于细致，可能会导致过度匹配问题(与回归中的overfitting类似)。</p>
+<h3>四、主要的决策树算法</h3>
+<hr>
+<p>从决策树的流程可以看出，<strong>如何选择属性作为节点以测试实例</strong>是最为关键的一步。不同的算法采取了不同的方法，主要的决策树算法有这样几个：</p>
+<ul>
+<li>ID3</li>
+<li>C4.5 （数据挖掘十大算法之一，也是ID3算法的改进）</li>
+<li>C5.0 …</li></ul>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-7-jue-ce-shu.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-7-jue-ce-shu">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-6-fen-lei-zhi-po-su-bei-xie-si.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-6-fen-lei-zhi-po-su-bei-xie-si">"数据科学之机器学习6: 分类之朴素贝叶斯"</a></h2>
+    <p>
+          Posted on 2014-04-08 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 20" src="/images/article/article20.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h3>0、kNN算法的优缺点</h3>
+<p>与kNN算法一样，朴素贝叶斯算法也是数据挖掘十大算法之一。我们介绍kNN算法时，并没有讨论kNN算法的优缺点，这边首先看看这个问题。</p>
+<p>从构造kNN算法的过程可以看到，这个分类算法的<strong>精度很高</strong>。因为这个算法计算了所有点与待分类点之间的相似度，然后去确定带分类点的类别。由此可见，这个算法对<strong>异常值并不敏感</strong>。但是正是因为它需要计算所有点之间的距离，所以其<strong>复杂度是很高的</strong>，换句话就是，如果数据量大的话，这个算法会很费时，并不高效。</p>
+<h3>一、贝叶斯决策</h3>
+<hr>
+<p>贝叶斯定理给出了条件概率之间的关系，是一个非常重要的定理。这里直接给出贝叶斯定理的结论：</p>
+<div class="math">$$ P(B  \mid A) = \frac{P(A \mid B)P(B) }{P(A)} $$</div>
+<p>在贝叶斯决策理论里面，要判断点<span class="math">\(x\)</span>是否属于<span class="math">\(C_i\)</span>类，只要验证是否存在：</p>
+<div class="math">$$ p …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-6-fen-lei-zhi-po-su-bei-xie-si.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-6-fen-lei-zhi-po-su-bei-xie-si">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+    <a class="btn float-left" href="../category/misc6.html">
+      <i class="fa fa-angle-left"></i>     Older Posts
+
+    </a>
+    <a class="btn float-right" href="../category/misc4.html">
+          Newer Posts
+ <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : "..",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

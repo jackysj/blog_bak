@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="author" content="Jacky Gong" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Jacky MSC"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content=".."/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash;     Category misc
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="..">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href="..">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="..">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-13-guan-lian-fen-xi.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-13-guan-lian-fen-xi">"数据科学之机器学习13: 关联分析"</a></h2>
+    <p>
+          Posted on 2014-05-04 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 29" src="/images/article/article29.jpg">
+<!-- more --></p>
+<p>标题图片出处：<a href="http://www.hypertextbookshop.com/dataminingbook/public_version/contents/chapters/chapter002/section003/blue/page002.html">Rule Generation</a></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<h4>一、简介</h4>
+<hr>
+<p>在统计学中，变量与变量之间的关系是统计结构的重要参数，统计的核心问题也就是研究变量与变量之间的关系。如果变量与变量之间不独立，那么这两个变量之间肯定存在一定的关联性，那么如何处理度量这个关联性，在统计中就称为关联分析。</p>
+<p>列联表是传统统计学中度量两个分类变量之间关系强弱的方法，但是这个方法是对于两个固定的变量进行的一种测量。在机器学习中，常常会遇到大规模的变量，这时候更倾向于从众多的变量中最快地找到关联性最强的两组或多组变量。那么使用列联表就显得不太合适了，此时应该使用什么方法呢？</p>
+<hr>
+<h4>二、关联规则</h4>
+<hr>
+<p>首先介绍2个定义：</p>
+<ol>
+<li><strong>k项集：</strong>设<div class="math">$$I = \{ i_1, i_2, \dots, i_m \}$$</div>是<span class="math">\(m\)</span>个待研究的项构成的有限项集，对于给定的事物数据表<div class="math">$$T = \{ T_1, T_2, \dots, T_n \}$$</div>，其中任意的<span class="math">\(T_i\)</span>是<span class="math">\(I\)</span>中的<span class="math">\(k\)</span>项组成的集合，称之为<strong>k项集</strong>。</li>
+<li><strong>关联规则 …</strong></li></ol><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-13-guan-lian-fen-xi.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-13-guan-lian-fen-xi">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../mac-xi-tong-zhong-zhuang.html#mac-xi-tong-zhong-zhuang">"Mac 系统重装"</a></h2>
+    <p>
+          Posted on 2014-04-30 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 28" src="/images/article/article28.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>话说Mac一般来讲不需要什么重装啊，不过世事无绝对啊，有时候人就是喜欢作死！！！比如前几天的我~~~算了，具体情况就不说了，反正就是作死，Mac系统出了问题。本来想着用Time Machine恢复一下就得了，也省事。不过仔细想了一想，很想自己安装一遍（博主的折腾精神有时候很是让自己“佩服”），然后就开始了Mac系统重装之旅！</p>
+<h3>一、制作USB安装盘</h3>
+<hr>
+<p>要安装首先就得制作一个启动U盘，当然你也可以使用Mac的Internet Recovery，不过我试了一下，反正我是连不上！不过即使连上了，那个下载应该也需要超久的时间，不是我可以等得了的。我之前更新Mac时，已经下载好了Mavericks（OS X 10.9），所以直接拿来用了。</p>
+<h4>具体操作如下：</h4>
+<ol>
+<li>将OS X 10.9安装文件放到桌面上，右键选择“显示包内容”；</li>
+<li>复制"Contents/Resources/createinstallmedia"到桌面；</li>
+<li>打开终端，执行命令：<code>sudo …</code></li></ol>
+      <br>
+      <a class="btn" href="../mac-xi-tong-zhong-zhuang.html#mac-xi-tong-zhong-zhuang">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-12-logisichui-gui.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-12-logisichui-gui">"数据科学之机器学习12: Logisic回归"</a></h2>
+    <p>
+          Posted on 2014-04-27 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 27" src="/images/article/article27.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>在数据科学系列的开头，花了三篇介绍了线性回归。线性回归模型应该是定量分析中最常用的一种统计分析方法。但是线性回归处理数据时，要求因变量是连续型变量。但是很多时候，需要处理的数据，其因变量并不是连续的。像性别、对错等等，这种离散的因变量，一般称为分类响应变量。</p>
+<p>在机器学习的<a href="http://jackycode.github.io/blog/2014/03/30/data-science-an-introduction-to-machine-learning/">介绍篇</a>中，已经介绍了监督学习与非监督学习。在监督学习中，最主要的两类问题，一个就是回归，另一个就是分类。而Logistic回归就是处理二元分类的一种方法，当然其也存在自身的问题，这个后面再讲。</p>
+<h4>Sigmoid函数</h4>
+<hr>
+<p>要了解Logistic回归，首先需要了解一下Sigmoid函数。为什么呢？</p>
+<p>一般来说，我们会定义二元分类变量的输出为0和1，这种函数叫做单位阶跃函数，也称Heaviside step function。这个函数的特点就是其取值可以从0突变到1，反之也可。学过数分的话就知道，这种函数有时候会非常难以处理，因为带跳突变，导致了不可微不可导。在这里，就可以借助Sigmoid函数，因为这个函数可以近似地描述单位阶跃函数的特点。首先看看Sigmoid函数：</p>
+<div class="math">$$ p = \frac{exp(y)}{1 …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-12-logisichui-gui.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-12-logisichui-gui">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-11-ju-lei-fen-xi-2.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-11-ju-lei-fen-xi-2">"数据科学之机器学习11: 聚类分析2"</a></h2>
+    <p>
+          Posted on 2014-04-24 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 26" src="/images/article/article26.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>上一篇介绍了聚类分析的定义，给出了很多不同的相似性的度量方法。这一篇主要想介绍一下除了快速聚类之外的另外一种聚类方法：<strong>系统聚类法</strong>。</p>
+<h3>二、系统聚类法</h3>
+<hr>
+<p>系统聚类法，hierarchical clustering method，是聚类分析方法中用的较多的一种。其具体过程如下：</p>
+<ol>
+<li>对于n个样品，构造n个类，每个样品单独作为一类。计算每个类之间的距离；</li>
+<li>合并距离最近的两个类为一个新类；</li>
+<li>计算新类与其它类之间的距离，重复2直到所有类合并称为1个类为止。</li>
+</ol>
+<p>那么类与类之间的距离如何定义呢？</p>
+<p>其实，类与类之间的距离有很多中定义方式常见的有：</p>
+<ol>
+<li>最短距离法，single linkage method，<div class="math">$$ D_{KL} = \min_{i \in G_K,j \in G_L} d_{ij} $$</div>；</li>
+<li>最长距离法，complete linkage method，<div class="math">$$ D_{KL} = \max_{i \in G_K,j …</div></li></ol><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-11-ju-lei-fen-xi-2.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-11-ju-lei-fen-xi-2">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-10-ju-lei-fen-xi-1.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-10-ju-lei-fen-xi-1">"数据科学之机器学习10: 聚类分析1"</a></h2>
+    <p>
+          Posted on 2014-04-21 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 25" src="/images/article/article25.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>上一篇介绍了聚类分析中的KMeans算法，这一节就来具体地说说聚类分析。聚类分析，cluster analysis，是一种研究“物以类聚”现代统计学分析方法，其目的是要把分类对象按照一定的规则分成若干个类。这些类别并非事先给定的，而是根据数据的特征确定的。</p>
+<hr>
+<h5>NOTE：聚类的划分：</h5>
+<ol>
+<li>
+<p>根据分类对象的不同，可以分为：<strong>Q型聚类分析</strong>和<strong>R型聚类分析</strong>。Q型是指对样品对象进行聚类；而R型则是对变量(属性)进行聚类。</p>
+</li>
+<li>
+<p>按照分析方法的不同，又可以分为：<strong>系统聚类法</strong>、<strong>快速聚类法</strong>和<strong>模糊聚类法</strong>。上一篇介绍的KMeans法就是快速聚类法中的一种。</p>
+</li>
+</ol>
+<hr>
+<h4>一、相似性的度量</h4>
+<hr>
+<p>在上一篇中，我们已经介绍过，聚类其实就是将相似度高的样品啊属性啊合并成一个类别。但是，上一篇我们仅仅给出了一种也是最简单的一种相似性的度量方式——欧式距离。这里我们详细看看相似性有哪些度量方式：</p>
+<p>除了使用<strong>有序尺度变量</strong>（将属性划分为一级、二级等等的有次序关系的量来表示）和<strong>名义尺度变量</strong>（使用既没有等级关系，又不存在数量关系的量来表示。比如男女）之外 …</p>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-10-ju-lei-fen-xi-1.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-10-ju-lei-fen-xi-1">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+    <a class="btn float-left" href="../category/misc5.html">
+      <i class="fa fa-angle-left"></i>     Older Posts
+
+    </a>
+    <a class="btn float-right" href="../category/misc3.html">
+          Newer Posts
+ <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : "..",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>

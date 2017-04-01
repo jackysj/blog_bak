@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" type="text/css" href="../theme/stylesheet/style.min.css">
+
+  <link rel="stylesheet" type="text/css" href="../theme/pygments/monokai.min.css">
+  <link rel="stylesheet" type="text/css" href="../theme/font-awesome/css/font-awesome.min.css">
+
+
+    <link href="//jacky-sj/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Jacky MSC Atom">
+
+
+    <link rel="shortcut icon" href="/images/images.ico" type="image/x-icon">
+    <link rel="icon" href="/images/images.ico" type="image/x-icon">
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#333333">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#333333">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="author" content="Jacky Gong" />
+    <meta name="description" content="" />
+<meta property="og:site_name" content="Jacky MSC"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="Jacky MSC"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content=".."/>
+<meta property="og:image" content="/images/images.png">
+
+  <title>Jacky MSC &ndash;     Category misc
+</title>
+
+</head>
+<body>
+  <aside>
+    <div>
+      <a href="..">
+        <img src="/images/images.png" alt="Jacky MSC" title="Jacky MSC">
+      </a>
+      <h1><a href="..">Jacky MSC</a></h1>
+
+<p>Thoughts and Writings</p>
+      <nav>
+        <ul class="list">
+
+          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
+          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="/about.html" target="_blank">About</a></li>
+        </ul>
+      </nav>
+
+      <ul class="social">
+        <li><a class="sc-weibo" href="http://weibo.com/jackycode" target="_blank"><i class="fa fa-weibo"></i></a></li>
+        <li><a class="sc-github" href="https://github.com/jackysj" target="_blank"><i class="fa fa-github"></i></a></li>
+        <li><a class="sc-rss" href="/feeds/all.atom.xml" target="_blank"><i class="fa fa-rss"></i></a></li>
+      </ul>
+    </div>
+
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="..">    Home
+</a>
+
+      <a href="/archives.html">Archives</a>
+      <a href="/categories.html">Categories</a>
+      <a href="/tags.html">Tags</a>
+
+      <a href="//jacky-sj/feeds/all.atom.xml">    Atom
+</a>
+
+    </nav>
+
+
+
+<article>
+  <header>
+    <h2><a href="../yin-zi-fen-xi-1.html#yin-zi-fen-xi-1">"因子分析1"</a></h2>
+    <p>
+          Posted on 2014-05-14 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 34" src="/images/article/article34_new.jpg">
+<!-- more --></p>
+<p>图片来源于<a href="http://software.ssri.co.jp/statweb2/column/column0811.html">网址</a></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p><em>updata:</em></p>
+<p>感谢谢老大的提醒，让我发觉，在机器学习下放置因子分析并不合适。详细情况参见文章的回复板块。</p>
+<hr>
+<p>前一篇介绍的主成分分析(PCA)，是一种降维技术；这一篇介绍的因子分析也是一种降维的方法，不仅如此，还可以将因子分析看作是主成分分析的一种推广和发展。与之主成分分析相比较，因子分析更为灵活，对变量降维后的解释能够更加清楚。</p>
+<p>但因子分析和主成分分析有非常多的不同点。</p>
+<ol>
+<li>主成分分析不能作为一个模型来描述，主成分是观测变量的线性组合；</li>
+<li>因子分析需要构造因子模型，观测的原始变量是因子的线性组合。</li>
+</ol>
+<hr>
+<h4>初窥</h4>
+<hr>
+<p>在介绍因子模型之前，可以先看看这个因子分析到底是要干什么，以及是怎么干的！</p>
+<p>在二维空间中，主成分分析，它想做的是寻找一组新的变量</p>
+<div class="math">$$y_1,y_2$$</div>
+<p>，用它去替代原来的变量</p>
+<div class="math">$$x_1,x_2$$</div>
+<p>，并且满足</p>
+<div class="math">$$y_1$$</div>
+<p>和</p>
+<div class="math">$$y_2$$</div>
+<p>这两个变量都是</p>
+<div class="math">$$x_1,x_2$$</div>
+<p>两个变量的线性组合！即：</p>
+<p><img alt="" src="/images/a34/eq1.jpg"></p>
+<p>而在因子模型中，我们需要做的跟此不同。我们需要找到一组潜在变量(不可观测)，用这组潜在变量的线性组合去表示原始变量</p>
+<div class="math">$$x_1 …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../yin-zi-fen-xi-1.html#yin-zi-fen-xi-1">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-15-zhu-cheng-fen-fen-xi.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-15-zhu-cheng-fen-fen-xi">"数据科学之机器学习15: 主成分分析"</a></h2>
+    <p>
+          Posted on 2014-05-11 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 33" src="/images/article/article33.jpg">
+<!-- more --></p>
+<p>图片为：本文实例数据得到的，前两个主成分的散点图！</p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>在之前<a href="http://jackycode.github.io/blog/2014/04/02/linear-regression3/">线性回归3</a>提到多重共线性问题，当时说了一些解决这个问题的办法，其中一种就是今天要说的<strong>主成分分析</strong>。</p>
+<p><strong>主成分分析</strong>，Principal Components Analysis，简称PCA，是变量选择的一种方法。其一般的目的就是：变量的降维和主成分的解释！当主成分用于聚类或者回归，这个时候就是在做变量的降维；而当用来分析变量，尤其是使用前两个主成分进行散点图的绘制时，此时就是在对变量利用主成分做出一些解释。在了解主成分分析的原理之后，相信对这两个目的就可以很容易直观的理解了！</p>
+<hr>
+<h4>一、原理初窥</h4>
+<hr>
+<p>在用数学公式和概率统计知识推导其原理之前，不妨先直观地看看主成分分析到底是要干嘛，以及大致是怎么干的！</p>
+<p>我们就用两个变量来说这个问题，变量分别记作</p>
+<div class="math">$$x_1,x_2$$</div>
+<p>。那么，我们先画个散点图吧，也许它们的散点图是这个样子的：</p>
+<p><img alt="" src="/images/a33/images1.jpg"></p>
+<p>我们可以看到，这两个变量明显呈现一种线性关系，如果在做线性回归时，将这两个变量都用作自变量，然后对某一个因变量进行线性拟合，那必定会存在一些问题。那么主成分分析是要做什么呢？其实主成分分析就是要寻找变量</p>
+<div class="math">$$y_1,y_2$$</div>
+<p>去替代</p>
+<div class="math">$$x_1 …</div><script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    var location_protocol = (false) ? 'https' : document.location.protocol;
+    if (location_protocol !== 'http' && location_protocol !== 'https') location_protocol = 'https:';
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = location_protocol + '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-15-zhu-cheng-fen-fen-xi.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-15-zhu-cheng-fen-fen-xi">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ji-tui-jian.html#shu-ji-tui-jian">"书籍推荐"</a></h2>
+    <p>
+          Posted on 2014-05-09 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 32" src="/images/article/article32.jpg">
+<!-- more --></p>
+<p>图为我写这篇博文时，我书桌的样子！</p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>大牛一条微博，我这冷清的小屋子倒是热闹了很多，在此谢谢<a href="http://macshuo.com/">池建强</a>池老大！不过说实话，一下多出这么多人气来，我的脑袋倒是有点不够用了。本来我就写写我学习的东西，新的我就边学边记，学过的就当复习！这回这么多人来光顾，我突然有点压力了。不过也好，压力也是动力，能够促使我好好学习好好努力，不懈怠！</p>
+<p>说说对于博客的一些安排吧！我本来的打算呢，就是利用写博客，将自己学过的一些东西进行查漏补缺，也是进行一遍系统的回顾！当然，写出来比自己看书复习要难得多，一开始写东西总是数学味道、学术感觉！很多文字改了又改，觉得别人能够看懂才发。当然了，有很多数学气息太浓的我就跳过没有写出来；也有很多写出来的，但我却没有能力将他转换成简单的语言！一句话，就是需要继续好好努力！</p>
+<p>对学习的东西进行一次系统的回顾，我大致是分了三个方向：统计模型、数据挖掘算法、数据可视化。</p>
+<ol>
+<li>统计模型的话，到现在为止应该就是介绍了线性回归和Logistic回归！以后会逐步添加一些模型，肯定是越来越复杂！</li>
+<li>算法的话，到现在为止介绍过分类算法：kNN …</li></ol>
+      <br>
+      <a class="btn" href="../shu-ji-tui-jian.html#shu-ji-tui-jian">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-14-guan-lian-fen-xi-zhi-apriorisuan-fa.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-14-guan-lian-fen-xi-zhi-apriorisuan-fa">"数据科学之机器学习14: 关联分析之apriori算法"</a></h2>
+    <p>
+          Posted on 2014-05-07 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="article 31" src="/images/article/article31.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>在上一篇中，我们介绍了关联分析相关的概念，这一节来看看如何使用Apriori算法去寻找满足条件的项集。</p>
+<p>首先回顾一个概念，<strong>一个项集的支持度</strong>就是数据集中该项集所占的比例。Apriori算法就是用于寻找数据集中，支持度和可信度超过某一给定值的项集和关联规则。</p>
+<hr>
+<h4>一、原理</h4>
+<hr>
+<p>在介绍算法之前，首先了解一个集合论中的性质定理：集合的向下封闭性。</p>
+<p>我们通过一个例子来看看这个定理，见下图：</p>
+<p><img alt="" src="/images/a31/apriori_1.jpg"></p>
+<p>集合的向下封闭性，在这边解释的话，也就是说，<strong>如果一个项集的支持度低于某一个值，那么该项集超集的支持度也必定低于这个值。如果一个项集的支持度高于某一个值，那么该项集子集的支持度也必定高于某一个值。</strong></p>
+<p><strong>超集</strong>：就是指包含这个集合中所以元素的集合（不包括自身），比如集合ABC就是集合AB的超集。</p>
+<p>那么这个定理放在上一个图当中，就有这样的含义：</p>
+<p><img alt="" src="/images/a31/apriori_2.jpg"></p>
+<hr>
+<h4>二、算法构成</h4>
+<hr>
+<p>有了上面这个原理，那么就可以利用这个原理去减少我们寻找频繁集的计算量。因为，只要我们找到一个项集，其支持度低于给定的值，那么这个项集的所有超集就可以直接忽略不计了。如上图，项集A的支持度低于指定的值，那么其超集就都不用再考虑了。</p>
+<p><strong>Apriori算法由两部分构成：</strong></p>
+<ol>
+<li>找到满足最小支持度的项集；</li>
+<li>找到可信度超过最小可信度的关联规则。</li>
+</ol>
+<p>下面，我们一个一个地解决：</p>
+<hr>
+<h5>2.1. 寻找频繁项集</h5>
+<hr>
+<p>利用上面所讲的原理 …</p>
+      <br>
+      <a class="btn" href="../shu-ju-ke-xue-zhi-ji-qi-xue-xi-14-guan-lian-fen-xi-zhi-apriorisuan-fa.html#shu-ju-ke-xue-zhi-ji-qi-xue-xi-14-guan-lian-fen-xi-zhi-apriorisuan-fa">    Continue reading
+</a>
+  </div>
+  <hr />
+</article>
+<article>
+  <header>
+    <h2><a href="../ryu-yan-ji-lu-8loop-functions.html#ryu-yan-ji-lu-8loop-functions">"R语言记录8：Loop Functions"</a></h2>
+    <p>
+          Posted on 2014-05-04 in <a href="../category/misc.html">misc</a>
+
+
+
+    </p>
+  </header>
+  <div>
+      <p><img alt="ariticle 30" src="/images/article/article30.jpg">
+<!-- more --></p>
+<p><em>“文章原创，转载请注明出处”</em></p>
+<hr>
+<p>循环对于编程的重要性不言而喻，但是大量的使用<code>for</code>语句、<code>while</code>语句在R语言这种交互式命令行上，其实并不和谐。而且，很多时候，我们希望使用更短更少的代码去完成一个事情。这就需要用到R语言中自带的一些函数，使用这些函数可以把循环变得容易表述。不过，这当然是有学习成本的，要想掌握得多尝试多思考。</p>
+<p>在RSeries系列中，我之前也介绍过<code>tapply</code>这样的Loop function，但是并没有很全面地去说这个问题。没有介绍这块内容呢，总觉得对于R语言编程来说缺少了点什么，今天就来详细地说说R语言中的Loop Functions。</p>
+<p>在R语言中，处理循环的函数常用的大致有这么几个：<code>lapply</code>, <code>sapply</code>, <code>apply</code>, <code>tapply</code>, <code>mapply</code>。每一个函数都有其自身的特性与用途，下面我们来一个一个地说。</p>
+<hr>
+<h4>1. <code>lapply</code>函数</h4>
+<hr>
+<p><code>lapply</code>函数：<strong>对list的每一个元素(list[[i]])执行指定的函数操作，其返回值总是一个列表</strong>。举个简单地例子，比如：</p>
+<div class="highlight"><pre><span></span>x <span class="o">&lt;-</span> <span class="kt">list …</span></pre></div>
+      <br>
+      <a class="btn" href="../ryu-yan-ji-lu-8loop-functions.html#ryu-yan-ji-lu-8loop-functions">    Continue reading
+</a>
+  </div>
+</article>
+
+  <div class="pagination">
+    <a class="btn float-left" href="../category/misc4.html">
+      <i class="fa fa-angle-left"></i>     Older Posts
+
+    </a>
+    <a class="btn float-right" href="../category/misc2.html">
+          Newer Posts
+ <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+    <footer>
+<p>
+  &copy; Jacky Gong 2014-2017 - This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>
+</p>
+<p>    Powered by <a href="http://getpelican.com" target="_blank">Pelican</a> - <a href="https://github.com/alexandrevicenzi/flex" target="_blank">Flex</a> theme by <a href="http://alexandrevicenzi.com" target="_blank">Alexandre Vicenzi</a>
+</p><p>
+  <a rel="license"
+     href="http://creativecommons.org/licenses/by-sa/4.0/"
+     target="_blank">
+    <img alt="Creative Commons License"
+         title="Creative Commons License"
+         style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png"
+         width="80"
+         height="15"/>
+  </a>
+</p>    </footer>
+  </main>
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Jacky MSC ",
+  "url" : "..",
+  "image": "/images/images.png",
+  "description": ""
+}
+</script>
+
+</body>
+</html>
