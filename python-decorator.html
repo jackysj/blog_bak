@@ -54,8 +54,8 @@
       <nav>
         <ul class="list">
 
-          <li><a href="http://jackycode.github.io" target="_blank">Old</a></li>
-          <li><a href="mailto:blog@jacky-sj.com" target="_blank">Email</a></li>
+          <li><a href="https://old.jacky-sj.com/" target="_blank">Old</a></li>
+          <li><a href="mailto:jackycodemsc@gmail.com" target="_blank">Email</a></li>
           <li><a href="/about.html" target="_blank">About</a></li>
         </ul>
       </nav>
@@ -195,12 +195,12 @@
 <div class="highlight"><pre><span class="code-line"><span></span><span class="kn">import</span> <span class="nn">functools</span></span>
 <span class="code-line"></span>
 <span class="code-line"><span class="k">class</span> <span class="nc">memo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></span>
-<span class="code-line">    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span></span>
+<span class="code-line">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span></span>
 <span class="code-line">        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span></span>
 <span class="code-line">        <span class="bp">self</span><span class="o">.</span><span class="n">fn</span> <span class="o">=</span> <span class="n">fn</span></span>
 <span class="code-line">        <span class="n">functools</span><span class="o">.</span><span class="n">update_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span></span>
 <span class="code-line"></span>
-<span class="code-line">    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span></span>
+<span class="code-line">    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span></span>
 <span class="code-line">        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span></span>
 <span class="code-line">        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span></span>
 <span class="code-line">            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></span>
